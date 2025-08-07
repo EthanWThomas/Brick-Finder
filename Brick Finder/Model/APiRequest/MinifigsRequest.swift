@@ -73,4 +73,38 @@ extension RebrickableApi {
             default: throw ResponseError.unownedErrorOccurred
         }
     }
+    
+    func getMinifigureWithATheme(theme id: String) async throws -> Lego {
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs?in_theme_id=\(id)&key=\(RebrickableApi.apiKey)")
+        else { throw RequstError.failedToCreateURL }
+        
+        var request = URLRequest(url: url)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "GET"
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
+            case 200: return try JSONDecoder().decode(Lego.self, from: data)
+            case 201, 204, 400, 401, 403, 404, 429: throw try JSONDecoder().decode(ErrorResponse.self, from: data)
+            default: throw ResponseError.unownedErrorOccurred
+        }
+    }
+    
+    func searchMinifigureWithThemeId(theme id: String, with searchTerm: String) async throws -> Lego {
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs/?in_theme_id=\(id)&search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
+        else { throw RequstError.failedToCreateURL }
+        
+        var request = URLRequest(url: url)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "GET"
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
+            case 200: return try JSONDecoder().decode(Lego.self, from: data)
+            case 201, 204, 400, 401, 403, 404, 429: throw try JSONDecoder().decode(ErrorResponse.self, from: data)
+            default: throw ResponseError.unownedErrorOccurred
+        }
+    }
 }

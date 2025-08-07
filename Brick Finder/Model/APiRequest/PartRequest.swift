@@ -68,26 +68,26 @@ extension RebrickableApi {
     
     // MARK: - Get a list of all Colors a Part has appeared
     // Get a list of all Colors a Part has appeared
-    func getListOfAllColorAndPart(partNum: String) async throws -> PartsAndColor {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(partNum)/colors/?key=\(RebrickableAPI.apiKey)")
-        else { throw RequstError.failedToCreateURL }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
-            case 200: return try JSONDecoder().decode(PartsAndColor.self, from: data)
-            case 201, 204, 400, 401, 403, 404, 429: throw try JSONDecoder().decode(ErrorResponse.self, from: data)
-            default: throw ResponseError.unownedErrorOccurred
-        }
-    }
+//    func getListOfAllColorAndPart(partNum: String) async throws -> PartsAndColor {
+//        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(partNum)/colors/?key=\(RebrickableAPI.apiKey)")
+//        else { throw RequstError.failedToCreateURL }
+//        
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "GET"
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//        
+//        let (data, response) = try await URLSession.shared.data(for: request)
+//        
+//        switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
+//            case 200: return try JSONDecoder().decode(PartsAndColor.self, from: data)
+//            case 201, 204, 400, 401, 403, 404, 429: throw try JSONDecoder().decode(ErrorResponse.self, from: data)
+//            default: throw ResponseError.unownedErrorOccurred
+//        }
+//    }
     
     // MARK: - Get a list of all Sets the Part/Color combination has appeard in.
     func getallSetThePartAndColorCombinationItHasApperadIn(part number: String, color id: String) async throws -> LegoSet {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(number)/colors/\(id)/sets/?key=\(RebrickableAPI.apiKey)")
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(number)/colors/\(id)/sets/?key=\(RebrickableApi.apiKey)")
         else { throw RequstError.failedToCreateURL }
         
         var request = URLRequest(url: url)
@@ -105,7 +105,7 @@ extension RebrickableApi {
     
     // MARK: Return all Themes
     func returnAllThemes() async throws -> Themes {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/themes/?key=\(RebrickableAPI.apiKey)")
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/themes/?key=\(RebrickableApi.apiKey)")
                 
         else { throw RequstError.failedToCreateURL }
         

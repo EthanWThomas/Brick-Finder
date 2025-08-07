@@ -104,6 +104,24 @@ extension RebrickableApi {
         }
     }
     
+    // MARK: get all sets with a theme
+    func getSetWithThemeId(themeId: String) async throws -> LegoSet {
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(themeId)?key=\(RebrickableApi.apiKey)")
+        else { throw RequstError.failedToCreateURL }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
+            case 200: return try JSONDecoder().decode(LegoSet.self, from: data)
+            case 201, 204, 400, 401, 403, 404, 429: throw try JSONDecoder().decode(ErrorResponse.self, from: data)
+            default: throw ResponseError.unownedErrorOccurred
+        }
+    }
+    
     // MARK: - Get a list of MOCs which are Alternate Builds of a specific Set - i.e. all parts in the MOC can be found in the Set.
     func getAlternateLegoSet(set number: String) async throws -> LegoMOCS {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/\(number)/alternates/?key=\(RebrickableApi.apiKey)")
