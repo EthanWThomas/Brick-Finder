@@ -103,6 +103,42 @@ extension RebrickableApi {
         }
     }
     
+    // MARK: - Get a list of all Colors a Part has appeared in.
+    func getListOfPartColor(part num: String) async throws -> LegoColor {
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(num)/colors/?key\(RebrickableApi.apiKey)")
+                
+        else { throw RequstError.failedToCreateURL }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
+            case 200: return try JSONDecoder().decode(LegoColor.self, from: data)
+            case 201, 204, 400, 401, 403, 404, 429: throw try JSONDecoder().decode(ErrorResponse.self, from: data)
+            default: throw ResponseError.unownedErrorOccurred
+        }
+    }
+    
+    func getListOfPartCombinations(part num: String, color id: String) async throws -> ColorCombination {
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(num)/colors/\(id)/?key\(RebrickableApi.apiKey)")
+        else { throw RequstError.failedToCreateURL }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
+            case 200: return try JSONDecoder().decode(ColorCombination.self, from: data)
+            case 201, 204, 400, 401, 403, 404, 429: throw try JSONDecoder().decode(ErrorResponse.self, from: data)
+            default: throw ResponseError.unownedErrorOccurred
+        }
+    }
+    
     // MARK: Return all Themes
     func returnAllThemes() async throws -> Themes {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/themes/?key=\(RebrickableApi.apiKey)")

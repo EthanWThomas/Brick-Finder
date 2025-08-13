@@ -29,3 +29,19 @@ struct LegoColor: Codable {
         }
     }
 }
+
+struct ColorCombination: Codable {
+    let partImageUrL: String?
+    let yearFrom: Int
+    let yearTo: Int
+    let numberSet: Int
+    let numberOfSetParts: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case partImageUrL = "part_img_url"
+        case yearFrom = "year_from"
+        case yearTo = "year_to"
+        case numberSet = "num_sets"
+        case numberOfSetParts = "num_set_parts"
+    }
+}

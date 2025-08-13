@@ -11,7 +11,8 @@ import SwiftUI
 struct Brick_FinderApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabNavigation()
+                .preferredColorScheme(.light)
         }
     }
 }
