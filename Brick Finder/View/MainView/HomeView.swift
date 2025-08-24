@@ -10,6 +10,9 @@ import SwiftUI
 struct HomeView: View {
     @Binding var searchText: String
     @State private var showingAddItem = false
+    @StateObject private var minifigsViewModel = MinifiguresVM()
+    @StateObject private var setViewModel = SetVM()
+    @StateObject private var partViewModel = PartVM()
     
     let categories = [
          CategoryItem(id: 1, title: "Sets", icon: "📦", count: 1247, color: .red),
@@ -40,7 +43,7 @@ struct HomeView: View {
                                    Spacer()
                                }
                                
-                               SearchBar(text: $searchText)
+                               SearchBar(searchText: $searchText)
                            }
                            .padding(.horizontal)
                            

@@ -17,16 +17,16 @@ struct TabNavigation: View {
                 .tabItem { Label("Home", systemImage: "house") }
                 .tag(0)
             
-            ThemeScreen()
-                .tabItem { Label("Themes", systemImage: "square.and.arrow.up") }
-                .tag(1)
-            
             MinifiguresScreen()
                 .tabItem { Label("Minifigures", systemImage: "person.crop.circle") }
-                .tag(2)
+                .tag(1)
             
             PartsScreen()
                 .tabItem { Label("Parts", systemImage: "square.and.arrow.down") }
+                .tag(2)
+            
+            SetsScreen()
+                .tabItem { Label("Sets", systemImage: "folder.fill") }
                 .tag(3)
         }
     }
