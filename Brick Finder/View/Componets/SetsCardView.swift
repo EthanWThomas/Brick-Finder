@@ -94,14 +94,14 @@ struct SetsCardView: View {
                         .foregroundColor(.secondary)
                     Spacer()
                     
-                    Button("View Details") {
-                        print("View details for \(String(describing: legoSet.name))")
-                    }
-                    .font(.system(size: 10, weight: .medium))
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(Color.gray.opacity(0.1))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+//                    Button("View Details") {
+//                        print("View details for \(String(describing: legoSet.name))")
+//                    }
+//                    .font(.system(size: 10, weight: .medium))
+//                    .padding(.horizontal, 12)
+//                    .padding(.vertical, 6)
+//                    .background(Color.gray.opacity(0.1))
+//                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
             }
         }

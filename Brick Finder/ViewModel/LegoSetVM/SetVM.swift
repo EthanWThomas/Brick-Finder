@@ -12,11 +12,12 @@ class SetVM: ObservableObject {
     @Published private(set) var errorMessage: String?
     
     @Published var searchText = ""
-    @Published var themeId = ""
+    @Published var themeId: String? = ""
     @Published var maxYear = 0
     @Published var minYear = 0
     
     @Published var legoSetResults = [LegoSet.SetResults]()
+    @Published var legoTheme = LegoThemes.allCases.map { $0.rawValue }
     @Published var legoSet: [LegoSet.SetResults]?
     @Published var legoSetMOCS: [LegoMOCS.LegoMOCSResult]?
     
@@ -134,6 +135,21 @@ class SetVM: ObservableObject {
             } catch {
                 print(error)
                 self.errorMessage = error.localizedDescription
+                self.isLoading = false
+            }
+        }
+    }
+    
+    @MainActor
+    func getAlternateBuilds(with setNumber: String) {
+        isLoading = true
+        Task {
+            do {
+                self.legoSetMOCS = try await apiManager.getAlternateLegoSet(set: setNumber).results
+                isLoading = false
+            } catch {
+                print(error)
+                self.errorMessage =  error.localizedDescription
                 self.isLoading = false
             }
         }
