@@ -12,7 +12,6 @@ struct Brick_FinderApp: App {
     var body: some Scene {
         WindowGroup {
             TabNavigation()
-                .preferredColorScheme(.light)
         }
     }
 }

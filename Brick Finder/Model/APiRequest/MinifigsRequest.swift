@@ -47,7 +47,7 @@ extension RebrickableApi {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs/\(setNumber)/sets/?key=\(RebrickableApi.apiKey)")
         else { throw RequstError.failedToCreateURL }
         
-        let request = URLRequest(url: url)
+        var request = URLRequest(url: url)
         let (data, response) = try await URLSession.shared.data(for: request)
         
         switch (response as? HTTPURLResponse)?.statusCode ?? 0 {

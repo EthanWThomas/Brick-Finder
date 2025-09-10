@@ -45,35 +45,19 @@ struct SetsScreen: View {
                             .stroke(Color.gray)
                             .shadow(color: .primary.opacity(0.15), radius: 10, x: 0, y: 0)
                     )
-                    //ThemeFilterView(
-                    //                        hint: "Theme",
-                    //                        options: LegoThemes.allCases.map { $0.rawValue },
-                    //                        selection: $viewModel.themeId
-                    //                    )
-                    //                    ThemeFilterView(
-                    //                        hint: "Theme",
-                    //                        options: LegoThemes.allCases.map { $0.rawValue },
-                    //                        selection: $viewModel.themeId,
-                    //                        showDropdown: $showDropdown,
-                    //                        selectedOptionIndex: $selectedOptionIndex)
-                    //                ThemeFilterView(selection: $viewModel.themeId)
                     Spacer()
                 }
                 .padding(.horizontal)
-                
-                
+            
                 // Filters
-                ScrollView(.vertical, showsIndicators: false) {
-                    listSetview
-                }
-                .zIndex(1) // This is the key: give it a high zIndex
+                listSetview
                 .padding(.horizontal, -15)
             }
-            .onSubmit {
-                viewModel.seacrhLegoSet()
-                viewModel.searchLegoSetWithTheme()
-                
-            }
+        }
+        .onSubmit {
+            viewModel.seacrhLegoSet()
+            viewModel.searchLegoSetWithTheme()
+            
         }
     }
     
@@ -98,14 +82,16 @@ struct SetsScreen: View {
     }
     
     private var listSetview: some View {
-        LazyVStack(spacing: 16) {
-            if let legoSet = viewModel.searchLegoSet {
-                ForEach(legoSet, id: \.setNumber) { set in
-                    listSetItem(lego: set)
+        ScrollView {
+            LazyVStack(spacing: 16) {
+                if let legoSet = viewModel.searchLegoSet {
+                    ForEach(legoSet, id: \.setNumber) { set in
+                        listSetItem(lego: set)
+                    }
                 }
             }
+            .padding()
         }
-        .padding()
         .onAppear {
             viewModel.getLegoSet()
         }
@@ -121,7 +107,6 @@ struct SetsScreen: View {
             SetsCardView(legoSet: set)
         }
     }
-    
     //    @ViewBuilder
     //    private func optionsList(options: [String]) -> some View {
     //        ScrollView {
@@ -149,6 +134,108 @@ struct SetsScreen: View {
     //        .zIndex(200) // Ensure it's on top of everything
     //    }
     
+    //    @StateObject var viewModel = SetVM()
+    //    @StateObject var inventoryVM = InventoryPartsVM()
+    //
+    //    @State private var isSearching = false
+    //
+    //    var body: some View {
+    //        NavigationStack {
+    //            searchlegoSetView
+    //            Section("Lego Set") {
+    //                listOfSet
+    //            }
+    //        }
+    //    }
+    //
+    //    private var searchlegoSetView: some View {
+    //        VStack {
+    //            topHStack
+    //            bottomHStack
+    //        }
+    //        .onSubmit {
+    //            viewModel.searchLegoSetWithTheme()
+    //            viewModel.searchLegoSetWithAThemeAndYear()
+    //        }
+    //    }
+    //
+    //    private var listOfSet: some View {
+    //        List {
+    //            if let legoSet = viewModel.searchLegoSet {
+    //                ForEach(legoSet, id: \.setNumber) { set in
+    //                    listSetItem(lego: set)
+    //                }
+    //            }
+    //        }
+    //        .onAppear {
+    //            viewModel.getLegoSet()
+    //        }
+    //    }
+    //
+    //    private var topHStack: some View {
+    //        HStack(spacing: 1) {
+    //            SearchBar(searchText: $viewModel.searchText)
+    //            Picker("Select Theme", selection: $viewModel.themeId) {
+    //                ForEach(LegoThemes.allCases, id: \.id) { theme in
+    //                    Text(theme.displayName)
+    //                        .tag(theme.rawValue)
+    //                        .lineLimit(1)
+    //                        .tint(Color.black)
+    //                }
+    //            }
+    //            .padding()
+    //            .frame(width: 170, height: 50)
+    //            .background(
+    //                RoundedRectangle(cornerRadius: 10)
+    //                    .fill(Color.white)
+    //                    .stroke(Color.gray)
+    //                    .shadow(color: .primary.opacity(0.15), radius: 10, x: 0, y: 0)
+    //            )
+    //            Spacer(minLength: 15)
+    //        }
+    //    }
+    //
+    //    private var bottomHStack: some View {
+    //        HStack {
+    //            Spacer()
+    //            minimumpickerSelectionView
+    //            Spacer(minLength: 40)
+    //            maximumPickerSelectionView
+    //            Spacer(minLength: 15)
+    //        }
+    //    }
+    //
+    //    private var minimumpickerSelectionView: some View {
+    //        Picker("Minimum", selection: $viewModel.minYear) {
+    //            ForEach(1949...2025, id: \.self) { minimumYear in
+    //                Text(minimumYear.formatted(.number))
+    //            }
+    //        }
+    //        .padding()
+    //        .frame(width: 150, height: 50)
+    //        .background(
+    //            RoundedRectangle(cornerRadius: 10)
+    //                .fill(Color.white)
+    //                .stroke(Color.gray)
+    //                .shadow(color: .primary.opacity(0.15), radius: 10, x: 0, y: 0)
+    //        )
+    //    }
+    //
+    //    private var maximumPickerSelectionView: some View {
+    //        Picker("maximum", selection: $viewModel.maxYear) {
+    //            ForEach(1949...2025, id: \.self) { maximumYear in
+    //                Text(maximumYear.formatted(.number))
+    //            }
+    //        }
+    //        .padding()
+    //        .frame(width: 150, height: 50)
+    //        .background(
+    //            RoundedRectangle(cornerRadius: 10)
+    //                .fill(Color.white)
+    //                .stroke(Color.gray)
+    //                .shadow(color: .primary.opacity(0.15), radius: 10, x: 0, y: 0)
+    //        )
+    //    }
 }
 
 #Preview {

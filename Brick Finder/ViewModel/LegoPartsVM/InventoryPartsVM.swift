@@ -8,7 +8,6 @@
 import Foundation
 
 class InventoryPartsVM: ObservableObject {
-    
     @Published private(set) var isLoading = true
     @Published private(set) var errorMessage: String?
     @Published var setNumber = ""

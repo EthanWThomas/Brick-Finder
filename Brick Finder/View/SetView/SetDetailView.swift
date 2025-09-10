@@ -14,8 +14,8 @@ struct SetDetailView: View {
     @StateObject var inventoryVM: InventoryPartsVM
     
     @State private var selectedtab: Tab?
-    
     @State private var tabProgress: CGFloat = 0
+    @State private var dataLoadingTask: Task<Void, Never>? = nil
     
     @Environment(\.colorScheme) private var scheme
     
@@ -25,21 +25,10 @@ struct SetDetailView: View {
     }
     
     var setheader: some View {
-        VStack(alignment: .leading, spacing: 15) {
+        VStack(alignment: .center, spacing: 15) {
             ZStack {
-                AsyncImage(url: URL(string: legoSet.setImageURL ?? "Unknown")) { phase in
-                    switch phase {
-                        case .empty:
-                            ProgressView()
-                        case .success(let image):
-                            image
-                                .resizable()
-                        default:
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.red)
-                    }
-                }
-                .frame(width: 350, height: 350)
+                displayUrlImage(url: legoSet.setImageURL ?? "Unknown")
+                .frame(width: 250, height: 250)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 
                 Text(legoSet.setNumber ?? "No set number")
@@ -76,7 +65,7 @@ struct SetDetailView: View {
                 .foregroundColor(.secondary)
             }
         }
-        .background(Color.white)
+        .background()
               .clipShape(RoundedRectangle(cornerRadius: 16))
               .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
               .scaleEffect(1.0)
@@ -85,11 +74,7 @@ struct SetDetailView: View {
     
     private var setdetaillist: some View {
         VStack(spacing: 16) {
-//            HStack {
-//                
-//            }
             customTabBar()
-            
             GeometryReader {
                 let size = $0.size
                 
@@ -112,6 +97,7 @@ struct SetDetailView: View {
                         let progress = -value / (size.width * CGFloat(Tab.allCases.count - 1))
                         
                         tabProgress = max(min(progress, 1), 0)
+                        
                     }
                 }
                 .scrollPosition(id: $selectedtab)
@@ -119,6 +105,7 @@ struct SetDetailView: View {
                 .scrollTargetBehavior(.paging)
                 .scrollClipDisabled()
             }
+           
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(.gray.opacity(0.1))
@@ -131,7 +118,7 @@ struct SetDetailView: View {
     
     private var setPartDisplay: some View {
         ScrollView(.vertical) {
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4), spacing: 24, content:  {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), content:  {
                 if let parts = inventoryVM.setInventoryPart {
                     ForEach(parts, id: \.id) { legoPart in
                         partCard(image: legoPart.part.partImageURL, part: legoPart.part.partNumber, set: legoPart.quantity)
@@ -153,10 +140,13 @@ struct SetDetailView: View {
     
     private var minifigureDisplay: some View {
         ScrollView(.vertical) {
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4), spacing: 24, content:  {
+            LazyVGrid(columns: Array(repeating: GridItem(), count: 2), content:  {
                 if let minifigures = inventoryVM.getInventoryMinifiger {
                     ForEach(minifigures, id: \.setNum) { legoMinfigures in
-                        minifigCard(image: legoMinfigures.setImageURL, part: legoMinfigures.setNum)
+                        minifigCard(
+                            image: legoMinfigures.setImageURL,
+                            part: legoMinfigures.setNum
+                        )
                     }
                     .onSubmit {
                         inventoryVM.getInventoryMinifigerInSet(with: legoSet.setNumber ?? "No set number")
@@ -175,7 +165,7 @@ struct SetDetailView: View {
     
     private var mocsDisplay: some View {
         ScrollView(.vertical) {
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4), spacing: 24, content: {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), content: {
                 if let mocs = viewModel.legoSetMOCS {
                     ForEach(mocs, id: \.setNumber) { alternateBuilds in
                         mocsCard(
@@ -201,7 +191,7 @@ struct SetDetailView: View {
     }
     
     private func partCard(image url: String?, part num: String?, set quantity: Int) -> some View {
-        VStack(spacing: 16) {
+        VStack {
             displayUrlImage(url: url)
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 100, height: 100)
@@ -236,13 +226,14 @@ struct SetDetailView: View {
         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         .scaleEffect(1.0)
         .animation(.easeInOut(duration: 0.2), value: false)
+        .frame(height: 150)
     }
     
     private func minifigCard(image url: String?, part num: String?) -> some View {
-        VStack(spacing: 16) {
+        VStack {
             displayUrlImage(url: url)
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 80, height: 80)
+                .frame(width: 100, height: 100)
+                .padding()
                 
             VStack(spacing: 8) {
                 Text(num ?? "no number")
@@ -269,6 +260,7 @@ struct SetDetailView: View {
         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         .scaleEffect(1.0)
         .animation(.easeInOut(duration: 0.2), value: false)
+        .frame(height: 150)
     }
     
     private func mocsCard(name: String?, year: Int?, set number: String?, moc url: String?, numberOf part: Int?) -> some View {
@@ -321,6 +313,7 @@ struct SetDetailView: View {
         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         .scaleEffect(1.0)
         .animation(.easeInOut(duration: 0.2), value: false)
+        .frame(height: 150)
     }
     
     private func displayUrlImage(url: String?) -> some View {
@@ -404,13 +397,13 @@ struct SetDetailView: View {
                 let size = $0.size
                 let capusleWidth = size.width / CGFloat(Tab.allCases.count)
                 
-                Rectangle()
+                Capsule()
                     .fill(scheme == .dark ? .black : .white)
                     .frame(width: capusleWidth)
                     .offset(x: tabProgress * (size.width - capusleWidth))
             }
         }
-        .background(.gray.opacity(0.1), in: .rect)
+        .background(.gray.opacity(0.1), in: .capsule)
         .padding(.horizontal, 15)
     }
 }

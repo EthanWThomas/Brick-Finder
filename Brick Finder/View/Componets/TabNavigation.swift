@@ -21,12 +21,12 @@ struct TabNavigation: View {
                 .tabItem { Label("Minifigures", systemImage: "person.crop.circle") }
                 .tag(1)
             
-            PartsScreen()
-                .tabItem { Label("Parts", systemImage: "square.and.arrow.down") }
-                .tag(2)
-            
             SetsScreen()
                 .tabItem { Label("Sets", systemImage: "folder.fill") }
+                .tag(2)
+            
+            PartsScreen()
+                .tabItem { Label("Parts", systemImage: "square.and.arrow.down") }
                 .tag(3)
         }
     }

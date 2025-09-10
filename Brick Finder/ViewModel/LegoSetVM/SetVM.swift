@@ -17,7 +17,6 @@ class SetVM: ObservableObject {
     @Published var minYear = 0
     
     @Published var legoSetResults = [LegoSet.SetResults]()
-    @Published var legoTheme = LegoThemes.allCases.map { $0.rawValue }
     @Published var legoSet: [LegoSet.SetResults]?
     @Published var legoSetMOCS: [LegoMOCS.LegoMOCSResult]?
     
