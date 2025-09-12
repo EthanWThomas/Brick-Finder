@@ -90,7 +90,7 @@ struct SetsCardView: View {
                 // Footer
                 HStack {
                     Text("\(legoSet.numberOfParts ?? 0) pleces (\(legoSet.year ?? 0))")
-                        .font(.system(size: 10))
+                        .font(.system(size: 10, weight: .semibold))
                         .foregroundColor(.secondary)
                     Spacer()
                     

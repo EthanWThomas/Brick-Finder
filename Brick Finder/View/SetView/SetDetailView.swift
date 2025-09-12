@@ -20,8 +20,17 @@ struct SetDetailView: View {
     @Environment(\.colorScheme) private var scheme
     
     var body: some View {
-        setheader
-        setdetaillist
+        VStack(spacing: 0) {
+            setheader
+            
+            customTabBar()
+                .padding(.vertical, 18)
+            
+            setdetaillist
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.systemBackground))
+        .edgesIgnoringSafeArea(.bottom)
     }
     
     var setheader: some View {
@@ -74,7 +83,6 @@ struct SetDetailView: View {
     
     private var setdetaillist: some View {
         VStack(spacing: 16) {
-            customTabBar()
             GeometryReader {
                 let size = $0.size
                 
@@ -226,7 +234,7 @@ struct SetDetailView: View {
         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         .scaleEffect(1.0)
         .animation(.easeInOut(duration: 0.2), value: false)
-        .frame(height: 150)
+        .frame(height: 210)
     }
     
     private func minifigCard(image url: String?, part num: String?) -> some View {
@@ -260,7 +268,7 @@ struct SetDetailView: View {
         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         .scaleEffect(1.0)
         .animation(.easeInOut(duration: 0.2), value: false)
-        .frame(height: 150)
+        .frame(height: 210)
     }
     
     private func mocsCard(name: String?, year: Int?, set number: String?, moc url: String?, numberOf part: Int?) -> some View {
@@ -313,7 +321,7 @@ struct SetDetailView: View {
         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
         .scaleEffect(1.0)
         .animation(.easeInOut(duration: 0.2), value: false)
-        .frame(height: 150)
+        .frame(height: 210)
     }
     
     private func displayUrlImage(url: String?) -> some View {
@@ -330,6 +338,52 @@ struct SetDetailView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
             }
+        }
+    }
+    
+    @ViewBuilder
+    func sampleView(_ color: Color) -> some View {
+        ScrollView(.vertical) {
+            LazyVGrid(columns: Array(repeating: GridItem(), count: 2), content: {
+                ForEach(1...10, id: \.self) { _ in
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(color.gradient)
+                        .frame(height: 150)
+                        .overlay {
+                            VStack(alignment: .leading) {
+                                Circle()
+                                    .fill(.white.opacity(0.25))
+                                    .frame(width: 50, height: 50)
+                                
+                                VStack(alignment: .leading, spacing: 6) {
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .fill(.white.opacity(0.25))
+                                        .frame(width: 80, height: 8)
+                                    
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .fill(.white.opacity(0.25))
+                                        .frame(width: 60, height: 8)
+                                }
+                                
+                                Spacer()
+                                
+                                RoundedRectangle(cornerRadius: 6)
+                                    .fill(.white.opacity(0.25))
+                                    .frame(width: 40, height: 8)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                            }
+                            .padding(15)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                }
+            })
+            .padding(15)
+        }
+        .scrollIndicators(.hidden)
+        .scrollClipDisabled()
+        .mask {
+            Rectangle()
+                .padding(.bottom, -100)
         }
     }
     

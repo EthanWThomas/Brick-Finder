@@ -29,6 +29,11 @@ struct SetsScreen: View {
                 }
                 .padding(.horizontal)
                 HStack(spacing: 12) {
+//                    ThemeFilterView(
+//                        hint: "Theme",
+//                        options: LegoThemes.allCases.map { $0.rawValue },
+//                        selection: $viewModel.themeId)
+                    
                     Picker("Select Theme", selection: $viewModel.themeId) {
                         ForEach(LegoThemes.allCases, id: \.id) { theme in
                             Text(theme.displayName)
@@ -53,26 +58,6 @@ struct SetsScreen: View {
                 listSetview
                 .padding(.horizontal, -15)
             }
-        }
-        .onSubmit {
-            viewModel.seacrhLegoSet()
-            viewModel.searchLegoSetWithTheme()
-            
-        }
-    }
-    
-    private var headerView: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Lego Sets")
-                .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(Color.primary)
-            
-            // MARK: show the number of set find
-            //                Text("Add set number here...")
-            //                    .font(.system(size: 12))
-            //                    .foregroundStyle(Color.secondary)
-            SearchBar(searchText: $viewModel.searchText)
-            
         }
         .onSubmit {
             viewModel.seacrhLegoSet()
