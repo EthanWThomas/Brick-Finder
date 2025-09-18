@@ -12,51 +12,37 @@ struct SetsScreen: View {
     @StateObject var inventoryVM = InventoryPartsVM()
     
     @State private var isSearching = false
+    @State private var showDropdown = false
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                // Header
-                VStack(alignment: .leading, spacing: 16) {
-                    HStack {
-                        Text("Lego Sets")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundStyle(Color.primary)
+            ZStack {
+                VStack(spacing: 24) {
+                    // Header
+                    VStack(alignment: .leading, spacing: 16) {
+                        HStack {
+                            Text("Lego Sets")
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundStyle(Color.primary)
+                            Spacer()
+                        }
+                        
+                        SearchBar(searchText: $viewModel.searchText)
+                    }
+                    .padding(.horizontal)
+                    HStack(spacing: 12) {
+                        CustomDropdownPicker(
+                            hint: "Theme",
+                            selection: $viewModel.themeId,
+                            showDropdown: $showDropdown)
                         Spacer()
                     }
+                    .padding(.horizontal)
                     
-                    SearchBar(searchText: $viewModel.searchText)
+                    // Filters
+                    listSetview
+                        .padding(.horizontal, -15)
                 }
-                .padding(.horizontal)
-                HStack(spacing: 12) {
-//                    ThemeFilterView(
-//                        hint: "Theme",
-//                        options: LegoThemes.allCases.map { $0.rawValue },
-//                        selection: $viewModel.themeId)
-                    
-                    Picker("Select Theme", selection: $viewModel.themeId) {
-                        ForEach(LegoThemes.allCases, id: \.id) { theme in
-                            Text(theme.displayName)
-                                .tag(theme.rawValue)
-                                .lineLimit(1)
-                                .tint(Color.black)
-                        }
-                    }
-                    .padding()
-                    .frame(width: 150, height: 40)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.white)
-                            .stroke(Color.gray)
-                            .shadow(color: .primary.opacity(0.15), radius: 10, x: 0, y: 0)
-                    )
-                    Spacer()
-                }
-                .padding(.horizontal)
-            
-                // Filters
-                listSetview
-                .padding(.horizontal, -15)
             }
         }
         .onSubmit {
@@ -92,135 +78,6 @@ struct SetsScreen: View {
             SetsCardView(legoSet: set)
         }
     }
-    //    @ViewBuilder
-    //    private func optionsList(options: [String]) -> some View {
-    //        ScrollView {
-    //            VStack(alignment: .leading, spacing: 10) {
-    //                ForEach(options, id: \.self) { option in
-    //                    Text(option)
-    //                        .padding(.horizontal, 15)
-    //                        .padding(.vertical, 10)
-    //                        .frame(maxWidth: .infinity, alignment: .leading)
-    //                        .background(viewModel.themeId == option ? Color.blue.opacity(0.2) : Color.clear)
-    //                        .onTapGesture {
-    //                            withAnimation(.snappy) {
-    //                                viewModel.themeId = option
-    //                                showDropdown = false
-    //                            }
-    //                        }
-    //                }
-    //            }
-    //            .background(Color.white)
-    //        }
-    //        .frame(width: 150, height: 200) // Match the width of the button and give it a max height
-    //        .cornerRadius(15)
-    //        .shadow(radius: 5)
-    //        .offset(y: 100) // Adjust this to position it under the button
-    //        .zIndex(200) // Ensure it's on top of everything
-    //    }
-    
-    //    @StateObject var viewModel = SetVM()
-    //    @StateObject var inventoryVM = InventoryPartsVM()
-    //
-    //    @State private var isSearching = false
-    //
-    //    var body: some View {
-    //        NavigationStack {
-    //            searchlegoSetView
-    //            Section("Lego Set") {
-    //                listOfSet
-    //            }
-    //        }
-    //    }
-    //
-    //    private var searchlegoSetView: some View {
-    //        VStack {
-    //            topHStack
-    //            bottomHStack
-    //        }
-    //        .onSubmit {
-    //            viewModel.searchLegoSetWithTheme()
-    //            viewModel.searchLegoSetWithAThemeAndYear()
-    //        }
-    //    }
-    //
-    //    private var listOfSet: some View {
-    //        List {
-    //            if let legoSet = viewModel.searchLegoSet {
-    //                ForEach(legoSet, id: \.setNumber) { set in
-    //                    listSetItem(lego: set)
-    //                }
-    //            }
-    //        }
-    //        .onAppear {
-    //            viewModel.getLegoSet()
-    //        }
-    //    }
-    //
-    //    private var topHStack: some View {
-    //        HStack(spacing: 1) {
-    //            SearchBar(searchText: $viewModel.searchText)
-    //            Picker("Select Theme", selection: $viewModel.themeId) {
-    //                ForEach(LegoThemes.allCases, id: \.id) { theme in
-    //                    Text(theme.displayName)
-    //                        .tag(theme.rawValue)
-    //                        .lineLimit(1)
-    //                        .tint(Color.black)
-    //                }
-    //            }
-    //            .padding()
-    //            .frame(width: 170, height: 50)
-    //            .background(
-    //                RoundedRectangle(cornerRadius: 10)
-    //                    .fill(Color.white)
-    //                    .stroke(Color.gray)
-    //                    .shadow(color: .primary.opacity(0.15), radius: 10, x: 0, y: 0)
-    //            )
-    //            Spacer(minLength: 15)
-    //        }
-    //    }
-    //
-    //    private var bottomHStack: some View {
-    //        HStack {
-    //            Spacer()
-    //            minimumpickerSelectionView
-    //            Spacer(minLength: 40)
-    //            maximumPickerSelectionView
-    //            Spacer(minLength: 15)
-    //        }
-    //    }
-    //
-    //    private var minimumpickerSelectionView: some View {
-    //        Picker("Minimum", selection: $viewModel.minYear) {
-    //            ForEach(1949...2025, id: \.self) { minimumYear in
-    //                Text(minimumYear.formatted(.number))
-    //            }
-    //        }
-    //        .padding()
-    //        .frame(width: 150, height: 50)
-    //        .background(
-    //            RoundedRectangle(cornerRadius: 10)
-    //                .fill(Color.white)
-    //                .stroke(Color.gray)
-    //                .shadow(color: .primary.opacity(0.15), radius: 10, x: 0, y: 0)
-    //        )
-    //    }
-    //
-    //    private var maximumPickerSelectionView: some View {
-    //        Picker("maximum", selection: $viewModel.maxYear) {
-    //            ForEach(1949...2025, id: \.self) { maximumYear in
-    //                Text(maximumYear.formatted(.number))
-    //            }
-    //        }
-    //        .padding()
-    //        .frame(width: 150, height: 50)
-    //        .background(
-    //            RoundedRectangle(cornerRadius: 10)
-    //                .fill(Color.white)
-    //                .stroke(Color.gray)
-    //                .shadow(color: .primary.opacity(0.15), radius: 10, x: 0, y: 0)
-    //        )
-    //    }
 }
 
 #Preview {

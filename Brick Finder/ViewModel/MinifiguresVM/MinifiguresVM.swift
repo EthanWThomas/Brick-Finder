@@ -54,7 +54,7 @@ class MinifiguresVM: ObservableObject {
                 guard let searchText = self?.seacrhText else { return }
                 guard let themeId = self?.themeId else { return }
                 
-                let results = try await self?.apiManager.searchMinifigureWithThemeId(theme: searchText, with: themeId).results
+                let results = try await self?.apiManager.searchMinifigureWithThemeId(theme: themeId, with: searchText).results
                 self?.isLoading = false
                 
                 await MainActor.run { [weak self] in

@@ -12,7 +12,7 @@ class SetVM: ObservableObject {
     @Published private(set) var errorMessage: String?
     
     @Published var searchText = ""
-    @Published var themeId: String? = ""
+    @Published var themeId: String = ""
     @Published var maxYear = 0
     @Published var minYear = 0
     

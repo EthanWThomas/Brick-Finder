@@ -75,10 +75,10 @@ struct SetDetailView: View {
             }
         }
         .background()
-              .clipShape(RoundedRectangle(cornerRadius: 16))
-              .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-              .scaleEffect(1.0)
-              .animation(.easeInOut(duration: 0.2), value: false)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+        .scaleEffect(1.0)
+        .animation(.easeInOut(duration: 0.2), value: false)
     }
     
     private var setdetaillist: some View {
@@ -273,7 +273,7 @@ struct SetDetailView: View {
     
     private func mocsCard(name: String?, year: Int?, set number: String?, moc url: String?, numberOf part: Int?) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            ZStack(alignment: .topTrailing) {
+            ZStack {
                 displayUrlImage(url: url)
                     .frame(height: 180)
                     .aspectRatio(contentMode: .fit)
@@ -315,6 +315,48 @@ struct SetDetailView: View {
                 .padding(.horizontal, 16)
                 .padding(.bottom, 16)
             }
+//            ZStack(alignment: .topTrailing) {
+//                displayUrlImage(url: url)
+//                    .frame(height: 180)
+//                    .aspectRatio(contentMode: .fit)
+//                    .clipShape(RoundedRectangle(cornerRadius: 12))
+//                
+//                Text(number ?? "No set number")
+//                    .font(.caption)
+//                    .fontWeight(.bold)
+//                    .foregroundColor(.white)
+//                    .padding(.horizontal, 8)
+//                    .padding(.vertical, 4)
+//                    .background(Color.blue)
+//                    .clipShape(Capsule())
+//                    .padding(8)
+//                
+//                VStack(alignment: .leading, spacing: 12) {
+//                    Text(name ?? "No set name")
+//                        .font(.headline)
+//                        .fontWeight(.bold)
+//                        .foregroundColor(.primary)
+//                    
+//                    HStack(spacing: 16) {
+//                        HStack(spacing: 4) {
+//                            Image(systemName: "calendar")
+//                                .font(.caption)
+//                            Text("\(year ?? 0)")
+//                                .font(.caption)
+//                        }
+//                        
+//                        HStack(spacing: 4) {
+//                            Image(systemName: "cube.box")
+//                                .font(.caption)
+//                            Text("\(part ?? 0) pieces")
+//                                .font(.caption)
+//                        }
+//                    }
+//                    .foregroundStyle(Color(.secondaryLabel))
+//                }
+//                .padding(.horizontal, 16)
+//                .padding(.bottom, 16)
+//            }
         }
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 16))
