@@ -13,6 +13,8 @@ struct SetDetailView: View {
     @StateObject var viewModel: SetVM
     @StateObject var inventoryVM: InventoryPartsVM
     
+    @State private var isPressed = true
+    
     @State private var selectedtab: Tab?
     @State private var tabProgress: CGFloat = 0
     @State private var dataLoadingTask: Task<Void, Never>? = nil
@@ -26,7 +28,7 @@ struct SetDetailView: View {
             customTabBar()
                 .padding(.vertical, 18)
             
-            setdetaillist
+            setdetailList
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))
@@ -81,7 +83,7 @@ struct SetDetailView: View {
         .animation(.easeInOut(duration: 0.2), value: false)
     }
     
-    private var setdetaillist: some View {
+    private var setdetailList: some View {
         VStack(spacing: 16) {
             GeometryReader {
                 let size = $0.size
@@ -113,7 +115,6 @@ struct SetDetailView: View {
                 .scrollTargetBehavior(.paging)
                 .scrollClipDisabled()
             }
-           
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(.gray.opacity(0.1))
@@ -129,7 +130,10 @@ struct SetDetailView: View {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), content:  {
                 if let parts = inventoryVM.setInventoryPart {
                     ForEach(parts, id: \.id) { legoPart in
-                        partCard(image: legoPart.part.partImageURL, part: legoPart.part.partNumber, set: legoPart.quantity)
+                        partCard(
+                            image: legoPart.part.partImageURL,
+                            part: legoPart.part.partNumber,
+                            set: legoPart.quantity)
                     }
                     .onSubmit {
                         inventoryVM.getInventoryPart(with: legoSet.setNumber ?? "no number")
@@ -173,11 +177,12 @@ struct SetDetailView: View {
     
     private var mocsDisplay: some View {
         ScrollView(.vertical) {
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), content: {
+            LazyVStack(spacing: 16) {
                 if let mocs = viewModel.legoSetMOCS {
                     ForEach(mocs, id: \.setNumber) { alternateBuilds in
                         mocsCard(
                             name: alternateBuilds.name,
+                            creator: alternateBuilds.designerName,
                             year: alternateBuilds.year,
                             set: alternateBuilds.setNumber,
                             moc: alternateBuilds.mocImageUrl,
@@ -187,7 +192,7 @@ struct SetDetailView: View {
                         viewModel.getAlternateBuilds(with: legoSet.setNumber ?? "no set number")
                     }
                 }
-            })
+            }
             .padding(15)
         }
         .scrollIndicators(.hidden)
@@ -271,99 +276,90 @@ struct SetDetailView: View {
         .frame(height: 210)
     }
     
-    private func mocsCard(name: String?, year: Int?, set number: String?, moc url: String?, numberOf part: Int?) -> some View {
-        VStack(alignment: .leading, spacing: 16) {
-            ZStack {
-                displayUrlImage(url: url)
-                    .frame(height: 180)
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                
-                Text(number ?? "No set number")
-                    .font(.caption)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color.blue)
-                    .clipShape(Capsule())
-                    .padding(8)
-                
-                VStack(alignment: .leading, spacing: 12) {
-                    Text(name ?? "No set name")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
-                    
-                    HStack(spacing: 16) {
-                        HStack(spacing: 4) {
-                            Image(systemName: "calendar")
-                                .font(.caption)
-                            Text("\(year ?? 0)")
-                                .font(.caption)
-                        }
+    private func mocsCard(name: String?, creator: String?, year: Int?, set number: String?, moc url: String?, numberOf part: Int?) -> some View {
+        HStack(spacing: 16) {
+            displayUrlImage(url: url)
+                .frame(width: 112, height: 112)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay(
+                    ZStack {
+                        LinearGradient(
+                            colors: [Color.clear, Color.black.opacity(0.3)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                         
-                        HStack(spacing: 4) {
-                            Image(systemName: "cube.box")
-                                .font(.caption)
-                            Text("\(part ?? 0) pieces")
-                                .font(.caption)
+                        VStack {
+                            Spacer()
+                            HStack {
+                                Text("\(number ?? "None")")
+                                    .font(.system(size: 10, weight: .medium))
+                                    .foregroundStyle(Color.white)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 3)
+                                    .background(.ultraThinMaterial)
+                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                                Spacer()
+                            }
+                        }
+                        .padding(8)
+                    }
+                )
+            
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(name ?? "No Name yet")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundStyle(Color.primary)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.leading)
+                        
+                        HStack(spacing: 6) {
+                            Text("Created by \(creator ?? "No Name yet")")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundStyle(Color.red)
                         }
                     }
-                    .foregroundStyle(Color(.secondaryLabel))
+                    Spacer()
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 16)
+                
+                HStack(spacing: 16) {
+                    StatView(
+                        value: "\(part ?? 0)",
+                        label: "pleces",
+                        icon: "cube.box",
+                        color: .green)
+                    
+                    StatView(
+                        value: "\(year ?? 0000)",
+                        label: "year",
+                        icon: "calendar",
+                        color: .orange)
+                }
+                
+                HStack {
+                    Text("\(part ?? 0) pleces (\(year ?? 0))")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundColor(.secondary)
+                    Spacer()
+                }
             }
-//            ZStack(alignment: .topTrailing) {
-//                displayUrlImage(url: url)
-//                    .frame(height: 180)
-//                    .aspectRatio(contentMode: .fit)
-//                    .clipShape(RoundedRectangle(cornerRadius: 12))
-//                
-//                Text(number ?? "No set number")
-//                    .font(.caption)
-//                    .fontWeight(.bold)
-//                    .foregroundColor(.white)
-//                    .padding(.horizontal, 8)
-//                    .padding(.vertical, 4)
-//                    .background(Color.blue)
-//                    .clipShape(Capsule())
-//                    .padding(8)
-//                
-//                VStack(alignment: .leading, spacing: 12) {
-//                    Text(name ?? "No set name")
-//                        .font(.headline)
-//                        .fontWeight(.bold)
-//                        .foregroundColor(.primary)
-//                    
-//                    HStack(spacing: 16) {
-//                        HStack(spacing: 4) {
-//                            Image(systemName: "calendar")
-//                                .font(.caption)
-//                            Text("\(year ?? 0)")
-//                                .font(.caption)
-//                        }
-//                        
-//                        HStack(spacing: 4) {
-//                            Image(systemName: "cube.box")
-//                                .font(.caption)
-//                            Text("\(part ?? 0) pieces")
-//                                .font(.caption)
-//                        }
-//                    }
-//                    .foregroundStyle(Color(.secondaryLabel))
-//                }
-//                .padding(.horizontal, 16)
-//                .padding(.bottom, 16)
-//            }
         }
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-        .scaleEffect(1.0)
-        .animation(.easeInOut(duration: 0.2), value: false)
-        .frame(height: 210)
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(.ultraThinMaterial)
+                .shadow(
+                    color: .black.opacity(isPressed ? 0.15 : 0.05),
+                    radius: isPressed ? 8 : 4,
+                    x: 0,
+                    y: isPressed ? 4 : 2
+                )
+                .scaleEffect(isPressed ? 0.99 : 1.0)
+                .animation(.spring(response: 0.2, dampingFraction: 0.8), value: isPressed)
+        )
     }
     
     private func displayUrlImage(url: String?) -> some View {
@@ -429,44 +425,6 @@ struct SetDetailView: View {
         }
     }
     
-//    private func displayPartUrlImage(url: String?) -> some View {
-//        AsyncImage(url: URL(string: url ?? "Unknown")) { phase in
-//            switch phase {
-//                case .empty:
-//                    ProgressView()
-//                case .success(let image):
-//                    image
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: 80, height: 80)
-//                default:
-//                    Image("legoLogo")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: 80, height: 80)
-//            }
-//        }
-//    }
-    
-//    private func displayMinifgureUrlImage(url: String?) -> some View {
-//        AsyncImage(url: URL(string: url ?? "Unknown")) { phase in
-//            switch phase {
-//                case .empty:
-//                    ProgressView()
-//                case .success(let image):
-//                    image
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: 100, height: 100)
-//                default:
-//                    Image("legoLogo")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: 100, height: 100)
-//            }
-//        }
-//    }
-    
     @ViewBuilder
     func customTabBar() -> some View {
         HStack(spacing: 0) {
@@ -503,341 +461,3 @@ struct SetDetailView: View {
         .padding(.horizontal, 15)
     }
 }
-
-
-/**
- import SwiftUI
-
- struct MinifigureDetailView: View {
-     let minifigureData = MinifigureData(
-         name: "Police Officer",
-         id: "cty0001",
-         year: 2014,
-         theme: "City",
-         subtheme: "Police",
-         rating: 4.8,
-         totalSets: 12,
-         description: "Friendly police officer ready to keep LEGO City safe and sound!"
-     )
-     
-     let parts = [
-         PartData(name: "Police Cap", image: "part-police-cap", partNumber: "3624pb01"),
-         PartData(name: "Head with Smile", image: "part-police-head", partNumber: "3626cpb0001"),
-         PartData(name: "Police Torso", image: "part-police-torso", partNumber: "973pb0001c01"),
-         PartData(name: "Blue Legs", image: "part-police-legs", partNumber: "970c00pb001")
-     ]
-     
-     let sets = [
-         SetData(name: "Police Station", setNumber: "60047", year: 2014, pieces: 854, theme: "City", image: "set-police-station"),
-         SetData(name: "Police Chase", setNumber: "60128", year: 2016, pieces: 318, theme: "City", image: "set-police-chase"),
-         SetData(name: "Police Helicopter", setNumber: "60067", year: 2015, pieces: 259, theme: "City", image: "set-police-helicopter")
-     ]
-     
-     var body: some View {
-         ScrollView {
-             VStack(spacing: 0) {
-                 // Hero Section
-                 heroSection
-                 
-                 // Parts Section
-                 partsSection
-                 
-                 // Sets Section
-                 setsSection
-             }
-         }
-         .background(Color(.systemBackground))
-         .ignoresSafeArea(edges: .top)
-     }
-     
-     private var heroSection: some View {
-         ZStack {
-             // Gradient Background
-             LinearGradient(
-                 gradient: Gradient(colors: [
-                     Color(red: 0.99, green: 0.94, blue: 0.54),
-                     Color(red: 0.97, green: 0.8, blue: 0.2)
-                 ]),
-                 startPoint: .topLeading,
-                 endPoint: .bottomTrailing
-             )
-             
-             VStack(spacing: 24) {
-                 HStack(alignment: .center, spacing: 32) {
-                     // Left side - Text content
-                     VStack(alignment: .leading, spacing: 16) {
-                         // Badge
-                         HStack {
-                             Text("\(minifigureData.theme) • \(minifigureData.year)")
-                                 .font(.caption)
-                                 .fontWeight(.medium)
-                                 .padding(.horizontal, 12)
-                                 .padding(.vertical, 6)
-                                 .background(Color.white.opacity(0.2))
-                                 .foregroundColor(.white)
-                                 .clipShape(Capsule())
-                                 .overlay(
-                                     Capsule()
-                                         .stroke(Color.white.opacity(0.3), lineWidth: 1)
-                                 )
-                             Spacer()
-                         }
-                         
-                         // Title
-                         Text(minifigureData.name)
-                             .font(.system(size: 48, weight: .bold))
-                             .foregroundColor(.white)
-                             .multilineTextAlignment(.leading)
-                         
-                         // Description
-                         Text(minifigureData.description)
-                             .font(.title3)
-                             .foregroundColor(.white.opacity(0.9))
-                             .multilineTextAlignment(.leading)
-                         
-                         // Stats
-                         HStack(spacing: 16) {
-                             StatsBadge(icon: "calendar", text: "\(minifigureData.year)")
-                             StatsBadge(icon: "cube.box", text: "\(minifigureData.totalSets) Sets")
-                             StatsBadge(icon: "star.fill", text: "\(minifigureData.rating, specifier: "%.1f")")
-                         }
-                         
-                         // CTA Button
-                         Button(action: {}) {
-                             HStack {
-                                 Image(systemName: "person.2")
-                                 Text("Add to Collection")
-                             }
-                             .font(.headline)
-                             .fontWeight(.bold)
-                             .foregroundColor(.black)
-                             .padding(.horizontal, 32)
-                             .padding(.vertical, 12)
-                             .background(Color.white)
-                             .clipShape(RoundedRectangle(cornerRadius: 12))
-                             .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                         }
-                         .scaleEffect(1.0)
-                         .animation(.easeInOut(duration: 0.2), value: false)
-                     }
-                     
-                     Spacer()
-                     
-                     // Right side - Minifigure image
-                     VStack {
-                         Image("minifigure-police")
-                             .resizable()
-                             .aspectRatio(contentMode: .fit)
-                             .frame(width: 320, height: 384)
-                             .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
-                             .scaleEffect(1.02)
-                             .animation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true), value: true)
-                     }
-                 }
-                 .padding(.horizontal, 32)
-             }
-             .padding(.vertical, 48)
-         }
-         .frame(minHeight: 500)
-     }
-     
-     private var partsSection: some View {
-         VStack(spacing: 32) {
-             Text("Minifigure Parts")
-                 .font(.largeTitle)
-                 .fontWeight(.bold)
-                 .foregroundColor(.primary)
-             
-             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4), spacing: 24) {
-                 ForEach(parts, id: \.partNumber) { part in
-                     PartCard(part: part)
-                 }
-             }
-             .padding(.horizontal, 32)
-         }
-         .padding(.vertical, 48)
-     }
-     
-     private var setsSection: some View {
-         VStack(spacing: 32) {
-             VStack(spacing: 16) {
-                 Text("Appears in \(sets.count) Sets")
-                     .font(.largeTitle)
-                     .fontWeight(.bold)
-                     .foregroundColor(.primary)
-                 
-                 Text("Discover all the amazing LEGO sets featuring this minifigure")
-                     .font(.title3)
-                     .foregroundColor(.secondary)
-                     .multilineTextAlignment(.center)
-             }
-             
-             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 24) {
-                 ForEach(sets, id: \.setNumber) { set in
-                     SetCard(set: set)
-                 }
-             }
-             .padding(.horizontal, 32)
-         }
-         .padding(.vertical, 48)
-         .background(Color(.systemGray6).opacity(0.5))
-     }
- }
-
- struct StatsBadge: View {
-     let icon: String
-     let text: String
-     
-     var body: some View {
-         HStack(spacing: 8) {
-             Image(systemName: icon)
-                 .font(.caption)
-             Text(text)
-                 .font(.caption)
-                 .fontWeight(.medium)
-         }
-         .foregroundColor(.white)
-         .padding(.horizontal, 16)
-         .padding(.vertical, 8)
-         .background(Color.white.opacity(0.2))
-         .clipShape(Capsule())
-     }
- }
-
- struct PartCard: View {
-     let part: PartData
-     
-     var body: some View {
-         VStack(spacing: 16) {
-             Image(part.image)
-                 .resizable()
-                 .aspectRatio(contentMode: .fit)
-                 .frame(width: 80, height: 80)
-             
-             VStack(spacing: 8) {
-                 Text(part.name)
-                     .font(.headline)
-                     .fontWeight(.semibold)
-                     .multilineTextAlignment(.center)
-                 
-                 Text(part.partNumber)
-                     .font(.caption)
-                     .padding(.horizontal, 8)
-                     .padding(.vertical, 4)
-                     .background(Color(.systemGray5))
-                     .clipShape(Capsule())
-                     .overlay(
-                         Capsule()
-                             .stroke(Color(.systemGray4), lineWidth: 1)
-                     )
-             }
-         }
-         .padding(24)
-         .background(
-             LinearGradient(
-                 gradient: Gradient(colors: [Color.white, Color(.systemGray6).opacity(0.3)]),
-                 startPoint: .topLeading,
-                 endPoint: .bottomTrailing
-             )
-         )
-         .clipShape(RoundedRectangle(cornerRadius: 16))
-         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-         .scaleEffect(1.0)
-         .animation(.easeInOut(duration: 0.2), value: false)
-     }
- }
-
- struct SetCard: View {
-     let set: SetData
-     
-     var body: some View {
-         VStack(alignment: .leading, spacing: 16) {
-             ZStack(alignment: .topTrailing) {
-                 Image(set.image)
-                     .resizable()
-                     .aspectRatio(contentMode: .fit)
-                     .frame(height: 180)
-                     .clipShape(RoundedRectangle(cornerRadius: 12))
-                 
-                 Text(set.setNumber)
-                     .font(.caption)
-                     .fontWeight(.bold)
-                     .foregroundColor(.white)
-                     .padding(.horizontal, 8)
-                     .padding(.vertical, 4)
-                     .background(Color.blue)
-                     .clipShape(Capsule())
-                     .padding(8)
-             }
-             
-             VStack(alignment: .leading, spacing: 12) {
-                 Text(set.name)
-                     .font(.headline)
-                     .fontWeight(.bold)
-                     .foregroundColor(.primary)
-                 
-                 HStack(spacing: 16) {
-                     HStack(spacing: 4) {
-                         Image(systemName: "calendar")
-                             .font(.caption)
-                         Text("\(set.year)")
-                             .font(.caption)
-                     }
-                     
-                     HStack(spacing: 4) {
-                         Image(systemName: "cube.box")
-                             .font(.caption)
-                         Text("\(set.pieces) pieces")
-                             .font(.caption)
-                     }
-                 }
-                 .foregroundColor(.secondary)
-                 
-                 Text(set.theme)
-                     .font(.caption)
-                     .fontWeight(.medium)
-                     .foregroundColor(.blue)
-             }
-             .padding(.horizontal, 16)
-             .padding(.bottom, 16)
-         }
-         .background(Color.white)
-         .clipShape(RoundedRectangle(cornerRadius: 16))
-         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-         .scaleEffect(1.0)
-         .animation(.easeInOut(duration: 0.2), value: false)
-     }
- }
-
- // Data Models
- struct MinifigureData {
-     let name: String
-     let id: String
-     let year: Int
-     let theme: String
-     let subtheme: String
-     let rating: Double
-     let totalSets: Int
-     let description: String
- }
-
- struct PartData {
-     let name: String
-     let image: String
-     let partNumber: String
- }
-
- struct SetData {
-     let name: String
-     let setNumber: String
-     let year: Int
-     let pieces: Int
-     let theme: String
-     let image: String
- }
-
- #Preview {
-     MinifigureDetailView()
- }
-
- */

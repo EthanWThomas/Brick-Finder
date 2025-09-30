@@ -19,53 +19,11 @@ struct MinifiguresScreen: View {
             VStack(spacing: 24) {
                 headerView
                 
-                HStack {
-                    CustomDropdownPicker(
-                        hint: "Theme",
-                        selection: $minifiguresVM.themeId,
-                        showDropdown: $showDropdown
-                    )
-                    Spacer()
-                }
-                .padding(.horizontal)
-                .zIndex(showDropdown ? 1000 : 1)
+                tabbar
                 
                 miniFiguresGrid
                 
             }
-            //        .overlay(alignment: .topLeading) {
-            //            if showDropdown {
-            //                VStack(alignment: .leading, spacing: 0) {
-            //                    ScrollView {
-            //                        ForEach(LegoThemes.allCases, id: \.id) { option in
-            //                            Button {
-            //                                withAnimation {
-            //                                    minifiguresVM.themeId = option.rawValue
-            //                                    showDropdown = false
-            //                                }
-            //                            } label: {
-            //                                Text(option.displayName)
-            //                                    .padding(.horizontal, 12)
-            //                                    .padding(.vertical, 10)
-            //                                    .frame(maxWidth: .infinity, alignment: .leading)
-            //                                    .background(minifiguresVM.themeId == option.rawValue ? Color.blue.opacity(0.1) : Color.clear)
-            //                            }
-            //                            .buttonStyle(PlainButtonStyle())
-            //                        }
-            //                    }
-            //                }
-            //                .frame(width: 150, height: 200) // Match the width and give a max height
-            //                .background(Color(.systemBackground))
-            //                .cornerRadius(8)
-            //                .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
-            //                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.systemGray4), lineWidth: 1))
-            //                // Use a Spacer to push the overlay down to the correct position
-            //                // or an offset if you have a consistent header height.
-            //                .padding(.top, 100) // Adjust this value to position it correctly
-            //                .padding(.leading, 20)
-            //                .zIndex(200) // Ensure it's on top of everything
-            //            }
-            //        }
             .onTapGesture {
                 if showDropdown {
                     withAnimation {
@@ -91,6 +49,19 @@ struct MinifiguresScreen: View {
             minifiguresVM.seacrhMinifiguresWithAThemeId()
         }
         .padding(.horizontal)
+    }
+    
+    private var tabbar: some View {
+        HStack {
+            CustomDropdownPicker(
+                hint: "Theme",
+                selection: $minifiguresVM.themeId,
+                showDropdown: $showDropdown
+            )
+            Spacer()
+        }
+        .padding(.horizontal)
+        .zIndex(showDropdown ? 1000 : 1)
     }
     
     private var miniFiguresGrid: some View {

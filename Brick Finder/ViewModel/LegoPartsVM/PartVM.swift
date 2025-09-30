@@ -9,15 +9,19 @@ import Foundation
 
 class PartVM: ObservableObject {
     
-   @Published private(set) var isLoading = true
-   @Published private(set) var errorMessage: String?
-   
-   @Published var searchText = ""
-   @Published var partId = ""
-   
-   @Published var legoPartsResult = [AllParts.PartResults]()
-   @Published var part: [AllParts.PartResults]?
-   @Published var inventoryPart: [InventoryParts.PartResult]?
+    @Published private(set) var isLoading = true
+    @Published private(set) var errorMessage: String?
+    
+    @Published var searchText = ""
+    @Published var partId = ""
+    
+    @Published var legoPartsResult = [AllParts.PartResults]()
+    @Published var part: [AllParts.PartResults]?
+    @Published var colors: ColorCombination?
+    @Published var inventoryPart: [InventoryParts.PartResult]?
+    @Published var partColor: [LegoColor.PartsAndColorResults]?
+    @Published var legoSet: [LegoSet.SetResults]?
+    
    
    private let apiManager = RebrickableApi()
     
@@ -96,6 +100,54 @@ class PartVM: ObservableObject {
         Task {
             do {
                 self.inventoryPart = try await apiManager.getMinifigerInvetory(setNum: figNumber).results
+                self.isLoading = false
+            } catch {
+                print(error)
+                errorMessage = error.localizedDescription
+                self.isLoading = false
+            }
+        }
+    }
+    
+    @MainActor
+    func getLegoPartsColor(part number: String) {
+        isLoading = true
+        
+        Task {
+            do {
+                self.partColor = try await apiManager.getListOfPartColor(part: number).results
+                self.isLoading = false
+            } catch {
+                print(error)
+                errorMessage = error.localizedDescription
+                self.isLoading = false
+            }
+        }
+    }
+    
+    @MainActor
+    func getDetailsAboutPartAndColorCombination(partNumber: String, colorId: String) {
+        isLoading = true
+        
+        Task {
+            do {
+                self.colors = try await apiManager.getListOfPartCombinations(part: partNumber, color: colorId)
+                self.isLoading = false
+            } catch {
+                print(error)
+                errorMessage = error.localizedDescription
+                self.isLoading = false
+            }
+        }
+    }
+    
+    @MainActor
+    func getListOfAllSetsPartAndColorCombination(partNumber: String, colorId: String) {
+        isLoading = true
+        
+        Task {
+            do {
+                self.legoSet = try await apiManager.getallSetThePartAndColorCombinationItHasApperadIn(part: partNumber, color: colorId).results
                 self.isLoading = false
             } catch {
                 print(error)

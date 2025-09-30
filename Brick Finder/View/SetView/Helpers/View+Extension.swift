@@ -50,4 +50,26 @@ extension View {
                 }
         }
     }
+    
+    @ViewBuilder
+    func tabMask2(_ tabProgress: CGFloat) -> some View {
+        ZStack {
+            self
+                .foregroundStyle(Color.gray)
+            
+            self
+                .symbolVariant(.fill)
+                .mask {
+                    GeometryReader {
+                        let size = $0.size
+                        let capusleWidth = size.width / CGFloat(MinifigureTab.allCases.count)
+                    
+                        Capsule()
+                            .frame(width: capusleWidth)
+                            .offset(x: tabProgress * (size.width - capusleWidth))
+                        
+                    }
+                }
+        }
+    }
 }

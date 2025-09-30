@@ -24,3 +24,17 @@ enum Tab: String, CaseIterable {
         }
     }
 }
+
+enum MinifigureTab: String, CaseIterable {
+    case parts = "Parts"
+    case sets = "Sets"
+    
+    var systemImage: String {
+        switch self {
+            case .parts:
+                return "shippingbox.fill"
+            case .sets:
+                return "folder.fill"
+        }
+    }
+}

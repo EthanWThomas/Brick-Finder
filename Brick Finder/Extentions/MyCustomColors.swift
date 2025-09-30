@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftUICore
+import SwiftUI
 
 extension Color {
     static let legoRed = Color(red: 220/255, green: 20/255, blue: 60/255)

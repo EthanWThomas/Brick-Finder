@@ -57,7 +57,7 @@ struct PartsScreen: View {
     private var partCard: some View {
         ScrollView {
             LazyVGrid(
-                columns: Array(repeating: GridItem(.flexible()), count: 3),
+                columns: Array(repeating: GridItem(.flexible()), count: 2),
                 spacing: 24) {
                     if let parts = viewModel.searchLegoPart {
                         ForEach(parts, id: \.partNumber) { part in
