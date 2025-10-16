@@ -31,10 +31,30 @@ struct SetsScreen: View {
                     }
                     .padding(.horizontal)
                     HStack(spacing: 12) {
-                        CustomDropdownPicker(
-                            hint: "Theme",
-                            selection: $viewModel.themeId,
-                            showDropdown: $showDropdown)
+                        HStack {
+                            Menu("Theme") {
+                                Picker("lego", selection: $viewModel.themeId) {
+                                    ForEach(LegoThemes.allCases, id: \.id) { theme in
+                                        Text(theme.displayName)
+                                            .tag(theme.rawValue)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 10)
+                            .frame(width: 140, height: 40)
+                            .foregroundStyle(Color.black)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.white)
+                                    .stroke(Color.gray)
+                                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+                            )
+                            .cornerRadius(8)
+                            .offset(y: 4)
+                            .zIndex(1000)
+                            Spacer()
+                        }
                         Spacer()
                     }
                     .padding(.horizontal)

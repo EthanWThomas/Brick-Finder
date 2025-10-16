@@ -17,23 +17,34 @@ struct PartsScreen: View {
             header
             
             HStack {
-//                CustomDropdownPicker(
-//                    hint: "Part Number",
-//                    selection: $viewModel.partId,
-//                    showDropdown: $showDropdown)
-                Spacer()
-            }
-            .padding(.horizontal)
-            .zIndex(showDropdown ? 1000 : 1)
-            
-            partCard
-        }
-        .onTapGesture {
-            if showDropdown {
-                withAnimation {
-                    showDropdown = false
+                HStack {
+                    Menu("Category") {
+                        Picker("lego", selection: $viewModel.partId) {
+                            ForEach(PartCategory.allCases, id: \.id) { theme in
+                                Text(theme.displayName)
+                                    .tag(theme.rawValue)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 10)
+                    .frame(width: 140, height: 40)
+                    .foregroundStyle(Color.black)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.white)
+                            .stroke(Color.gray)
+                            .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+                    )
+                    .cornerRadius(8)
+                    .offset(y: 4)
+                    .zIndex(1000)
+                    Spacer()
                 }
             }
+            .padding(.horizontal)
+            
+            partCard
         }
     }
     
