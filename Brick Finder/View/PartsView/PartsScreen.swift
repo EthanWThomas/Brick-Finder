@@ -13,38 +13,40 @@ struct PartsScreen: View {
     @State private var showDropdown = false
     
     var body: some View {
-        VStack(spacing: 24) {
-            header
-            
-            HStack {
+        NavigationStack {
+            VStack(spacing: 24) {
+                header
+                
                 HStack {
-                    Menu("Category") {
-                        Picker("lego", selection: $viewModel.partId) {
-                            ForEach(PartCategory.allCases, id: \.id) { theme in
-                                Text(theme.displayName)
-                                    .tag(theme.rawValue)
+                    HStack {
+                        Menu("Category") {
+                            Picker("lego", selection: $viewModel.partId) {
+                                ForEach(PartCategory.allCases, id: \.id) { theme in
+                                    Text(theme.displayName)
+                                        .tag(theme.rawValue)
+                                }
                             }
                         }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 10)
+                        .frame(width: 140, height: 40)
+                        .foregroundStyle(Color.black)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.white)
+                                .stroke(Color.gray)
+                                .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+                        )
+                        .cornerRadius(8)
+                        .offset(y: 4)
+                        .zIndex(1000)
+                        Spacer()
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 10)
-                    .frame(width: 140, height: 40)
-                    .foregroundStyle(Color.black)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.white)
-                            .stroke(Color.gray)
-                            .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
-                    )
-                    .cornerRadius(8)
-                    .offset(y: 4)
-                    .zIndex(1000)
-                    Spacer()
                 }
+                .padding(.horizontal)
+                
+                partCard
             }
-            .padding(.horizontal)
-            
-            partCard
         }
     }
     
@@ -72,7 +74,7 @@ struct PartsScreen: View {
                 spacing: 24) {
                     if let parts = viewModel.searchLegoPart {
                         ForEach(parts, id: \.partNumber) { part in
-                            PartCard(part: part)
+                            listPartItem(lego: part)
                         }
                     }
                 }
@@ -82,6 +84,16 @@ struct PartsScreen: View {
             viewModel.getPart()
         }
         .zIndex(showDropdown ? 1 : 100)
+    }
+    
+    private func listPartItem(lego part: AllParts.PartResults) -> some View {
+        NavigationLink {
+            PartDetailsView(
+                viewModel: viewModel,
+                legoPart: part)
+        } label: {
+            PartCard(part: part)
+        }
     }
 }
 

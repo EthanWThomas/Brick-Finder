@@ -32,29 +32,10 @@ struct SetsScreen: View {
                     .padding(.horizontal)
                     HStack(spacing: 12) {
                         HStack {
-                            Menu("Theme") {
-                                Picker("lego", selection: $viewModel.themeId) {
-                                    ForEach(LegoThemes.allCases, id: \.id) { theme in
-                                        Text(theme.displayName)
-                                            .tag(theme.rawValue)
-                                    }
-                                }
-                            }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 10)
-                            .frame(width: 140, height: 40)
-                            .foregroundStyle(Color.black)
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.white)
-                                    .stroke(Color.gray)
-                                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
-                            )
-                            .cornerRadius(8)
-                            .offset(y: 4)
-                            .zIndex(1000)
-                            Spacer()
+                            themePicker
+                            minAndMaxYearPicker
                         }
+                        
                         Spacer()
                     }
                     .padding(.horizontal)
@@ -68,7 +49,82 @@ struct SetsScreen: View {
         .onSubmit {
             viewModel.seacrhLegoSet()
             viewModel.searchLegoSetWithTheme()
+            viewModel.searchLegoSetWithAThemeAndYear()
+        }
+    }
+    
+    private var themePicker: some View {
+        HStack {
+            Menu("Theme") {
+                Picker("lego", selection: $viewModel.themeId) {
+                    ForEach(LegoThemes.allCases, id: \.id) { theme in
+                        Text(theme.displayName)
+                            .tag(theme.rawValue)
+                    }
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .frame(width: 140, height: 40)
+            .foregroundStyle(Color.black)
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.white)
+                    .stroke(Color.gray)
+                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+            )
+            .cornerRadius(8)
+            .offset(y: 4)
+            .zIndex(1000)
+            Spacer()
+        }
+    }
+    
+    private var minAndMaxYearPicker: some View {
+        HStack {
+            Menu("Min_year") {
+                Picker("Minimum", selection: $viewModel.minYear) {
+                    ForEach(1999...2055, id: \.self) { year in
+                        Text(year.formatted(.number))
+                    }
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .frame(width: 100, height: 40)
+            .foregroundStyle(Color.black)
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.white)
+                    .stroke(Color.gray)
+                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+            )
+            .cornerRadius(8)
+            .offset(y: 4)
+            .zIndex(1000)
+            Spacer()
             
+            Menu("Max_year") {
+                Picker("Maximum", selection: $viewModel.maxYear) {
+                    ForEach(1999...2055, id: \.self) { year in
+                        Text(year.formatted(.number))
+                    }
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .frame(width: 100, height: 40)
+            .foregroundStyle(Color.black)
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.white)
+                    .stroke(Color.gray)
+                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+            )
+            .cornerRadius(8)
+            .offset(y: 4)
+            .zIndex(1000)
+            Spacer()
         }
     }
     

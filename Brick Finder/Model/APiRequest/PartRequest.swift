@@ -66,6 +66,24 @@ extension RebrickableApi {
                 
     }
     
+    // MARK: - Get details about a specific Part.
+    func getDetailAboutPart(part num: String) async throws -> LegoParts {
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(num)/?key=\(RebrickableApi.apiKey)")
+        else { throw RequstError.failedToCreateURL }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
+            case 200: return try JSONDecoder().decode(LegoParts.self, from: data)
+            case 201, 204, 400, 401, 403, 404, 429: throw try JSONDecoder().decode(ErrorResponse.self, from: data)
+            default: throw ResponseError.unownedErrorOccurred
+        }
+    }
+    
     // MARK: - Get a list of all Colors a Part has appeared
     // Get a list of all Colors a Part has appeared
 //    func getListOfAllColorAndPart(partNum: String) async throws -> PartsAndColor {
@@ -105,7 +123,7 @@ extension RebrickableApi {
     
     // MARK: - Get a list of all Colors a Part has appeared in.
     func getListOfPartColor(part num: String) async throws -> LegoColor {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(num)/colors/?key\(RebrickableApi.apiKey)")
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(num)/colors/?key=\(RebrickableApi.apiKey)")
                 
         else { throw RequstError.failedToCreateURL }
         

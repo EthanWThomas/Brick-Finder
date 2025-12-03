@@ -38,3 +38,25 @@ struct AllParts: Codable {
         }
     }
 }
+
+struct LegoParts: Codable {
+    let partNum: String
+    let name: String
+    let partCatId: Int?
+    let yaerFrom: Int?
+    let yearTo: Int?
+    let partImageUrl: String?
+    let partUrl: String?
+    let molds: [String?]
+    
+    enum CodingKeys: String, CodingKey {
+        case partNum = "part_num"
+        case name
+        case partCatId = "part_cat_id"
+        case yaerFrom = "year_from"
+        case yearTo = "year_to"
+        case partImageUrl = "part_img_url"
+        case partUrl = "part_url"
+        case molds
+    }
+}

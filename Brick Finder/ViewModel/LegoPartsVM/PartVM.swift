@@ -18,6 +18,7 @@ class PartVM: ObservableObject {
     @Published var legoPartsResult = [AllParts.PartResults]()
     @Published var part: [AllParts.PartResults]?
     @Published var colors: ColorCombination?
+    @Published var legoPart: LegoParts?
     @Published var inventoryPart: [InventoryParts.PartResult]?
     @Published var partColor: [LegoColor.PartsAndColorResults]?
     @Published var legoSet: [LegoSet.SetResults]?
@@ -116,6 +117,21 @@ class PartVM: ObservableObject {
         Task {
             do {
                 self.partColor = try await apiManager.getListOfPartColor(part: number).results
+                self.isLoading = false
+            } catch {
+                print(error)
+                errorMessage = error.localizedDescription
+                self.isLoading = false
+            }
+        }
+    }
+    
+    @MainActor
+    func getDetailAboutSpecificPart(partNumber: String) {
+        isLoading = true
+        Task {
+            do {
+                self.legoPart = try await apiManager.getDetailAboutPart(part: partNumber)
                 self.isLoading = false
             } catch {
                 print(error)
