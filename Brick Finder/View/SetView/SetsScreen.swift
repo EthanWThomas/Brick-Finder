@@ -6,13 +6,20 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct SetsScreen: View {
     @StateObject var viewModel = SetVM()
     @StateObject var inventoryVM = InventoryPartsVM()
     
+    @State var setSavedDataVM: SavedLegoSetsVM
+    
     @State private var isSearching = false
     @State private var showDropdown = false
+    
+    init(context: ModelContext) {
+        self.setSavedDataVM = SavedLegoSetsVM(context: context)
+    }
     
     var body: some View {
         NavigationStack {
@@ -151,11 +158,11 @@ struct SetsScreen: View {
                 viewModel: viewModel,
                 inventoryVM: inventoryVM)
         } label: {
-            SetsCardView(legoSet: set)
+            SetsCardView(legoSet: set, setSavedDataVM: setSavedDataVM)
         }
     }
 }
 
-#Preview {
-    SetsScreen()
-}
+//#Preview {
+//    SetsScreen()
+//}

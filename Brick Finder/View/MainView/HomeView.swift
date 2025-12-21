@@ -6,13 +6,20 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HomeView: View {
-    @Binding var searchText: String
+    
     @State private var showingAddItem = false
+    @State var setSavedDataVM: SavedLegoSetsVM
+    
     @StateObject private var minifigsViewModel = MinifiguresVM()
     @StateObject private var setViewModel = SetVM()
     @StateObject private var partViewModel = PartVM()
+    
+    init(context: ModelContext) {
+        self.setSavedDataVM = SavedLegoSetsVM(context: context)
+    }
     
     let categories = [
          CategoryItem(id: 1, title: "Sets", icon: "📦", count: 1247, color: .red),
@@ -26,7 +33,7 @@ struct HomeView: View {
      ]
     
     var body: some View {
-           NavigationView {
+           NavigationStack {
                ZStack {
                    Color(.systemGroupedBackground)
                        .ignoresSafeArea()
@@ -43,14 +50,14 @@ struct HomeView: View {
                                    Spacer()
                                }
                                
-                               SearchBar(searchText: $searchText)
+//                               SearchBar(searchText: $searchText)
                            }
                            .padding(.horizontal)
                            
                            // Categories Section
                            VStack(alignment: .leading, spacing: 16) {
                                HStack {
-                                   Text("Browse Collection")
+                                   Text("Save Collection")
                                        .font(.title2)
                                        .fontWeight(.bold)
                                    Spacer()
@@ -58,9 +65,13 @@ struct HomeView: View {
                                .padding(.horizontal)
                                
                                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 16) {
-                                   ForEach(categories) { category in
-                                       CategoryCard(category: category)
+                                   MinifigureSavedDataView()
+                                   NavigationLink {
+                                       SavedLegoSetsScreen(viewModel: setSavedDataVM)
+                                   } label: {
+                                       SetSavedDataView()
                                    }
+                                   PartSavedDataView()
                                }
                                .padding(.horizontal)
                            }

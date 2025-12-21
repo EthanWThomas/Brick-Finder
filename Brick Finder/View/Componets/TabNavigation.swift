@@ -6,14 +6,26 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct TabNavigation: View {
     @State private var selectedTab = 0
     @State private var searchText: String = ""
     
+    let cantainer: ModelContainer
+    
+    init() {
+        do {
+            self.cantainer = try ModelContainer(for: LegoSetsDataModel.self)
+        } catch {
+            fatalError("Could not load model container.")
+        }
+    }
+    
     var body: some View {
         TabView(selection: $selectedTab) {
-            HomeView(searchText: $searchText)
+            HomeView(context: ModelContext(cantainer))
+                .modelContainer(cantainer)
                 .tabItem { Label("Home", systemImage: "house") }
                 .tag(0)
             
@@ -21,7 +33,8 @@ struct TabNavigation: View {
                 .tabItem { Label("Minifigures", systemImage: "person.crop.circle") }
                 .tag(1)
             
-            SetsScreen()
+            SetsScreen(context: ModelContext(cantainer))
+                .modelContainer(cantainer)
                 .tabItem { Label("Sets", systemImage: "folder.fill") }
                 .tag(2)
             
