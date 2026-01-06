@@ -19,7 +19,7 @@ struct MinifigureSavedDataView: View {
             Text("Minifigure")
                 .font(.subheadline)
                 .fontWeight(.semibold)
-                .foregroundStyle(.primary)
+                .foregroundStyle(.black)
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 12)

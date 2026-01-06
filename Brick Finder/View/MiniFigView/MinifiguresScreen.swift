@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MinifiguresScreen: View {
     @StateObject var minifiguresVM = MinifiguresVM()
@@ -13,6 +14,12 @@ struct MinifiguresScreen: View {
     @StateObject var minifigPartVM = PartVM()
     
     @State private var showDropdown = false
+    
+    @State var minifigurSavedDataVM: SavedMinifiguresVM
+    
+    init(context: ModelContext) {
+        self.minifigurSavedDataVM = SavedMinifiguresVM(context: context)
+    }
     
     var body: some View {
         NavigationStack {
@@ -107,11 +114,8 @@ struct MinifiguresScreen: View {
                 minifigureInSetTheyCameIn: minifigSetVM,
                 partVM: minifigPartVM)
         } label: {
-            MinifigureCardView(minifigures: minifigures)
+            MinifigureCardView(minifigures: minifigures, minifigureSavedDataVM: minifigurSavedDataVM)
         }
     }
 }
 
-#Preview {
-    MinifiguresScreen()
-}

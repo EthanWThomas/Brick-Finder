@@ -10,6 +10,8 @@ import SwiftUI
 struct MinifigureCardView: View {
     let minifigures: Lego.LegoResults
     
+    @State var minifigureSavedDataVM: SavedMinifiguresVM
+    
     var body: some View {
         VStack(spacing: 12) {
             AsyncImage(url: URL(string: minifigures.setImageURL ?? "Unknown")) { phase in
@@ -34,10 +36,23 @@ struct MinifigureCardView: View {
             .cornerRadius(8)
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(minifigures.name ?? "Person")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(Color.primary)
-                    .lineLimit(2)
+                HStack {
+                    Text(minifigures.name ?? "Person")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(Color.primary)
+                        .lineLimit(2)
+                    Button {
+                        minifigureSavedDataVM.savedLegoResult(legoResult: minifigures)
+                    } label: {
+                        Text("Add to Collection")
+                            .font(.system(size: 10, weight: .medium))
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(Color.gray.opacity(0.1))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+
+                }
                 
                 Text(minifigures.setNum ?? "00001")
                     .font(.system(size: 12))

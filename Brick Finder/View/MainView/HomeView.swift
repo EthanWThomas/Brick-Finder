@@ -12,6 +12,7 @@ struct HomeView: View {
     
     @State private var showingAddItem = false
     @State var setSavedDataVM: SavedLegoSetsVM
+    @State var minifigureSavedDataVM: SavedMinifiguresVM
     
     @StateObject private var minifigsViewModel = MinifiguresVM()
     @StateObject private var setViewModel = SetVM()
@@ -19,13 +20,8 @@ struct HomeView: View {
     
     init(context: ModelContext) {
         self.setSavedDataVM = SavedLegoSetsVM(context: context)
+        self.minifigureSavedDataVM = SavedMinifiguresVM(context: context)
     }
-    
-    let categories = [
-         CategoryItem(id: 1, title: "Sets", icon: "📦", count: 1247, color: .red),
-         CategoryItem(id: 2, title: "Parts", icon: "🔧", count: 8953, color: .blue),
-         CategoryItem(id: 3, title: "Minifigs", icon: "👤", count: 342, color: .orange)
-     ]
      
      let recentItems = [
          RecentItem(id: 1, title: "Castle Set 31120", subtitle: "Creator Series", icon: "🏰"),
@@ -65,7 +61,11 @@ struct HomeView: View {
                                .padding(.horizontal)
                                
                                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 16) {
-                                   MinifigureSavedDataView()
+                                   NavigationLink {
+                                       SavedMinifiguresScreen(viewModel: minifigureSavedDataVM)
+                                   } label: {
+                                       MinifigureSavedDataView()
+                                   }
                                    NavigationLink {
                                        SavedLegoSetsScreen(viewModel: setSavedDataVM)
                                    } label: {
