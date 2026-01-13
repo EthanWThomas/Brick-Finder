@@ -13,20 +13,15 @@ struct TabNavigation: View {
     @State private var searchText: String = ""
     
     let cantainer: ModelContainer
-   
     
     init() {
         do {
-            self.cantainer = try ModelContainer(for: LegoSetsDataModel.self, LegoDataModel.self)
-//            self.minifigureCantainer = try ModelContainer(for: LegoDataModel.self)
+            self.cantainer = try ModelContainer(for: LegoSetsDataModel.self, LegoDataModel.self, LegoPartsDataModel.self)
         } catch {
             fatalError("Could not load model container.")
         }
     }
-    
-   
-
-    
+  
     var body: some View {
         TabView(selection: $selectedTab) {
             HomeView(context: ModelContext(cantainer))
@@ -44,7 +39,8 @@ struct TabNavigation: View {
                 .tabItem { Label("Sets", systemImage: "folder.fill") }
                 .tag(2)
             
-            PartsScreen()
+            PartsScreen(context: ModelContext(cantainer))
+                .modelContainer(cantainer)
                 .tabItem { Label("Parts", systemImage: "square.and.arrow.down") }
                 .tag(3)
         }

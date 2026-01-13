@@ -13,6 +13,7 @@ struct HomeView: View {
     @State private var showingAddItem = false
     @State var setSavedDataVM: SavedLegoSetsVM
     @State var minifigureSavedDataVM: SavedMinifiguresVM
+    @State var partSavedDataVM: SavedLegoPartVM
     
     @StateObject private var minifigsViewModel = MinifiguresVM()
     @StateObject private var setViewModel = SetVM()
@@ -21,6 +22,7 @@ struct HomeView: View {
     init(context: ModelContext) {
         self.setSavedDataVM = SavedLegoSetsVM(context: context)
         self.minifigureSavedDataVM = SavedMinifiguresVM(context: context)
+        self.partSavedDataVM = SavedLegoPartVM(context: context)
     }
      
      let recentItems = [
@@ -71,7 +73,11 @@ struct HomeView: View {
                                    } label: {
                                        SetSavedDataView()
                                    }
-                                   PartSavedDataView()
+                                   NavigationLink {
+                                       SavedLegoPartScreen(viewModel: partSavedDataVM)
+                                   } label: {
+                                       PartSavedDataView()
+                                   }
                                }
                                .padding(.horizontal)
                            }

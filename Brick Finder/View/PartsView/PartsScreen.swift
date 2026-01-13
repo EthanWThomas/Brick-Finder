@@ -6,11 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
+
 
 struct PartsScreen: View {
     @StateObject var viewModel = PartVM()
     
     @State private var showDropdown = false
+    @State var savedPartViewModel: SavedLegoPartVM
+    
+    init(context: ModelContext) {
+        self.savedPartViewModel = SavedLegoPartVM(context: context)
+    }
     
     var body: some View {
         NavigationStack {
@@ -92,11 +99,8 @@ struct PartsScreen: View {
                 viewModel: viewModel,
                 legoPart: part)
         } label: {
-            PartCard(part: part)
+            PartCard(part: part, viewModel: savedPartViewModel)
         }
     }
 }
 
-#Preview {
-    PartsScreen()
-}

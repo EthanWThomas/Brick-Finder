@@ -1,15 +1,15 @@
 //
-//  PartCard.swift
+//  SavedLegoPartDataCard.swift
 //  Brick Finder
 //
-//  Created by Ethan Thomas on 9/17/25.
+//  Created by Ethan Thomas on 1/12/26.
 //
 
 import SwiftUI
 import SwiftData
 
-struct PartCard: View {
-    let part: AllParts.PartResults
+struct SavedLegoPartDataCard: View {
+    let part: LegoPartsDataModel
     
     @State var viewModel: SavedLegoPartVM
     
@@ -56,14 +56,10 @@ struct PartCard: View {
                     )
                 
                 Button {
-                    viewModel.savedLegoPart(partReuslt: part)
+                    viewModel.deleteSavedPart(part: part)
                 } label: {
-                    Text("Add to Collection")
-                        .font(.system(size: 10, weight: .medium))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(Color.gray.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    Image(systemName: "xmark.circle")
+                        .foregroundStyle(Color.red)
                 }
 
             }
@@ -83,4 +79,3 @@ struct PartCard: View {
         .frame(height: 210)
     }
 }
-

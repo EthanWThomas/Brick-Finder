@@ -150,14 +150,14 @@ struct PartDetailsView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             
             VStack(alignment: .leading, spacing: 15) {
-                Text("part number \(partNumber) \(partName) color Id \(partColorId)")
+                Text("part number (\(partNumber)) \(partName) color Id (\(partColorId))")
                     .font(.headline)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(Color.blue)
-                    .clipShape(Capsule())
+//                    .background(Color.blue)
+//                    .clipShape(Capsule())
                     .padding(8)
                 
                 HStack(spacing: 16) {

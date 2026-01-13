@@ -57,6 +57,7 @@ struct SavedMinifigureDataCard: View {
                         viewModel.deleteLegoResult(legoDataModel: minifigures)
                     } label: {
                         Image(systemName: "xmark.circle")
+                            .foregroundStyle(Color.red)
                     }
 
                 }
