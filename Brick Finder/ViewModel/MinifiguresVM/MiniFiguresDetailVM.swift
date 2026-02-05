@@ -13,6 +13,7 @@ class MiniFiguresDetailVM: ObservableObject {
     @Published private(set) var errorMessage: String?
     
     @Published var setNumber = ""
+    @Published var minifigures: Lego.LegoResults?
     @Published var minifigInSetResult = [Lego.LegoResults]()
     @Published var minifigInSet: [Lego.LegoResults]?
     
@@ -33,5 +34,4 @@ class MiniFiguresDetailVM: ObservableObject {
             }
         }
     }
-    
 }

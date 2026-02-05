@@ -19,16 +19,14 @@ struct HomeView: View {
     @StateObject private var setViewModel = SetVM()
     @StateObject private var partViewModel = PartVM()
     
+//    @Query(sort: \ViewedItem.timestamp, order: .reverse)
+//    var history: ViewedItem
+    
     init(context: ModelContext) {
         self.setSavedDataVM = SavedLegoSetsVM(context: context)
         self.minifigureSavedDataVM = SavedMinifiguresVM(context: context)
         self.partSavedDataVM = SavedLegoPartVM(context: context)
     }
-     
-     let recentItems = [
-         RecentItem(id: 1, title: "Castle Set 31120", subtitle: "Creator Series", icon: "🏰"),
-         RecentItem(id: 2, title: "Red Brick 2x4", subtitle: "Basic Parts", icon: "🚗")
-     ]
     
     var body: some View {
            NavigationStack {
@@ -48,7 +46,7 @@ struct HomeView: View {
                                    Spacer()
                                }
                                
-//                               SearchBar(searchText: $searchText)
+                               //                               SearchBar(searchText: $searchText)
                            }
                            .padding(.horizontal)
                            
@@ -83,24 +81,27 @@ struct HomeView: View {
                            }
                            
                            // Recent Section
-                           VStack(alignment: .leading, spacing: 16) {
-                               HStack {
-                                   Text("Recently Viewed")
-                                       .font(.title2)
-                                       .fontWeight(.bold)
-                                   Spacer()
-                               }
-                               .padding(.horizontal)
-                               
-                               LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 16) {
-                                   ForEach(recentItems) { item in
-                                       RecentItemCardView(item: item)
+                           ScrollView(.horizontal, showsIndicators: false ) {
+                               VStack(alignment: .leading, spacing: 16) {
+                                   HStack {
+                                       Text("Recently Viewed")
+                                           .font(.title2)
+                                           .fontWeight(.bold)
+                                       Spacer()
                                    }
+                                   .padding(.horizontal)
+                                   
+                                   LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 16) {
+//                                       ForEach(history.prefix(6), id: \.self) { item in
+//                                           RecentlyViewedSection(_history: item)
+//                                           .frame(width: 110)
+//                                       }
+                                   }
+                                   .padding(.horizontal)
                                }
-                               .padding(.horizontal)
+                               
+                               Spacer(minLength: 100)
                            }
-                           
-                           Spacer(minLength: 100)
                        }
                        .padding(.top)
                    }

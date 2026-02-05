@@ -13,5 +13,6 @@ struct Brick_FinderApp: App {
         WindowGroup {
             TabNavigation()
         }
+        .modelContainer(for: ViewedItem.self)
     }
 }

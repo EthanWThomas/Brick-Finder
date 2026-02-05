@@ -39,7 +39,7 @@ struct SetDetailView: View {
         VStack(alignment: .center, spacing: 15) {
             ZStack {
                 displayUrlImage(url: legoSet.setImageURL ?? "Unknown")
-                .frame(width: 250, height: 250)
+                .frame(width: 350, height: 150)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 
                 Text(legoSet.setNumber ?? "No set number")
