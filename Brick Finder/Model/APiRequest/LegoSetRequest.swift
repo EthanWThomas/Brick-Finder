@@ -12,7 +12,7 @@ extension RebrickableApi {
     // MARK: Search for all lego sets
     func seacrhAllLegoSets(with searchTerm: String) async throws -> LegoSet {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -30,7 +30,7 @@ extension RebrickableApi {
     // MARK: - Search all Lego sets with a theme
     func searchLegoSetWithTheme(searchTerm: String, theme: String) async throws -> LegoSet {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(theme)&search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -53,7 +53,7 @@ extension RebrickableApi {
         maxYear: Double
     ) async throws -> LegoSet {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(theme)&min_year=\(minYear)&max_year=\(maxYear)&search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -71,7 +71,7 @@ extension RebrickableApi {
     // MARK: - Get All Lego Seta
     func getAllLegoSet() async throws -> LegoSet {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -89,7 +89,7 @@ extension RebrickableApi {
     // MARK: - Get Specific Set
     func getSpecificSet(with setNumber: String) async throws -> LegoSet {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/\(setNumber)?key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -107,7 +107,7 @@ extension RebrickableApi {
     // MARK: get all sets with a theme
     func getSetWithThemeId(themeId: String) async throws -> LegoSet {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(themeId)?key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -126,7 +126,7 @@ extension RebrickableApi {
     func getAlternateLegoSet(set number: String) async throws -> LegoMOCS {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/\(number)/alternates/?key=\(RebrickableApi.apiKey)")
                 
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -145,7 +145,7 @@ extension RebrickableApi {
     func getInvetoryPartInASet(setNum: String) async throws -> InventoryParts {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/\(setNum)/parts/?key=\(RebrickableApi.apiKey)")
                 
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -164,7 +164,7 @@ extension RebrickableApi {
     func getInvetoryMinifigerInASet(with setNumber: String) async throws -> Lego {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/\(setNumber)/minifigs/?key=\(RebrickableApi.apiKey)")
                 
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

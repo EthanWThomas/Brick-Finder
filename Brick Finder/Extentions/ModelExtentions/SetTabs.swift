@@ -8,19 +8,21 @@
 import Foundation
 
 enum Tab: String, CaseIterable {
+    case deteils = "Details"
     case minifigs = "Minfigs"
     case parts = "Parts"
     case mocs = "MOCS"
     
     var systemImage: String {
         switch self {
+            case .deteils:
+                return "info.circle.fill"
             case .parts:
                 return "shippingbox.fill"
             case .minifigs:
                 return "person.fill"
             case .mocs:
                 return "plus.circle.fill"
-            
         }
     }
 }

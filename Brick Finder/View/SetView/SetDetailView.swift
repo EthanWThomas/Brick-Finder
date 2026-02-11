@@ -10,6 +10,7 @@ import SwiftUI
 struct SetDetailView: View {
     var legoSet: LegoSet.SetResults
     
+    
     @StateObject var viewModel: SetVM
     @StateObject var inventoryVM: InventoryPartsVM
     
@@ -90,6 +91,10 @@ struct SetDetailView: View {
                 
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 0) {
+                        deteilDisplay
+                            .id(Tab.deteils)
+                            .containerRelativeFrame(.horizontal)
+                        
                         minifigureDisplay
                             .id(Tab.minifigs)
                             .containerRelativeFrame(.horizontal)
@@ -122,6 +127,7 @@ struct SetDetailView: View {
             inventoryVM.getInventoryPart(with: legoSet.setNumber ?? "No set number")
             inventoryVM.getInventoryMinifigerInSet(with: legoSet.setNumber ?? "No set number")
             viewModel.getAlternateBuilds(with: legoSet.setNumber ?? "No set number")
+            viewModel.getSetInfo(with: legoSet.setNumber ?? "No set number")
         }
     }
     
@@ -194,6 +200,41 @@ struct SetDetailView: View {
                 }
             }
             .padding(15)
+        }
+        .scrollIndicators(.hidden)
+        .scrollClipDisabled()
+        .mask {
+            Rectangle()
+                .padding(.bottom, -100)
+        }
+    }
+    
+    private var deteilDisplay: some View {
+        ScrollView(.vertical) {
+            if let details = viewModel.setInfo {
+                ForEach(details, id: \.setID) { setDeteils in
+                    detailCardView(
+                        number: setDeteils.number ?? "No set number",
+                        name: setDeteils.name ?? "no name",
+                        year: setDeteils.year,
+                        theme: setDeteils.theme ?? "no theme yet",
+                        ThemeGroup: setDeteils.themeGroup ?? "no theme group",
+                        category: setDeteils.category ?? "no category",
+                        subTheme: setDeteils.subTheme ?? "no sub theme",
+                        pleces: setDeteils.pleces,
+                        minifigs: setDeteils.minifigs ?? 0,
+                        rating: setDeteils.rating ?? 0.0,
+                        availability: setDeteils.availability,
+                        instructionsCount: setDeteils.instructionsCount ?? 0,
+                        tags: setDeteils.extendedData?.tags ?? [],
+                        description: setDeteils.extendedData?.description ?? "",
+                        setImageURL: setDeteils.image?.imageURL ?? "no url",
+                        retailPrice: setDeteils.legoCom?.usa.retailPrice ?? 0.0)
+                }
+                .onSubmit {
+                    viewModel.getSetInfo(with: legoSet.setNumber ?? "no set number error")
+                }
+            }
         }
         .scrollIndicators(.hidden)
         .scrollClipDisabled()
@@ -360,6 +401,184 @@ struct SetDetailView: View {
                 .scaleEffect(isPressed ? 0.99 : 1.0)
                 .animation(.spring(response: 0.2, dampingFraction: 0.8), value: isPressed)
         )
+    }
+    
+    private func detailCardView(
+        number: String,
+        name: String,
+        year: Int,
+        theme: String,
+        ThemeGroup: String,
+        category: String,
+        subTheme: String,
+        pleces: Int,
+        minifigs: Int,
+        rating: Double,
+        availability: String,
+        instructionsCount: Int,
+        tags: [String],
+        description: String,
+        setImageURL: String,
+        retailPrice: Double
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            // Top image + basic info
+            HStack(alignment: .top, spacing: 16) {
+                displayUrlImage(url: setImageURL)
+                    .frame(width: 120, height: 120)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .overlay(
+                        VStack {
+                            HStack {
+                                Text(number)
+                                    .font(.caption2)
+                                    .fontWeight(.semibold)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 4)
+                                    .background(.ultraThinMaterial)
+                                    .clipShape(Capsule())
+                                Spacer()
+                            }
+                            Spacer()
+                            HStack {
+                                Text(availability)
+                                    .font(.caption2)
+                                    .fontWeight(.medium)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 4)
+                                    .background(Color.green.opacity(0.85))
+                                    .foregroundColor(.white)
+                                    .clipShape(Capsule())
+                                Spacer()
+                            }
+                        }
+                        .padding(8)
+                    )
+                
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(name)
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(2)
+                    
+                    Text("Released \(year)")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(theme)
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color.blue.opacity(0.1))
+                            .foregroundColor(.blue)
+                            .clipShape(Capsule())
+                        
+                        HStack(spacing: 8) {
+                            Text(ThemeGroup)
+                            Text(category)
+                            Text(subTheme)
+                        }
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
+                    }
+                }
+            }
+            
+            // Core stats
+            HStack(spacing: 12) {
+                StatView(
+                    value: "\(pleces)",
+                    label: "Pieces",
+                    icon: "cube.box",
+                    color: .orange
+                )
+                
+                StatView(
+                    value: "\(minifigs)",
+                    label: "Minifigs",
+                    icon: "person.3.fill",
+                    color: .purple
+                )
+                
+                StatView(
+                    value: String(format: "%.1f", rating),
+                    label: "Rating",
+                    icon: "star.fill",
+                    color: .yellow
+                )
+                
+                StatView(
+                    value: String(format: "$%.2f", retailPrice),
+                    label: "Retail",
+                    icon: "dollarsign.circle",
+                    color: .green
+                )
+            }
+            .font(.caption)
+            
+            // Instructions count
+            if instructionsCount > 0 {
+                HStack(spacing: 6) {
+                    Image(systemName: "doc.richtext")
+                        .foregroundColor(.blue)
+                    Text("\(instructionsCount) building instruction\(instructionsCount == 1 ? "" : "s")")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            
+            // Tags
+            if !tags.isEmpty {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Tags")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.secondary)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            ForEach(tags, id: \.self) { tag in
+                                Text(tag)
+                                    .font(.caption2)
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 5)
+                                    .background(Color(.systemGray6))
+                                    .clipShape(Capsule())
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Description
+            if !description.isEmpty {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Description")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.secondary)
+                    
+                    Text(description)
+                        .font(.footnote)
+                        .foregroundColor(.primary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 18)
+                .fill(.ultraThinMaterial)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(Color(.systemGray5), lineWidth: 1)
+        )
+        .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 3)
     }
     
     private func displayUrlImage(url: String?) -> some View {

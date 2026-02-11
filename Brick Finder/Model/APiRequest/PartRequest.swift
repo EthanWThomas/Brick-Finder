@@ -13,7 +13,7 @@ extension RebrickableApi {
     func searchParts(with searchTerm: String) async throws -> AllParts {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/?search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
                 
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -32,7 +32,7 @@ extension RebrickableApi {
     func getPart() async throws -> AllParts {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/?key=\(RebrickableApi.apiKey)")
                 
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -50,7 +50,7 @@ extension RebrickableApi {
     // MARK: - Get Seacrh Part with id
     func searchPartWithId(part id: String, searchTerm: String) async throws -> AllParts {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/?part_cat_id=\(id)&search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -69,7 +69,7 @@ extension RebrickableApi {
     // MARK: - Get details about a specific Part.
     func getDetailAboutPart(part num: String) async throws -> LegoParts {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(num)/?key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -106,7 +106,7 @@ extension RebrickableApi {
     // MARK: - Get a list of all Sets the Part/Color combination has appeard in.
     func getallSetThePartAndColorCombinationItHasApperadIn(part number: String, color id: String) async throws -> LegoSet {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(number)/colors/\(id)/sets/?key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -125,7 +125,7 @@ extension RebrickableApi {
     func getListOfPartColor(part num: String) async throws -> LegoColor {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(num)/colors/?key=\(RebrickableApi.apiKey)")
                 
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -143,7 +143,7 @@ extension RebrickableApi {
     // MARK: Get details about a specific Part/Color combination.
     func getListOfPartCombinations(part num: String, color id: String) async throws -> ColorCombination {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/\(num)/colors/\(id)/?key\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -162,7 +162,7 @@ extension RebrickableApi {
     func returnAllThemes() async throws -> Themes {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/themes/?key=\(RebrickableApi.apiKey)")
                 
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

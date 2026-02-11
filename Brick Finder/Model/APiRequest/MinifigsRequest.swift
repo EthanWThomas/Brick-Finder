@@ -11,7 +11,7 @@ extension RebrickableApi {
     
     func searchMinfigs(with searchTerm: String) async throws -> Lego {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs/?search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -28,7 +28,7 @@ extension RebrickableApi {
     
     func getMinifig() async throws -> Lego {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs/?key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -45,7 +45,7 @@ extension RebrickableApi {
     
     func getAllMinifigsSetCameIn(setNumber: String) async throws -> Lego {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs/\(setNumber)/sets/?key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         let request = URLRequest(url: url)
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -59,7 +59,7 @@ extension RebrickableApi {
     
     func getMinifigerInvetory(setNum: String) async throws -> InventoryParts {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs/\(setNum)/parts/?key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -76,7 +76,7 @@ extension RebrickableApi {
     
     func getMinifigureWithATheme(theme id: String) async throws -> Lego {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs?in_theme_id=\(id)&key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -93,7 +93,7 @@ extension RebrickableApi {
     
     func searchMinifigureWithThemeId(theme id: String, with searchTerm: String) async throws -> Lego {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs/?in_theme_id=\(id)&search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

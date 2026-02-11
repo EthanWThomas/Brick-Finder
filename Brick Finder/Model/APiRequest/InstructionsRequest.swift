@@ -12,7 +12,7 @@ extension BrickableAPI {
     // MARK: Get all lego set Instructions.
     func getInstructions(with setNumber: String) async throws -> Instructions {
         guard let url = URL(string: "https://brickset.com/api/v3.asmx/getInstructions2?apiKey=\(BrickableAPI.apiKey)&setNumber=\(setNumber)")
-        else { throw RequstError.failedToCreateURL }
+        else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

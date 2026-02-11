@@ -19,9 +19,12 @@ class SetVM: ObservableObject {
     @Published var legoSetResults = [LegoSet.SetResults]()
     @Published var legoSet: [LegoSet.SetResults]?
     @Published var legoSetMOCS: [LegoMOCS.LegoMOCSResult]?
+    @Published var instructions: [Instructions.InstructionsResult]?
+    @Published var setInfo: [SetInfo.Sets]?
     
     private let apiManager = RebrickableApi()
-    
+    private let brickableApiManager = BrickableAPI()
+     
     var searchLegoSet: [LegoSet.SetResults]? {
         get { return getsearchResult() }
     }
@@ -119,6 +122,34 @@ class SetVM: ObservableObject {
                 isLoading = false
             } catch {
                 print(error)
+                self.errorMessage = error.localizedDescription
+                self.isLoading = false
+            }
+        }
+    }
+    
+    @MainActor
+    func getLegoIntructions(with setNumber: String) {
+        isLoading = true
+        Task {
+            do {
+                self.instructions = try await brickableApiManager.getInstructions(with: setNumber).instructions
+                isLoading = false
+            } catch {
+                self.errorMessage = error.localizedDescription
+                self.isLoading = false
+            }
+        }
+    }
+    
+    @MainActor
+    func getSetInfo(with params: String) {
+        isLoading = true
+        Task {
+            do {
+                self.setInfo = try await brickableApiManager.getSet(setNumber: params).sets
+                isLoading = false
+            } catch {
                 self.errorMessage = error.localizedDescription
                 self.isLoading = false
             }
