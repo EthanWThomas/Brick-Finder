@@ -21,6 +21,7 @@ class SetVM: ObservableObject {
     @Published var legoSetMOCS: [LegoMOCS.LegoMOCSResult]?
     @Published var instructions: [Instructions.InstructionsResult]?
     @Published var setInfo: [SetInfo.Sets]?
+    @Published var legoInstructions: Instructions.InstructionsResult?
     
     private let apiManager = RebrickableApi()
     private let brickableApiManager = BrickableAPI()

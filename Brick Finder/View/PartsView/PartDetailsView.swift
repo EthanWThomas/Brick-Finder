@@ -26,9 +26,8 @@ struct PartDetailsView: View {
             
             displayPart
         }
-//        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .background(Color(.systemBackground))
-//        .edgesIgnoringSafeArea(.bottom)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.systemBackground))
         .onAppear {
             viewModel.getDetailAboutSpecificPart(partNumber: legoPart.partNumber ?? "No part Number")
             viewModel.getLegoPartsColor(part: legoPart.partNumber ?? "No part Number")
@@ -37,8 +36,11 @@ struct PartDetailsView: View {
     
     
     private var partHeader: some View {
-        VStack(alignment: .center, spacing: 15) {
-            if let legoPart = viewModel.legoPart {
+        VStack(alignment: .center, spacing: 0) {
+            if viewModel.isLoading && viewModel.legoPart == nil {
+                ProgressView()
+                    .frame(height: 200)
+            } else if let legoPart = viewModel.legoPart {
                 partHeaderMoc(
                     partNumber: legoPart.partNum,
                     partName: legoPart.name,
@@ -46,6 +48,16 @@ struct PartDetailsView: View {
                     partImage: legoPart.partImageUrl,
                     yearFrom: legoPart.yaerFrom,
                     yearTo: legoPart.yearTo)
+            } else {
+                VStack(spacing: 12) {
+                    Image(systemName: "cube.box")
+                        .font(.largeTitle)
+                        .foregroundColor(.secondary)
+                    Text("Part not found")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+                }
+                .frame(height: 200)
             }
         }
         .onSubmit {
@@ -54,18 +66,55 @@ struct PartDetailsView: View {
     }
     
     private var displayPart: some View {
-        ScrollView(.vertical) {
-            LazyVStack(spacing: 16) {
-                if let part = viewModel.partColor {
-                    ForEach(part, id: \.colorID) { partColor in
-                        partColorMoc(
-                            name: partColor.colorName,
-                            numberOf: partColor.numberOfSet,
-                            numberOfset: partColor.numberOfSetParts,
-                            image: partColor.partImageUrL)
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 20) {
+                // Header
+                if let part = viewModel.partColor, !part.isEmpty {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Available Colors")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.primary)
+                        
+                        Text("\(part.count) color\(part.count == 1 ? "" : "s") available")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 15)
+                    .padding(.top, 8)
+                }
+                
+                // Color list
+                if viewModel.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 40)
+                } else if let part = viewModel.partColor, !part.isEmpty {
+                    LazyVStack(spacing: 16) {
+                        ForEach(part, id: \.colorID) { partColor in
+                            partColorMoc(
+                                name: partColor.colorName,
+                                numberOf: partColor.numberOfSet,
+                                numberOfset: partColor.numberOfSetParts,
+                                image: partColor.partImageUrL)
+                        }
+                    }
+                    .padding(.horizontal, 15)
+                } else {
+                    VStack(spacing: 12) {
+                        Image(systemName: "paintpalette")
+                            .font(.largeTitle)
+                            .foregroundColor(.secondary)
+                        Text("No colors found")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 40)
                 }
             }
+            .padding(.bottom, 20)
             .onSubmit {
                 viewModel.getLegoPartsColor(part: legoPart.partNumber ?? "Unknown")
             }
@@ -78,62 +127,74 @@ struct PartDetailsView: View {
         numberOfset part: Int,
         image url: String?
     ) -> some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 16) {
+            // Color image
             displayView(url: url)
-                .frame(width: 112, height: 112)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                
+                .frame(width: 120, height: 120)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(Color(.systemGray5), lineWidth: 1)
+                )
             
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(name)
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.leading)
+            // Color info
+            VStack(alignment: .leading, spacing: 12) {
+                // Color name
+                Text(name)
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(.primary)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
+                
+                Spacer()
+                
+                // Stats
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "folder.badge.plus")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                            .frame(width: 20)
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("\(set)")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(.primary)
+                            Text("Sets")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
                     }
-                    Spacer()
-                }
-               
-                HStack(spacing: 16) {
-                    StatView(
-                        value: "Number of sets it in \(set)",
-                        label: "sets",
-                        icon: "folder.badge.plus",
-                        color: .red
-                    )
                     
-                    StatView(
-                        value: "Number of set parts \(part)",
-                        label: "part",
-                        icon: "tray.and.arrow.up",
-                        color: .green
-                    )
-                    
-//                    HStack(spacing: 5) {
-//                        Text("Number of sets it in \(set)")
-//                            .font(.caption)
-//                        
-//                        Text("Number of set parts \(part)")
-//                            .font(.caption)
-//                    }
+                    HStack(spacing: 8) {
+                        Image(systemName: "tray.and.arrow.up")
+                            .font(.caption)
+                            .foregroundColor(.green)
+                            .frame(width: 20)
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("\(part)")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(.primary)
+                            Text("Set Parts")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(14)
+        .padding(16)
         .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
-                .shadow(
-                    color: .black.opacity(isPressed ? 0.15 : 0.05),
-                    radius: isPressed ? 8 : 4,
-                    x: 0,
-                    y: isPressed ? 4 : 2
-                )
-                .scaleEffect(isPressed ? 0.99 : 1.0)
-                .animation(.spring(response: 0.2, dampingFraction: 0.8), value: isPressed)
+            RoundedRectangle(cornerRadius: 18)
+                .fill(Color(.systemBackground))
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(Color(.systemGray5), lineWidth: 1)
+        )
+        .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
     }
     
     private func partHeaderMoc(
@@ -144,59 +205,112 @@ struct PartDetailsView: View {
         yearFrom: Int?,
         yearTo: Int?
     ) -> some View {
-        VStack(alignment: .center, spacing: 15) {
-            displayView(url: url)
-                .frame(width: 150, height: 150)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-            
-            VStack(alignment: .leading, spacing: 15) {
-                Text("part number (\(partNumber)) \(partName) color Id (\(partColorId))")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-//                    .background(Color.blue)
-//                    .clipShape(Capsule())
-                    .padding(8)
+        VStack(spacing: 0) {
+            // Background header with gradient
+            ZStack(alignment: .bottom) {
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color.orange.opacity(0.3),
+                        Color.red.opacity(0.2),
+                        Color(.systemBackground)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .frame(height: 180)
                 
-                HStack(spacing: 16) {
+                // Part image
+                VStack {
+                    displayView(url: url)
+                        .frame(width: 160, height: 160)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.white, lineWidth: 3)
+                        )
+                        .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 6)
+                }
+                .offset(y: 20)
+            }
+            .padding(.bottom, 20)
+            
+            // Part info section
+            VStack(spacing: 12) {
+                // Part name
+                Text(partName)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(.horizontal)
+                
+                // Part number badge
+                HStack(spacing: 8) {
+                    Image(systemName: "number")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Text(partNumber)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.secondary)
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(Color(.systemGray6))
+                .clipShape(Capsule())
+                
+                // Color ID badge
+                HStack(spacing: 6) {
+                    Image(systemName: "paintpalette.fill")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Text("Color ID: \(partColorId)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background(Color(.systemGray6))
+                .clipShape(Capsule())
+                
+                // Year range
+                if let yearFrom = yearFrom, let yearTo = yearTo, yearFrom > 0, yearTo > 0 {
                     HStack(spacing: 6) {
                         Image(systemName: "calendar")
                             .font(.caption)
-                        Text(" Year from \(yearFrom ?? 0000 ) to \(yearTo ?? 0000)")
+                            .foregroundColor(.secondary)
+                        Text("\(yearFrom) - \(yearTo)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
                     }
-                    
-//                    HStack(spacing: 4) {
-//                        Image(systemName: "cube.box")
-//                            .font(.caption)
-////                        Text("\(legoParts.molds)")
-//                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color(.systemGray6))
+                    .clipShape(Capsule())
                 }
             }
+            .padding(.top, 20)
+            .padding(.bottom, 16)
         }
-        .background()
-//        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-        .scaleEffect(1.0)
-        .animation(.easeInOut(duration: 0.2), value: false)
     }
     
     private func displayView(url: String?) -> some View {
-        AsyncImage(url: URL(string: url ?? "unkown")) { phase in
-            switch  phase {
+        AsyncImage(url: URL(string: url ?? "unknown")) { phase in
+            switch phase {
                 case .empty:
                     ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 case .success(let image):
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                 default:
-                    Image(systemName: "x-mark")
+                    Image(systemName: "cube.box")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
+                        .foregroundColor(.secondary)
             }
-            
         }
     }
     

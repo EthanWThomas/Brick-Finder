@@ -10,7 +10,6 @@ import SwiftUI
 struct SetDetailView: View {
     var legoSet: LegoSet.SetResults
     
-    
     @StateObject var viewModel: SetVM
     @StateObject var inventoryVM: InventoryPartsVM
     
@@ -24,12 +23,14 @@ struct SetDetailView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            setheader
-            
-            customTabBar()
-                .padding(.vertical, 18)
-            
-            setdetailList
+            NavigationStack {
+                setheader
+                
+                customTabBar()
+                    .padding(.vertical, 18)
+                
+                setdetailList
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))
@@ -208,6 +209,8 @@ struct SetDetailView: View {
                 .padding(.bottom, -100)
         }
     }
+    
+    
     
     private var deteilDisplay: some View {
         ScrollView(.vertical) {
@@ -528,6 +531,7 @@ struct SetDetailView: View {
                     Text("\(instructionsCount) building instruction\(instructionsCount == 1 ? "" : "s")")
                         .font(.caption)
                         .foregroundColor(.secondary)
+                    instructionPage(lego: legoSet)
                 }
             }
             
@@ -595,6 +599,21 @@ struct SetDetailView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
             }
+        }
+    }
+    
+    private func instructionPage(lego set: LegoSet.SetResults) -> some View {
+        NavigationLink {
+            LegoInstructionsView(legoSet: legoSet, viewModel: viewModel)
+//            LegoInstructionsView(legoSet: set, legoIntructions: legoInstroctions, viewModel: viewModel)
+        } label: {
+            Text("Lego Instructions")
+                .font(.headline)
+                .font(.system(size: 10, weight: .medium))
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(Color.blue.opacity(0.1))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
     

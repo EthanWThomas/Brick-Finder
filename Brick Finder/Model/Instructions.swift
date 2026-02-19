@@ -13,6 +13,7 @@ struct Instructions: Codable {
     struct InstructionsResult: Codable {
         let url: String?
         let description: String?
+        var id = UUID().uuidString
         
         enum CodingKeys: String, CodingKey {
             case url = "URL"

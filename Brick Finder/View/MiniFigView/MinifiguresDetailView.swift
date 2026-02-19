@@ -30,12 +30,9 @@ struct MinifiguresDetailView: View {
                 .padding(.vertical, 18)
             
             minifiguresList
-                .padding()
-            Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))
-        .ignoresSafeArea(edges: .bottom)
         .onAppear {
             addToHistory()
             print("add to history")
@@ -44,62 +41,89 @@ struct MinifiguresDetailView: View {
     
     private var heroSelection: some View {
         VStack(spacing: 0) {
-            VStack {
-                displayUrlImage(url: minifigure.setImageURL)
-                    .frame(width: 150, height: 150)
-                    .clipShape(Circle())
-            }
-            .offset(x: 0, y: 55)
-            .frame(maxWidth: .infinity)
-            .background(Color.yellow)
-            .padding(.bottom, 55)
-            
-            HStack(alignment: .center) {
-                Text(minifigure.name ?? "Not Found")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .padding()
-                    .foregroundColor(.primary)
+            // Background header with gradient
+            ZStack(alignment: .bottom) {
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color.blue.opacity(0.3),
+                        Color.purple.opacity(0.2),
+                        Color(.systemBackground)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .frame(height: 200)
                 
-                Text(minifigure.setNum ?? "Not Found")
-                    .font(.footnote)
-                    .accentColor(.gray)
-                    .padding()
+                // Minifigure image
+                VStack {
+                    displayUrlImage(url: minifigure.setImageURL)
+                        .frame(width: 160, height: 160)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(Color.white, lineWidth: 4)
+                        )
+                        .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 6)
+                }
+                .offset(y: 30)
             }
+            .padding(.bottom, 30)
+            
+            // Name and set number section
+            VStack(spacing: 8) {
+                Text(minifigure.name ?? "Not Found")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(.horizontal)
+                
+                HStack(spacing: 8) {
+                    Image(systemName: "number")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Text(minifigure.setNum ?? "Not Found")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(Color(.systemGray6))
+                        .clipShape(Capsule())
+                }
+            }
+            .padding(.top, 20)
+            .padding(.bottom, 16)
         }
     }
     
     private var minifiguresList: some View {
-        VStack(spacing: 16) {
-            GeometryReader {
-                let size = $0.size
-                
-                ScrollView(.horizontal) {
-                    LazyHStack(spacing: 0) {
-                        partSection
-                            .id(MinifigureTab.parts)
-                            .containerRelativeFrame(.horizontal)
-                        
-                        setsSection
-                            .id(MinifigureTab.sets)
-                            .containerRelativeFrame(.horizontal)
-                    }
-                    .scrollTargetLayout()
-                    .offsetX { value in
-                        let progress = -value / (size.width * CGFloat(MinifigureTab.allCases.count - 1))
-                        
-                        tabProgress = max(min(progress, 1), 0)
-                        
-                    }
+        GeometryReader {
+            let size = $0.size
+            
+            ScrollView(.horizontal) {
+                LazyHStack(spacing: 0) {
+                    partSection
+                        .id(MinifigureTab.parts)
+                        .containerRelativeFrame(.horizontal)
+                    
+                    setsSection
+                        .id(MinifigureTab.sets)
+                        .containerRelativeFrame(.horizontal)
                 }
-                .scrollPosition(id: $selectedtab)
-                .scrollIndicators(.hidden)
-                .scrollTargetBehavior(.paging)
-                .scrollClipDisabled()
+                .scrollTargetLayout()
+                .offsetX { value in
+                    let progress = -value / (size.width * CGFloat(MinifigureTab.allCases.count - 1))
+                    tabProgress = max(min(progress, 1), 0)
+                }
             }
+            .scrollPosition(id: $selectedtab)
+            .scrollIndicators(.hidden)
+            .scrollTargetBehavior(.paging)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .background(.gray.opacity(0.1))
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.systemGray6).opacity(0.3))
         .onAppear {
             partVM.getminifigePart(figNumber: minifigure.setNum ?? "Not Found")
             minifigureInSetTheyCameIn.getMinifigInSetCameIn(figNumber: minifigure.setNum ?? "Not Found")
@@ -107,121 +131,170 @@ struct MinifiguresDetailView: View {
     }
     
     private var partSection: some View {
-        ScrollView(.vertical) {
-            VStack(spacing: 32) {
-                Text("Minifigure Parts")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 20) {
+                // Header
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Minifigure Parts")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
+                    
+                    if let parts = partVM.inventoryPart, !parts.isEmpty {
+                        Text("\(parts.count) part\(parts.count == 1 ? "" : "s")")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 15)
+                .padding(.top, 8)
                 
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), content:  {
-                    if let parts = partVM.inventoryPart {
+                // Parts grid
+                if partVM.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 40)
+                } else if let parts = partVM.inventoryPart, !parts.isEmpty {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 16) {
                         ForEach(parts, id: \.id) { part in
                             partCard(
                                 image: part.part.partImageURL,
                                 part: part.part.partNumber,
                                 set: part.quantity)
-    //                        MinifigPartCard(part: part)
                         }
                     }
-                })
-                .padding(15)
-                .scrollIndicators(.hidden)
-                .scrollClipDisabled()
-                .mask {
-                    Rectangle()
-                        .padding(.bottom, -100)
+                    .padding(.horizontal, 15)
+                } else {
+                    VStack(spacing: 12) {
+                        Image(systemName: "cube.box")
+                            .font(.largeTitle)
+                            .foregroundColor(.secondary)
+                        Text("No parts found")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 40)
                 }
             }
+            .padding(.bottom, 20)
             .onSubmit {
                 partVM.getminifigePart(figNumber: minifigure.setNum ?? "Not Found")
             }
         }
-//        .padding(.vertical, 48)
     }
     
     private var setsSection: some View {
-        ScrollView(.vertical) {
-            VStack(spacing: 32) {
-                VStack(spacing: 16) {
-                    Text("This Minifigure Set it appears in")
-                        .font(.largeTitle)
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 20) {
+                // Header
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Sets This Minifigure Appears In")
+                        .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
+                    
+                    if let sets = minifigureInSetTheyCameIn.minifigInSet, !sets.isEmpty {
+                        Text("\(sets.count) set\(sets.count == 1 ? "" : "s")")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
                 }
-                LazyVStack(spacing: 16) {
-                    if let minifigInSetCameIn = minifigureInSetTheyCameIn.minifigInSet {
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 15)
+                .padding(.top, 8)
+                
+                // Sets list
+                if minifigureInSetTheyCameIn.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 40)
+                } else if let minifigInSetCameIn = minifigureInSetTheyCameIn.minifigInSet, !minifigInSetCameIn.isEmpty {
+                    LazyVStack(spacing: 16) {
                         ForEach(minifigInSetCameIn, id: \.setNum) { legoSet in
                             setItCameInCard(
                                 name: legoSet.name,
                                 set: legoSet.setNum,
                                 setUrl: legoSet.setImageURL,
                                 numberOf: legoSet.numberOfPart)
-                            //                        MinifigureSetCard(lego: legoSet)
-                        }
-                        .onSubmit {
-                            minifigureInSetTheyCameIn.getMinifigInSetCameIn(figNumber: minifigure.setNum ?? "Not Found")
                         }
                     }
+                    .padding(.horizontal, 15)
+                } else {
+                    VStack(spacing: 12) {
+                        Image(systemName: "folder")
+                            .font(.largeTitle)
+                            .foregroundColor(.secondary)
+                        Text("No sets found")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 40)
                 }
-                .padding(15)
-               
             }
-            .scrollIndicators(.hidden)
-            .scrollClipDisabled()
-            .mask {
-                Rectangle()
-                    .padding(.bottom, -100)
+            .padding(.bottom, 20)
+            .onSubmit {
+                minifigureInSetTheyCameIn.getMinifigInSetCameIn(figNumber: minifigure.setNum ?? "Not Found")
             }
-//            .padding(.vertical, 48)
-//            .background(Color(.systemGray6).opacity(0.5))
         }
     }
     
     private func partCard(image url: String?, part num: String?, set quantity: Int) -> some View {
-        VStack {
+        VStack(spacing: 12) {
+            // Part image
             displayUrlImage(url: url)
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 100, height: 100)
-                
-            HStack(spacing: 8) {
-                Text("\(quantity.formatted(.number)) x")
+                .padding(.top, 8)
+            
+            // Quantity badge
+            HStack(spacing: 4) {
+                Text("\(quantity.formatted(.number))")
                     .font(.headline)
-                    .padding()
-                    .foregroundColor(.secondary)
-                
-                Text(num ?? "no number")
-                    .font(.caption)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color(.systemGray5))
-                    .clipShape(Capsule())
-                    .overlay(
-                        Capsule()
-                            .stroke(Color(.systemGray4), lineWidth: 1)
-                    )
+                    .fontWeight(.bold)
+                Text("×")
+                    .font(.subheadline)
             }
-        }
-        .padding(24)
-        .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color.white, Color(.systemGray6).opacity(0.3)]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+            .foregroundColor(.white)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(
+                Capsule()
+                    .fill(Color.blue)
             )
+            
+            // Part number
+            Text(num ?? "no number")
+                .font(.caption)
+                .fontWeight(.medium)
+                .foregroundColor(.secondary)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 6)
+                .frame(maxWidth: .infinity)
+                .background(Color(.systemGray6))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(.systemBackground))
         )
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-        .scaleEffect(1.0)
-        .animation(.easeInOut(duration: 0.2), value: false)
-        .frame(height: 210)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color(.systemGray5), lineWidth: 1)
+        )
+        .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
     }
     
     private func setItCameInCard(name: String?, set number: String?, setUrl url: String?, numberOf part: Int?) -> some View {
         HStack(spacing: 16) {
+            // Set image
             displayUrlImage(url: url)
-                .frame(width: 112, height: 112)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .frame(width: 120, height: 120)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
                 .overlay(
                     ZStack {
                         LinearGradient(
@@ -229,67 +302,59 @@ struct MinifiguresDetailView: View {
                             startPoint: .top,
                             endPoint: .bottom
                         )
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
                         
                         VStack {
                             Spacer()
                             HStack {
-                                Text("\(number ?? "None")")
-                                    .font(.system(size: 10, weight: .medium))
+                                Text(number ?? "N/A")
+                                    .font(.system(size: 11, weight: .semibold))
                                     .foregroundStyle(Color.white)
-                                    .padding(.horizontal, 6)
-                                    .padding(.vertical, 3)
-                                    .background(.ultraThinMaterial)
-                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 4)
+                                    .background(Color.black.opacity(0.5))
+                                    .clipShape(RoundedRectangle(cornerRadius: 6))
                                 Spacer()
                             }
                         }
-                        .padding(8)
+                        .padding(10)
                     }
                 )
             
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(name ?? "No Name yet")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundStyle(Color.primary)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.leading)
+            // Set info
+            VStack(alignment: .leading, spacing: 10) {
+                // Set name
+                Text(name ?? "No Name")
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundStyle(Color.primary)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
+                
+                Spacer()
+                
+                // Pieces stat
+                if let partCount = part, partCount > 0 {
+                    HStack(spacing: 8) {
+                        StatView(
+                            value: "\(partCount)",
+                            label: "Pieces",
+                            icon: "cube.box",
+                            color: .green)
                     }
-                    Spacer()
-                }
-                
-                HStack(spacing: 16) {
-                    StatView(
-                        value: "\(part ?? 0)",
-                        label: "pleces",
-                        icon: "cube.box",
-                        color: .green)
-                    
-                }
-                
-                HStack {
-                    Text("\(part ?? 0) pleces ")
-                        .font(.system(size: 10, weight: .semibold))
-                        .foregroundColor(.secondary)
-                    Spacer()
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(14)
+        .padding(16)
         .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
-                .shadow(
-                    color: .black.opacity(isPressed ? 0.15 : 0.05),
-                    radius: isPressed ? 8 : 4,
-                    x: 0,
-                    y: isPressed ? 4 : 2
-                )
-                .scaleEffect(isPressed ? 0.99 : 1.0)
-                .animation(.spring(response: 0.2, dampingFraction: 0.8), value: isPressed)
+            RoundedRectangle(cornerRadius: 18)
+                .fill(Color(.systemBackground))
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(Color(.systemGray5), lineWidth: 1)
+        )
+        .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
     }
     
     private func displayUrlImage(url: String?) -> some View {
