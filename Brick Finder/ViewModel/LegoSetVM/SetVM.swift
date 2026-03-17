@@ -25,6 +25,50 @@ class SetVM: ObservableObject {
     
     private let apiManager = RebrickableApi()
     private let brickableApiManager = BrickableAPI()
+
+    /// Loads the Set Detail screen dependencies concurrently (Brickable + Rebrickable + inventory).
+    /// Call this from the view using `.task(id:)` so it cancels automatically when the set changes.
+    @MainActor
+    func loadSetDetail(setNumber: String, inventoryVM: InventoryPartsVM) async {
+        isLoading = true
+        errorMessage = nil
+
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask { @MainActor in
+                await inventoryVM.loadSetInventory(setNumber: setNumber)
+            }
+
+            group.addTask { [weak self] in
+                guard let self else { return }
+                do {
+                    let info = try await self.brickableApiManager.getSet(setNumber: setNumber).sets
+                    await MainActor.run {
+                        self.setInfo = info
+                    }
+                } catch {
+                    await MainActor.run {
+                        self.errorMessage = error.localizedDescription
+                    }
+                }
+            }
+
+            group.addTask { [weak self] in
+                guard let self else { return }
+                do {
+                    let mocs = try await self.apiManager.getAlternateLegoSet(set: setNumber).results
+                    await MainActor.run {
+                        self.legoSetMOCS = mocs
+                    }
+                } catch {
+                    await MainActor.run {
+                        self.errorMessage = error.localizedDescription
+                    }
+                }
+            }
+        }
+
+        isLoading = false
+    }
      
     var searchLegoSet: [LegoSet.SetResults]? {
         get { return getsearchResult() }

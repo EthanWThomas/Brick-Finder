@@ -24,7 +24,8 @@ struct SetsCardView: View {
                         image
                             .resizable()
                     default:
-                        Image(systemName: "xmark.circle.fill")
+                        Image("legoRedBrick")
+                            .resizable()
                             .foregroundColor(.red)
                 }
             }

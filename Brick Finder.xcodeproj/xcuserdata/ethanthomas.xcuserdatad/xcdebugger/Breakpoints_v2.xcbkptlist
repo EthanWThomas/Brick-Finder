@@ -30,9 +30,9 @@
             filePath = "Brick Finder/View/PartsView/PartDetailsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "displayPart"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "partHeader"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -78,9 +78,9 @@
             filePath = "Brick Finder/View/PartsView/PartDetailsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "displayPart"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "partHeader"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -94,8 +94,8 @@
             filePath = "Brick Finder/View/PartsView/PartDetailsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "partHeader"
             landmarkType = "24">
          </BreakpointContent>
@@ -126,9 +126,9 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
-            landmarkName = "setPartDisplay"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
+            landmarkName = "setdetailList"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -142,8 +142,8 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "setdetailList"
             landmarkType = "24">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "setdetailList"
             landmarkType = "24">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "setdetailList"
             landmarkType = "24">
          </BreakpointContent>
@@ -190,9 +190,9 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
-            landmarkName = "minifigureDisplay"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "setPartDisplay"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -206,9 +206,9 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
-            landmarkName = "setPartDisplay"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "setdetailList"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -222,9 +222,9 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "setPartDisplay"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "setdetailList"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -238,8 +238,8 @@
             filePath = "Brick Finder/View/PartsView/PartDetailsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "partHeader"
             landmarkType = "24">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "Brick Finder/View/PartsView/PartDetailsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "partHeader"
             landmarkType = "24">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "Brick Finder/View/PartsView/PartDetailsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "partHeader"
             landmarkType = "24">
          </BreakpointContent>
@@ -286,8 +286,8 @@
             filePath = "Brick Finder/View/PartsView/PartDetailsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "partHeader"
             landmarkType = "24">
          </BreakpointContent>
@@ -302,8 +302,8 @@
             filePath = "Brick Finder/View/PartsView/PartDetailsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
             landmarkName = "partHeader"
             landmarkType = "24">
          </BreakpointContent>
@@ -318,8 +318,8 @@
             filePath = "Brick Finder/View/PartsView/PartDetailsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
             landmarkName = "partHeader"
             landmarkType = "24">
          </BreakpointContent>
@@ -334,9 +334,9 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
-            landmarkName = "deteilDisplay"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
+            landmarkName = "mocsDisplay"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -350,9 +350,9 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
-            landmarkName = "deteilDisplay"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
+            landmarkName = "mocsDisplay"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -366,8 +366,8 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "setdetailList"
             landmarkType = "24">
          </BreakpointContent>
@@ -382,9 +382,9 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "setPartDisplay"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "setdetailList"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -416,7 +416,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "151"
             endingLineNumber = "151"
-            landmarkName = "getSetInfo(with:)"
+            landmarkName = "searchLegoSetWithAThemeAndYear()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -430,9 +430,9 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
-            landmarkName = "deteilDisplay"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
+            landmarkName = "mocsDisplay"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -462,8 +462,8 @@
             filePath = "Brick Finder/View/SetView/SetDetailView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "530"
-            endingLineNumber = "530"
+            startingLineNumber = "517"
+            endingLineNumber = "517"
             landmarkName = "detailCardView(number:name:year:theme:ThemeGroup:category:subTheme:pleces:minifigs:rating:availability:instructionsCount:tags:description:setImageURL:retailPrice:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -528,7 +528,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "137"
             endingLineNumber = "137"
-            landmarkName = "getLegoIntructions(with:)"
+            landmarkName = "searchLegoSetWithAThemeAndYear()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -800,8 +800,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "52"
             endingLineNumber = "52"
-            landmarkName = "getInventoryPart(with:)"
-            landmarkType = "7">
+            landmarkName = "InventoryPartsVM"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -130,9 +130,9 @@ struct HomeView: View {
                }
                .navigationBarHidden(true)
            }
-           .sheet(isPresented: $showingAddItem) {
-               AddItemView()
-           }
+//           .sheet(isPresented: $showingAddItem) {
+//               AddItemView()
+//           }
        }
 }
 

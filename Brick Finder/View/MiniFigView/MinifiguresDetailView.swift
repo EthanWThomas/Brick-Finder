@@ -367,7 +367,7 @@ struct MinifiguresDetailView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                 default:
-                    Image("legoLogo")
+                    Image("legoRedBrick")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
             }

@@ -28,14 +28,19 @@ struct SetDetailView: View {
                 
                 customTabBar()
                     .padding(.vertical, 18)
+                    .background(Color(.systemBackground))
+                    .zIndex(1)
                 
                 setdetailList
+                    .zIndex(0)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))
         .edgesIgnoringSafeArea(.bottom)
     }
+    
+    
     
     var setheader: some View {
         VStack(alignment: .center, spacing: 15) {
@@ -86,7 +91,7 @@ struct SetDetailView: View {
     }
     
     private var setdetailList: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 0) {
             GeometryReader {
                 let size = $0.size
                 
@@ -119,21 +124,22 @@ struct SetDetailView: View {
                 .scrollPosition(id: $selectedtab)
                 .scrollIndicators(.hidden)
                 .scrollTargetBehavior(.paging)
-                .scrollClipDisabled()
+                // Keep pages from drawing under the tab bar/header area.
+                .clipped()
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.gray.opacity(0.1))
-        .onAppear {
-            inventoryVM.getInventoryPart(with: legoSet.setNumber ?? "No set number")
-            inventoryVM.getInventoryMinifigerInSet(with: legoSet.setNumber ?? "No set number")
-            viewModel.getAlternateBuilds(with: legoSet.setNumber ?? "No set number")
-            viewModel.getSetInfo(with: legoSet.setNumber ?? "No set number")
+        .task(id: legoSet.setNumber ?? "No set number") {
+            await viewModel.loadSetDetail(
+                setNumber: legoSet.setNumber ?? "No set number",
+                inventoryVM: inventoryVM
+            )
         }
     }
     
     private var setPartDisplay: some View {
-        ScrollView(.vertical) {
+        ScrollView(.vertical, showsIndicators: false) {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), content:  {
                 if let parts = inventoryVM.setInventoryPart {
                     ForEach(parts, id: \.id) { legoPart in
@@ -148,17 +154,13 @@ struct SetDetailView: View {
                 }
             })
             .padding(15)
+            .padding(.top, 8)
         }
-        .scrollIndicators(.hidden)
-        .scrollClipDisabled()
-        .mask {
-            Rectangle()
-                .padding(.bottom, -100)
-        }
+        
     }
     
     private var minifigureDisplay: some View {
-        ScrollView(.vertical) {
+        ScrollView(.vertical, showsIndicators: false) {
             LazyVGrid(columns: Array(repeating: GridItem(), count: 2), content:  {
                 if let minifigures = inventoryVM.getInventoryMinifiger {
                     ForEach(minifigures, id: \.setNum) { legoMinfigures in
@@ -173,47 +175,57 @@ struct SetDetailView: View {
                 }
             })
             .padding(15)
+            .padding(.top, 8)
         }
-        .scrollIndicators(.hidden)
-        .scrollClipDisabled()
-        .mask {
-            Rectangle()
-                .padding(.bottom, -100)
-        }
+        
     }
     
     private var mocsDisplay: some View {
-        ScrollView(.vertical) {
+        ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(spacing: 16) {
                 if let mocs = viewModel.legoSetMOCS {
-                    ForEach(mocs, id: \.setNumber) { alternateBuilds in
-                        mocsCard(
-                            name: alternateBuilds.name,
-                            creator: alternateBuilds.designerName,
-                            year: alternateBuilds.year,
-                            set: alternateBuilds.setNumber,
-                            moc: alternateBuilds.mocImageUrl,
-                            numberOf: alternateBuilds.numberOfPart)
+                    if mocs.isEmpty {
+                        VStack(spacing: 10) {
+                            Image(systemName: "sparkles")
+                                .font(.largeTitle)
+                                .foregroundColor(.secondary)
+                            
+                            Text("This set has no MOCs")
+                                .font(.headline)
+                                .foregroundColor(.secondary)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 40)
+                    } else {
+                        ForEach(mocs, id: \.setNumber) { alternateBuilds in
+                            mocsCard(
+                                name: alternateBuilds.name,
+                                creator: alternateBuilds.designerName,
+                                year: alternateBuilds.year,
+                                set: alternateBuilds.setNumber,
+                                moc: alternateBuilds.mocImageUrl,
+                                numberOf: alternateBuilds.numberOfPart)
+                        }
+                        .onSubmit {
+                            viewModel.getAlternateBuilds(with: legoSet.setNumber ?? "no set number")
+                        }
                     }
-                    .onSubmit {
-                        viewModel.getAlternateBuilds(with: legoSet.setNumber ?? "no set number")
-                    }
+                } else {
+                    ProgressView()
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 40)
                 }
             }
             .padding(15)
+            .padding(.top, 8)
         }
-        .scrollIndicators(.hidden)
-        .scrollClipDisabled()
-        .mask {
-            Rectangle()
-                .padding(.bottom, -100)
-        }
+        
     }
     
     
     
     private var deteilDisplay: some View {
-        ScrollView(.vertical) {
+        ScrollView(.vertical, showsIndicators: false) {
             if let details = viewModel.setInfo {
                 ForEach(details, id: \.setID) { setDeteils in
                     detailCardView(
@@ -239,12 +251,7 @@ struct SetDetailView: View {
                 }
             }
         }
-        .scrollIndicators(.hidden)
-        .scrollClipDisabled()
-        .mask {
-            Rectangle()
-                .padding(.bottom, -100)
-        }
+        .padding(.top, 8)
     }
     
     private func partCard(image url: String?, part num: String?, set quantity: Int) -> some View {
@@ -531,7 +538,7 @@ struct SetDetailView: View {
                     Text("\(instructionsCount) building instruction\(instructionsCount == 1 ? "" : "s")")
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    instructionPage(lego: legoSet)
+//                    instructionPage(lego: legoSet)
                 }
             }
             
@@ -595,7 +602,7 @@ struct SetDetailView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                 default:
-                    Image("legoLogo")
+                    Image("legoMinifigure")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
             }

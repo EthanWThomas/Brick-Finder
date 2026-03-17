@@ -45,33 +45,46 @@ class InventoryPartsVM: ObservableObject {
     
     @MainActor
     func getInventoryPart(with setNumber: String) {
-        isLoading = true
-        
-        Task {
-            do {
-                self.setInventoryPart = try await apiManager.getInvetoryPartInASet(setNum: setNumber).results
-                self.isLoading = false
-            } catch {
-                print(error)
-                self.errorMessage = error.localizedDescription
-                self.isLoading = false
-            }
+        Task { @MainActor in
+            await loadSetInventory(setNumber: setNumber, includeMinifigs: false)
         }
     }
     
     @MainActor
     func getInventoryMinifigerInSet(with setNumber: String) {
+        Task { @MainActor in
+            await loadSetInventory(setNumber: setNumber, includeParts: false)
+        }
+    }
+
+    /// Loads inventory parts + minifigs concurrently for a set.
+    /// Use this from a parent loader (e.g. `SetVM`) to avoid multiple overlapping Tasks.
+    @MainActor
+    func loadSetInventory(setNumber: String, includeParts: Bool = true, includeMinifigs: Bool = true) async {
         isLoading = true
-        
-        Task {
-            do {
-                self.getInventoryMinifiger = try await apiManager.getInvetoryMinifigerInASet(with: setNumber).results
-                self.isLoading = false
-            } catch {
-                print(error)
-                self.errorMessage = error.localizedDescription
-                self.isLoading = false
+        errorMessage = nil
+
+        do {
+            async let partsTask: [InventoryParts.PartResult]? = includeParts
+            ? apiManager.getInvetoryPartInASet(setNum: setNumber).results
+            : nil
+
+            async let minifigsTask: [Lego.LegoResults]? = includeMinifigs
+            ? apiManager.getInvetoryMinifigerInASet(with: setNumber).results
+            : nil
+
+            if includeParts {
+                setInventoryPart = try await partsTask
             }
+            if includeMinifigs {
+                getInventoryMinifiger = try await minifigsTask
+            }
+
+            isLoading = false
+        } catch {
+            print(error)
+            errorMessage = error.localizedDescription
+            isLoading = false
         }
     }
     

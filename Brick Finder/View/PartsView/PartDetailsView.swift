@@ -31,8 +31,11 @@ struct PartDetailsView: View {
         .onAppear {
             viewModel.getDetailAboutSpecificPart(partNumber: legoPart.partNumber ?? "No part Number")
             viewModel.getLegoPartsColor(part: legoPart.partNumber ?? "No part Number")
+            
         }
     }
+    
+ 
     
     
     private var partHeader: some View {

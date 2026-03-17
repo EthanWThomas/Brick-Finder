@@ -26,8 +26,8 @@ struct MinifigureCardView: View {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(Color(.systemGray5))
                             .overlay {
-                                Image(systemName: "person,fill")
-                                    .foregroundStyle(Color.gray)
+                                Image("legoMinifigure")
+                                    .resizable()
                                     .font(.system(size: 24))
                             }
                 }
