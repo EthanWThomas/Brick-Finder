@@ -28,13 +28,15 @@ class SetVM: ObservableObject {
 
     /// Loads the Set Detail screen dependencies concurrently (Brickable + Rebrickable + inventory).
     /// Call this from the view using `.task(id:)` so it cancels automatically when the set changes.
-    @MainActor
     func loadSetDetail(setNumber: String, inventoryVM: InventoryPartsVM) async {
-        isLoading = true
-        errorMessage = nil
+        await MainActor.run {
+            isLoading = true
+            errorMessage = nil
+        }
 
+        // Phase 1: prioritize the Details tab (set info) + inventory.
         await withTaskGroup(of: Void.self) { group in
-            group.addTask { @MainActor in
+            group.addTask {
                 await inventoryVM.loadSetInventory(setNumber: setNumber)
             }
 
@@ -42,32 +44,28 @@ class SetVM: ObservableObject {
                 guard let self else { return }
                 do {
                     let info = try await self.brickableApiManager.getSet(setNumber: setNumber).sets
-                    await MainActor.run {
-                        self.setInfo = info
-                    }
+                    await MainActor.run { self.setInfo = info }
                 } catch {
-                    await MainActor.run {
-                        self.errorMessage = error.localizedDescription
-                    }
-                }
-            }
-
-            group.addTask { [weak self] in
-                guard let self else { return }
-                do {
-                    let mocs = try await self.apiManager.getAlternateLegoSet(set: setNumber).results
-                    await MainActor.run {
-                        self.legoSetMOCS = mocs
-                    }
-                } catch {
-                    await MainActor.run {
-                        self.errorMessage = error.localizedDescription
-                    }
+                    await MainActor.run { self.errorMessage = error.localizedDescription }
                 }
             }
         }
 
-        isLoading = false
+        await MainActor.run { isLoading = false }
+
+        // Phase 2: load MOCs after the details are likely visible.
+        Task { [weak self] in
+            guard let self else { return }
+            if Task.isCancelled { return }
+            do {
+                let mocs = try await self.apiManager.getAlternateLegoSet(set: setNumber).results
+                if Task.isCancelled { return }
+                await MainActor.run { self.legoSetMOCS = mocs }
+            } catch {
+                if Task.isCancelled { return }
+                await MainActor.run { self.errorMessage = error.localizedDescription }
+            }
+        }
     }
      
     var searchLegoSet: [LegoSet.SetResults]? {
@@ -203,6 +201,9 @@ class SetVM: ObservableObject {
     
     @MainActor
     func getLegoSetWithTeme(themeId: String) {
+        isLoading = true
+        errorMessage = nil
+
         Task {
             do {
                 self.legoSet = try await apiManager.getSetWithThemeId(themeId: themeId).results
@@ -210,6 +211,7 @@ class SetVM: ObservableObject {
             } catch {
                 print(error)
                 self.errorMessage = error.localizedDescription
+                self.legoSet = []
                 self.isLoading = false
             }
         }

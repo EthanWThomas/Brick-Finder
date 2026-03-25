@@ -14,6 +14,8 @@ struct PartsScreen: View {
     
     @State private var showDropdown = false
     @State var savedPartViewModel: SavedLegoPartVM
+
+    @StateObject private var partCategoriesVM = PartCategoryViewModel()
     
     init(context: ModelContext) {
         self.savedPartViewModel = SavedLegoPartVM(context: context)
@@ -28,9 +30,13 @@ struct PartsScreen: View {
                     HStack {
                         Menu("Category") {
                             Picker("lego", selection: $viewModel.partId) {
-                                ForEach(PartCategory.allCases, id: \.id) { theme in
-                                    Text(theme.displayName)
-                                        .tag(theme.rawValue)
+                                if partCategoriesVM.isLoading {
+                                    Text("Loading...")
+                                } else {
+                                    ForEach(partCategoriesVM.categories, id: \.id) { cat in
+                                        Text(cat.name)
+                                            .tag(String(cat.id))
+                                    }
                                 }
                             }
                         }
@@ -54,6 +60,13 @@ struct PartsScreen: View {
                 
                 partCard
             }
+        }
+        .task {
+            await partCategoriesVM.loadAllPartCategories()
+        }
+        .onChange(of: partCategoriesVM.categories) { _, newValue in
+            guard viewModel.partId.isEmpty, let first = newValue.first else { return }
+            viewModel.partId = String(first.id)
         }
     }
     

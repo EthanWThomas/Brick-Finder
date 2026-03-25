@@ -11,6 +11,11 @@ struct RebrickableApi {
     static var apiKey = "428202502f439447097e345473057945"
 }
 
+struct BrickableAPI {
+    static var apiKey = "3-cg4C-AeNS-cbqn7"
+}
+
+
 enum RequestError: Error {
     case failedToCreateURL
 }

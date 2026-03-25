@@ -23,9 +23,7 @@ extension BrickableAPI {
         
         switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
             case 200: return try JSONDecoder().decode(Instructions.self, from: data)
-            case 201, 204, 400, 401, 403, 404, 429: throw try JSONDecoder().decode(ErrorResponse.self, from: data)
             default: throw ResponseError.unownedErrorOccurred
-                
         }
         
     }

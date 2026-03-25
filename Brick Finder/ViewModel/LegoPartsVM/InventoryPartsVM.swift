@@ -43,26 +43,25 @@ class InventoryPartsVM: ObservableObject {
         }
     }
     
-    @MainActor
     func getInventoryPart(with setNumber: String) {
-        Task { @MainActor in
+        Task {
             await loadSetInventory(setNumber: setNumber, includeMinifigs: false)
         }
     }
     
-    @MainActor
     func getInventoryMinifigerInSet(with setNumber: String) {
-        Task { @MainActor in
+        Task {
             await loadSetInventory(setNumber: setNumber, includeParts: false)
         }
     }
 
     /// Loads inventory parts + minifigs concurrently for a set.
     /// Use this from a parent loader (e.g. `SetVM`) to avoid multiple overlapping Tasks.
-    @MainActor
     func loadSetInventory(setNumber: String, includeParts: Bool = true, includeMinifigs: Bool = true) async {
-        isLoading = true
-        errorMessage = nil
+        await MainActor.run {
+            isLoading = true
+            errorMessage = nil
+        }
 
         do {
             async let partsTask: [InventoryParts.PartResult]? = includeParts
@@ -73,18 +72,33 @@ class InventoryPartsVM: ObservableObject {
             ? apiManager.getInvetoryMinifigerInASet(with: setNumber).results
             : nil
 
+            var partsResult: [InventoryParts.PartResult]?
+            var minifigsResult: [Lego.LegoResults]?
             if includeParts {
-                setInventoryPart = try await partsTask
+                partsResult = try await partsTask
             }
             if includeMinifigs {
-                getInventoryMinifiger = try await minifigsTask
+                minifigsResult = try await minifigsTask
             }
 
-            isLoading = false
+            await MainActor.run {
+                if includeParts {
+                    setInventoryPart = partsResult
+                }
+                if includeMinifigs {
+                    getInventoryMinifiger = minifigsResult
+                }
+            }
+
+            await MainActor.run {
+                isLoading = false
+            }
         } catch {
             print(error)
-            errorMessage = error.localizedDescription
-            isLoading = false
+            await MainActor.run {
+                errorMessage = error.localizedDescription
+                isLoading = false
+            }
         }
     }
     

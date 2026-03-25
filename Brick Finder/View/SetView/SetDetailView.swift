@@ -227,28 +227,46 @@ struct SetDetailView: View {
     private var deteilDisplay: some View {
         ScrollView(.vertical, showsIndicators: false) {
             if let details = viewModel.setInfo {
-                ForEach(details, id: \.setID) { setDeteils in
-                    detailCardView(
-                        number: setDeteils.number ?? "No set number",
-                        name: setDeteils.name ?? "no name",
-                        year: setDeteils.year,
-                        theme: setDeteils.theme ?? "no theme yet",
-                        ThemeGroup: setDeteils.themeGroup ?? "no theme group",
-                        category: setDeteils.category ?? "no category",
-                        subTheme: setDeteils.subTheme ?? "no sub theme",
-                        pleces: setDeteils.pleces,
-                        minifigs: setDeteils.minifigs ?? 0,
-                        rating: setDeteils.rating ?? 0.0,
-                        availability: setDeteils.availability,
-                        instructionsCount: setDeteils.instructionsCount ?? 0,
-                        tags: setDeteils.extendedData?.tags ?? [],
-                        description: setDeteils.extendedData?.description ?? "",
-                        setImageURL: setDeteils.image?.imageURL ?? "no url",
-                        retailPrice: setDeteils.legoCom?.usa.retailPrice ?? 0.0)
+                if details.isEmpty {
+                    VStack(spacing: 10) {
+                        Image(systemName: "sparkles")
+                            .font(.largeTitle)
+                            .foregroundColor(.secondary)
+                        
+                        Text("This set has no deteil yet")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
+                } else {
+                    ForEach(details, id: \.setID) { setDeteils in
+                        detailCardView(
+                            number: setDeteils.number ?? "No set number",
+                            name: setDeteils.name ?? "no name",
+                            year: setDeteils.year,
+                            theme: setDeteils.theme ?? "no theme yet",
+                            ThemeGroup: setDeteils.themeGroup ?? "no theme group",
+                            category: setDeteils.category ?? "no category",
+                            subTheme: setDeteils.subTheme ?? "no sub theme",
+                            pleces: setDeteils.pleces,
+                            minifigs: setDeteils.minifigs ?? 0,
+                            rating: setDeteils.rating ?? 0.0,
+                            availability: setDeteils.availability,
+                            instructionsCount: setDeteils.instructionsCount ?? 0,
+                            tags: setDeteils.extendedData?.tags ?? [],
+                            description: setDeteils.extendedData?.description ?? "",
+                            setImageURL: setDeteils.image?.imageURL ?? "no url",
+                            retailPrice: setDeteils.legoCom?.usa.retailPrice ?? 0.0)
+                    }
+                    .onSubmit {
+                        viewModel.getSetInfo(with: legoSet.setNumber ?? "no set number error")
+                    }
                 }
-                .onSubmit {
-                    viewModel.getSetInfo(with: legoSet.setNumber ?? "no set number error")
-                }
+            } else {
+                ProgressView()
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
             }
         }
         .padding(.top, 8)
@@ -538,7 +556,7 @@ struct SetDetailView: View {
                     Text("\(instructionsCount) building instruction\(instructionsCount == 1 ? "" : "s")")
                         .font(.caption)
                         .foregroundColor(.secondary)
-//                    instructionPage(lego: legoSet)
+                    instructionPage(lego: legoSet)
                 }
             }
             

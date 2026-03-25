@@ -166,4 +166,59 @@ extension PartCategory {
     }
 }
 
+// MARK: - Rebrickable part categories (dynamic, no manual enum needed)
+
+/// Dynamic part categories pulled from Rebrickable.
+/// `id` matches what your API expects for `part_cat_id`.
+struct RebrickablePartCategory: Identifiable, Hashable {
+    var id: Int
+    var name: String
+}
+
+@MainActor
+final class PartCategoryViewModel: ObservableObject {
+    @Published private(set) var isLoading = false
+    @Published private(set) var errorMessage: String?
+    @Published var categories: [RebrickablePartCategory] = []
+
+    /// Fetches all part categories from Rebrickable.
+    func loadAllPartCategories() async {
+        isLoading = true
+        errorMessage = nil
+        do {
+            // https://rebrickable.com/api/v3/lego/part_categories/
+            let urlString = "https://rebrickable.com/api/v3/lego/part_categories/?page_size=1000&key=\(RebrickableApi.apiKey)"
+            guard let url = URL(string: urlString) else { throw RequestError.failedToCreateURL }
+
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+            let (data, response) = try await URLSession.shared.data(for: request)
+            switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
+            case 200:
+                let decoded = try JSONDecoder().decode(PartCategoriesResponse.self, from: data)
+                categories = decoded.results.map { .init(id: $0.id, name: $0.name) }
+            case 201, 204, 400, 401, 403, 404, 429:
+                throw try JSONDecoder().decode(ErrorResponse.self, from: data)
+            default:
+                throw ResponseError.unownedErrorOccurred
+            }
+        } catch {
+            categories = []
+            errorMessage = error.localizedDescription
+        }
+        isLoading = false
+    }
+
+    private struct PartCategoriesResponse: Decodable {
+        let results: [PartCategoryRow]
+    }
+
+    private struct PartCategoryRow: Decodable {
+        let id: Int
+        let name: String
+    }
+}
+
 

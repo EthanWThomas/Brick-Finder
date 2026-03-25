@@ -10,13 +10,15 @@ import SwiftUI
 struct LegoInstructionsView: View {
     var legoSet: LegoSet.SetResults
     
-    @StateObject var viewModel: SetVM
+    @ObservedObject var viewModel: SetVM
     
     var body: some View {
         displayInstructions
-            .onAppear {
-                if viewModel.instructions == nil {
-                    viewModel.getLegoIntructions(with: legoSet.setNumber ?? "No set number")
+            .task(id: legoSet.setNumber ?? "") {
+                let setNum = legoSet.setNumber ?? ""
+                guard !setNum.isEmpty else { return }
+                await MainActor.run {
+                    viewModel.getLegoIntructions(with: setNum)
                 }
             }
     }
@@ -67,14 +69,6 @@ struct LegoInstructionsView: View {
             .padding(15)
         }
         .scrollIndicators(.hidden)
-        .scrollClipDisabled()
-        .mask {
-            Rectangle()
-                .padding(.bottom, -100)
-        }
-        .onSubmit {
-            viewModel.getLegoIntructions(with: legoSet.setNumber ?? "no set number")
-        }
     }
     
     private func instructionCard(instruction: Instructions.InstructionsResult) -> some View {

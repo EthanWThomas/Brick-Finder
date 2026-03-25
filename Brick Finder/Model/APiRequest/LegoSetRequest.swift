@@ -106,7 +106,7 @@ extension RebrickableApi {
     
     // MARK: get all sets with a theme
     func getSetWithThemeId(themeId: String) async throws -> LegoSet {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(themeId)?key=\(RebrickableApi.apiKey)")
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(themeId)&key=\(RebrickableApi.apiKey)")
         else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
