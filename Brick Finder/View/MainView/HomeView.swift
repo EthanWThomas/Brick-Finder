@@ -17,6 +17,7 @@ struct HomeView: View {
     @State var partSavedDataVM: SavedLegoPartVM
     
     @StateObject private var minifigsViewModel = MinifiguresVM()
+    @StateObject private var inventoryViemModel = InventoryPartsVM()
     @StateObject private var setViewModel = SetVM()
     @StateObject private var partViewModel = PartVM()
     @StateObject private var themeViewModel = ThemeViewModel()
@@ -170,7 +171,7 @@ struct HomeView: View {
                             .padding(.horizontal)
                     } else if let sets = setViewModel.legoSet, !sets.isEmpty {
                         ForEach(sets, id: \.setNumber) { set in
-                            FeaturedSetCard(setInfo: set)
+                            listFeaturedSetCard(lego: set)
                                 .frame(width: 280)
                                 .padding(.vertical, 4)
                         }
@@ -194,6 +195,17 @@ struct HomeView: View {
                 .padding(.horizontal)
             }
             
+        }
+    }
+    
+    private func listFeaturedSetCard(lego set: LegoSet.SetResults) -> some View {
+        NavigationLink {
+            SetDetailView(
+                legoSet: set,
+                viewModel: setViewModel,
+                inventoryVM: inventoryViemModel)
+        } label: {
+            FeaturedSetCard(setInfo: set)
         }
     }
 }

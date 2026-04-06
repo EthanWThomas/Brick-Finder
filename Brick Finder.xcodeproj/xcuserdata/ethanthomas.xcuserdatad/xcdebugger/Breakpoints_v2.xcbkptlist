@@ -322,36 +322,6 @@
             endingLineNumber = "55"
             landmarkName = "partHeader"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "343AA2AD-5A53-4C84-9070-A1EE9CF96524 - 7aa560dd0a14d7f6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;&lt;&lt;opaque return type of SwiftUI.View.frame(width: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, height: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0, &lt;&lt;opaque return type of Brick_Finder.PartDetailsView.partHeaderMoc(partNumber: Swift.String, partName: Swift.String, partColorId: Swift.Int, partImage: Swift.Optional&lt;Swift.String&gt;, yearFrom: Swift.Optional&lt;Swift.Int&gt;, yearTo: Swift.Optional&lt;Swift.Int&gt;) -&gt; some&gt;&gt;.0&gt;, &lt;&lt;opaque return type of SwiftUI.View.frame(width: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, height: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0&gt; in Brick_Finder.PartDetailsView.partHeader.getter : some"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/View/PartsView/PartDetailsView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "55"
-                  endingLineNumber = "55">
-               </Location>
-               <Location
-                  uuid = "343AA2AD-5A53-4C84-9070-A1EE9CF96524 - 208f6db3d0841419"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.foregroundColor(Swift.Optional&lt;SwiftUI.Color&gt;) -&gt; some&gt;&gt;.0, SwiftUI.Text)&gt; in closure #1 () -&gt; SwiftUI._ConditionalContent&lt;SwiftUI._ConditionalContent&lt;&lt;&lt;opaque return type of SwiftUI.View.frame(width: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, height: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0, &lt;&lt;opaque return type of Brick_Finder.PartDetailsView.partHeaderMoc(partNumber: Swift.String, partName: Swift.String, partColorId: Swift.Int, partImage: Swift.Optional&lt;Swift.String&gt;, yearFrom: Swift.Optional&lt;Swift.Int&gt;, yearTo: Swift.Optional&lt;Swift.Int&gt;) -&gt; some&gt;&gt;.0&gt;, &lt;&lt;opaque return type of SwiftUI.View.frame(width: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, height: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0&gt; in Brick_Finder.PartDetailsView.partHeader.getter : some"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/View/PartsView/PartDetailsView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -720,50 +690,6 @@
             endingLineNumber = "21"
             landmarkName = "getInstructions(with:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "53C4C95D-2AA4-4436-B91E-B49D713FBCC4 - 51ebdc6ff09d4e90"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for Brick_Finder.BrickableAPI.getInstructions(with: Swift.String) async throws -&gt; Brick_Finder.Instructions"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/Model/APiRequest/InstructionsRequest.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21">
-               </Location>
-               <Location
-                  uuid = "53C4C95D-2AA4-4436-B91E-B49D713FBCC4 - 20b4c75df78fb0f2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for Brick_Finder.BrickableAPI.getInstructions(with: Swift.String) async throws -&gt; Brick_Finder.Instructions"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/Model/APiRequest/InstructionsRequest.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21">
-               </Location>
-               <Location
-                  uuid = "53C4C95D-2AA4-4436-B91E-B49D713FBCC4 - 4a63de398c41f493"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for Brick_Finder.BrickableAPI.getInstructions(with: Swift.String) async throws -&gt; Brick_Finder.Instructions"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/Model/APiRequest/InstructionsRequest.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -812,106 +738,6 @@
             endingLineNumber = "22"
             landmarkName = "SetVM"
             landmarkType = "3">
-            <Locations>
-               <Location
-                  uuid = "E7CC4C1C-1D3D-4EB0-8852-FC2E5012C938 - c4d2001fe9e91503"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "property wrapper backing initializer of Brick_Finder.SetVM.instructions : Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Instructions.InstructionsResult&gt;&gt;"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/LegoSetVM/SetVM.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "E7CC4C1C-1D3D-4EB0-8852-FC2E5012C938 - 8c62985380f69eea"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Brick_Finder.SetVM.instructions.getter : Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Instructions.InstructionsResult&gt;&gt;"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/LegoSetVM/SetVM.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "E7CC4C1C-1D3D-4EB0-8852-FC2E5012C938 - 8c62985380f69eea"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Brick_Finder.SetVM.instructions.setter : Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Instructions.InstructionsResult&gt;&gt;"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/LegoSetVM/SetVM.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "E7CC4C1C-1D3D-4EB0-8852-FC2E5012C938 - 8c62985380f69eea"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Brick_Finder.SetVM.instructions.modify : Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Instructions.InstructionsResult&gt;&gt;"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/LegoSetVM/SetVM.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "E7CC4C1C-1D3D-4EB0-8852-FC2E5012C938 - a0522e81c267a7d0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Brick_Finder.SetVM.$instructions.getter : Combine.Published&lt;Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Instructions.InstructionsResult&gt;&gt;&gt;.Publisher"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/LegoSetVM/SetVM.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "E7CC4C1C-1D3D-4EB0-8852-FC2E5012C938 - 2a8d155d2836f3cd"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Brick_Finder.SetVM.$instructions.setter : Combine.Published&lt;Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Instructions.InstructionsResult&gt;&gt;&gt;.Publisher"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/%3Cstdin%3E"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "E7CC4C1C-1D3D-4EB0-8852-FC2E5012C938 - a0522e81c267a7d0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Brick_Finder.SetVM.$instructions.modify : Combine.Published&lt;Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Instructions.InstructionsResult&gt;&gt;&gt;.Publisher"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/LegoSetVM/SetVM.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -976,50 +802,6 @@
             endingLineNumber = "24"
             landmarkName = "getAllLegoThemes()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "DA839AF3-ABB9-45B2-9725-91E6CB01F64C - 3002d1254e5da5e5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in Brick_Finder.ThemeViewModel.getAllLegoThemes() -&gt; ()"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/ThemeVM/ThemeViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25">
-               </Location>
-               <Location
-                  uuid = "DA839AF3-ABB9-45B2-9725-91E6CB01F64C - c62b12c3bb572bc4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for closure #1 () async -&gt; () in Brick_Finder.ThemeViewModel.getAllLegoThemes() -&gt; ()"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/ThemeVM/ThemeViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25">
-               </Location>
-               <Location
-                  uuid = "DA839AF3-ABB9-45B2-9725-91E6CB01F64C - c10766882032f9e3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for closure #1 () async -&gt; () in Brick_Finder.ThemeViewModel.getAllLegoThemes() -&gt; ()"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/ThemeVM/ThemeViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1080,8 +862,8 @@
             filePath = "Brick Finder/View/MainView/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "categoryPills"
             landmarkType = "24">
          </BreakpointContent>
@@ -1096,8 +878,8 @@
             filePath = "Brick Finder/View/MainView/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "categoryPills"
             landmarkType = "24">
          </BreakpointContent>
@@ -1116,106 +898,6 @@
             endingLineNumber = "14"
             landmarkName = "ThemeViewModel"
             landmarkType = "3">
-            <Locations>
-               <Location
-                  uuid = "A85FD677-47FC-4E97-A6D0-152F0F75BA9B - 96269f870464c07d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "property wrapper backing initializer of Brick_Finder.ThemeViewModel.legoThemes : Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Themes.ThemesResults&gt;&gt;"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/ThemeVM/ThemeViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "A85FD677-47FC-4E97-A6D0-152F0F75BA9B - e99a7d0fd00a0edc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Brick_Finder.ThemeViewModel.legoThemes.getter : Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Themes.ThemesResults&gt;&gt;"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/ThemeVM/ThemeViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "A85FD677-47FC-4E97-A6D0-152F0F75BA9B - 663bb948657c02e8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Brick_Finder.ThemeViewModel.legoThemes.setter : Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Themes.ThemesResults&gt;&gt;"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/ThemeVM/ThemeViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "A85FD677-47FC-4E97-A6D0-152F0F75BA9B - fa20459b1d30a3db"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Brick_Finder.ThemeViewModel.legoThemes.modify : Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Themes.ThemesResults&gt;&gt;"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/ThemeVM/ThemeViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "A85FD677-47FC-4E97-A6D0-152F0F75BA9B - d18cf705f9c99247"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Brick_Finder.ThemeViewModel.$legoThemes.getter : Combine.Published&lt;Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Themes.ThemesResults&gt;&gt;&gt;.Publisher"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/ThemeVM/ThemeViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "A85FD677-47FC-4E97-A6D0-152F0F75BA9B - ebc220fa5d6cfdfb"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Brick_Finder.ThemeViewModel.$legoThemes.setter : Combine.Published&lt;Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Themes.ThemesResults&gt;&gt;&gt;.Publisher"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/%3Cstdin%3E"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-               <Location
-                  uuid = "A85FD677-47FC-4E97-A6D0-152F0F75BA9B - d18cf705f9c99247"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Brick_Finder.ThemeViewModel.$legoThemes.modify : Combine.Published&lt;Swift.Optional&lt;Swift.Array&lt;Brick_Finder.Themes.ThemesResults&gt;&gt;&gt;.Publisher"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/ThemeVM/ThemeViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1392,36 +1074,6 @@
             endingLineNumber = "26"
             landmarkName = "searchView"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "E89AD45E-5EE7-407F-A88E-155DC6B2C43F - 6b42aa70ce670ae3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Image, &lt;&lt;opaque return type of SwiftUI.View.onSubmit(of: SwiftUI.SubmitTriggers, _: () -&gt; ()) -&gt; some&gt;&gt;.0, &lt;&lt;opaque return type of SwiftUI.View.buttonStyle&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.PrimitiveButtonStyle&gt;(&#x3c4;_1_0) -&gt; some&gt;&gt;.0)&gt; in Brick_Finder.SearchInstructionView.searchView.getter : some"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/View/LegoInstructions/SearchInstructionView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "26"
-                  endingLineNumber = "26">
-               </Location>
-               <Location
-                  uuid = "E89AD45E-5EE7-407F-A88E-155DC6B2C43F - 1134091406dc3780"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Image, &lt;&lt;opaque return type of SwiftUI.View.onSubmit(of: SwiftUI.SubmitTriggers, _: () -&gt; ()) -&gt; some&gt;&gt;.0, &lt;&lt;opaque return type of SwiftUI.View.buttonStyle&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.PrimitiveButtonStyle&gt;(&#x3c4;_1_0) -&gt; some&gt;&gt;.0)&gt; in Brick_Finder.SearchInstructionView.searchView.getter : some"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/View/LegoInstructions/SearchInstructionView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "26"
-                  endingLineNumber = "26">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1438,50 +1090,6 @@
             endingLineNumber = "115"
             landmarkName = "getLegoIntructions(with:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "4889B278-BB45-4A2E-BE84-368F7DFA67A8 - 813447a633ca0b7a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in Brick_Finder.SetVM.getLegoIntructions(with: Swift.String) -&gt; ()"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/LegoSetVM/SetVM.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "115"
-                  endingLineNumber = "115">
-               </Location>
-               <Location
-                  uuid = "4889B278-BB45-4A2E-BE84-368F7DFA67A8 - 1518c1746fafdd30"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for closure #1 () async -&gt; () in Brick_Finder.SetVM.getLegoIntructions(with: Swift.String) -&gt; ()"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/LegoSetVM/SetVM.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "115"
-                  endingLineNumber = "115">
-               </Location>
-               <Location
-                  uuid = "4889B278-BB45-4A2E-BE84-368F7DFA67A8 - 3c1c860d3f549718"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for closure #1 () async -&gt; () in Brick_Finder.SetVM.getLegoIntructions(with: Swift.String) -&gt; ()"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/ViewModel/LegoSetVM/SetVM.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "115"
-                  endingLineNumber = "115">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
