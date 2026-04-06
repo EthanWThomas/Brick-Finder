@@ -66,7 +66,7 @@ struct HomeView: View {
                             }
                             
                             // 4. LEGO Instructions (Logic Placeholder)
-                            NavigationLink(destination: Text("Instructions View Coming Soon")) {
+                            NavigationLink(destination: SearchInstructionView()) {
                                 CollectionCard(title: "Instructions", image: "doc.text.fill", color: .purple)
                             }
                         }

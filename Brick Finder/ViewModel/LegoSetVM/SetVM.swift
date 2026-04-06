@@ -8,7 +8,7 @@
 import Foundation
 
 class SetVM: ObservableObject {
-    @Published private(set) var isLoading = true
+    @Published private(set) var isLoading = false
     @Published private(set) var errorMessage: String?
     
     @Published var searchText = ""
@@ -95,6 +95,38 @@ class SetVM: ObservableObject {
         }
     }
     
+    /// Loads instructions for a set number (e.g. from search). Trims whitespace; empty input clears results.
+    @MainActor
+    func getLegoIntructions(with setNumber: String) {
+        let query = setNumber.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !query.isEmpty else {
+            isLoading = false
+            errorMessage = nil
+            instructions = nil
+            return
+        }
+        
+        isLoading = true
+        errorMessage = nil
+        
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                let result = try await self.brickableApiManager.getInstructions(with: query).instructions
+                await MainActor.run {
+                    self.instructions = result
+                    self.isLoading = false
+                }
+            } catch {
+                print("Instructions load failed: \(error)")
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                    self.isLoading = false
+                }
+            }
+        }
+    }
+    
     @MainActor
     func searchLegoSetWithTheme() {
         isLoading = true
@@ -120,6 +152,7 @@ class SetVM: ObservableObject {
             }
         }
     }
+    
     
     @MainActor
     func searchLegoSetWithAThemeAndYear() {
@@ -165,20 +198,6 @@ class SetVM: ObservableObject {
                 isLoading = false
             } catch {
                 print(error)
-                self.errorMessage = error.localizedDescription
-                self.isLoading = false
-            }
-        }
-    }
-    
-    @MainActor
-    func getLegoIntructions(with setNumber: String) {
-        isLoading = true
-        Task {
-            do {
-                self.instructions = try await brickableApiManager.getInstructions(with: setNumber).instructions
-                isLoading = false
-            } catch {
                 self.errorMessage = error.localizedDescription
                 self.isLoading = false
             }

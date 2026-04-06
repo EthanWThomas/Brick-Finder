@@ -20,8 +20,30 @@ enum RequestError: Error {
     case failedToCreateURL
 }
 
-enum ResponseError: Error {
+enum ResponseError: LocalizedError {
     case unownedErrorOccurred
+    case httpStatus(code: Int)
+    
+    var errorDescription: String? {
+        switch self {
+        case .unownedErrorOccurred:
+            return "The server returned an unexpected response."
+        case .httpStatus(let code):
+            return "HTTP error \(code). The instructions service may be unavailable."
+        }
+    }
+}
+
+/// Brickset returns HTTP 200 with `{"status":"error","message":"..."}` when the request fails (e.g. invalid API key).
+enum BricksetInstructionsAPIError: LocalizedError {
+    case bricksetMessage(String)
+    
+    var errorDescription: String? {
+        switch self {
+        case .bricksetMessage(let message):
+            return message
+        }
+    }
 }
 
 struct ErrorResponse: Error, Decodable {
