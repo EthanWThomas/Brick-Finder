@@ -11,6 +11,9 @@ import SwiftData
 struct SavedMinifiguresScreen: View {
     @State var viewModel: SavedMinifiguresVM
     
+    @StateObject private var minifigSetVM = MiniFiguresDetailVM()
+    @StateObject private var minifigPartVM = PartVM()
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -38,7 +41,14 @@ struct SavedMinifiguresScreen: View {
     }
     
     private func listSavedMinifigureItem(lego minifigure: LegoDataModel) -> some View {
-        SavedMinifigureDataCard(minifigures: minifigure, viewModel: viewModel)
+        NavigationLink {
+            SavedMinifigureDetailView(
+                minifigure: minifigure,
+                minifigureInSetTheyCameIn: minifigSetVM,
+                partVM: minifigPartVM)
+        } label: {
+            SavedMinifigureDataCard(minifigures: minifigure, viewModel: viewModel)
+        }
     }
 }
 

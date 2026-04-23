@@ -1106,64 +1106,6 @@
             endingLineNumber = "21"
             landmarkName = "refresh()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C4432799-7CEC-401A-83D9-A2CDAAC8B7E1 - 31791503eb30b504"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for Brick_Finder.CloudSyncStatusModel.refresh() async -&gt; ()"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/View/Setting/SettingView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21">
-               </Location>
-               <Location
-                  uuid = "C4432799-7CEC-401A-83D9-A2CDAAC8B7E1 - ce616781d811a629"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for Brick_Finder.CloudSyncStatusModel.refresh() async -&gt; ()"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/View/Setting/SettingView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21">
-               </Location>
-               <Location
-                  uuid = "C4432799-7CEC-401A-83D9-A2CDAAC8B7E1 - 3e2ffedadd83ef1a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Brick_Finder.CloudSyncStatusModel.refresh() async -&gt; ()"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/View/Setting/SettingView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21">
-               </Location>
-               <Location
-                  uuid = "C4432799-7CEC-401A-83D9-A2CDAAC8B7E1 - 4586d57557544219"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for Brick_Finder.CloudSyncStatusModel.refresh() async -&gt; ()"
-                  moduleName = "Brick Finder.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/View/Setting/SettingView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
