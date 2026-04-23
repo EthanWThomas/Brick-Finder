@@ -18,7 +18,16 @@ struct TabNavigation: View {
         do {
             self.cantainer = try ModelContainer(for: LegoSetsDataModel.self, LegoDataModel.self, LegoPartsDataModel.self)
         } catch {
-            fatalError("Could not load model container.")
+            NSLog("SwiftData ModelContainer failed: \(error.localizedDescription). Falling back to in-memory store.")
+            do {
+                let memory = ModelConfiguration(isStoredInMemoryOnly: true)
+                self.cantainer = try ModelContainer(
+                    for: LegoSetsDataModel.self, LegoDataModel.self, LegoPartsDataModel.self,
+                    configurations: memory
+                )
+            } catch {
+                fatalError("Could not load SwiftData container: \(error)")
+            }
         }
     }
   
@@ -44,6 +53,7 @@ struct TabNavigation: View {
                 .tabItem { Label("Parts", systemImage: "square.and.arrow.down") }
                 .tag(3)
         }
+        .background(Color("TabbarColor"))
     }
 }
 

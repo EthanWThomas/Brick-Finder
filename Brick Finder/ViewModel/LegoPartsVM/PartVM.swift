@@ -35,20 +35,19 @@ class PartVM: ObservableObject {
         isLoading = true
         
         Task { [weak self] in
+            guard let self else { return }
             do {
-                guard let searchText = self?.searchText
-                else { return }
-                
-                let results = try await self?.apiManager.searchParts(with: searchText).results
-                self?.isLoading = false
-                
-                await MainActor.run { [weak self] in
-                    self?.legoPartsResult = results!
+                let results = try await self.apiManager.searchParts(with: self.searchText).results
+                await MainActor.run {
+                    self.isLoading = false
+                    self.legoPartsResult = results
                 }
             } catch {
                 print("No Result Found \(error)")
-                self?.errorMessage = error.localizedDescription
-                self?.isLoading = false
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                    self.isLoading = false
+                }
             }
         }
     }
@@ -58,23 +57,22 @@ class PartVM: ObservableObject {
         isLoading = true
         
         Task { [weak self] in
+            guard let self else { return }
             do {
-                guard let searchText = self?.searchText
-                else { return }
-                
-                guard let partId = self?.partId
-                else { return }
-                
-                let result = try await self?.apiManager.searchPartWithId(part: partId, searchTerm: searchText).results
-                self?.isLoading = false
-                
-                await MainActor.run { [weak self] in
-                    self?.legoPartsResult = result!
+                let result = try await self.apiManager.searchPartWithId(
+                    part: self.partId,
+                    searchTerm: self.searchText
+                ).results
+                await MainActor.run {
+                    self.isLoading = false
+                    self.legoPartsResult = result
                 }
             } catch {
                 print("No Result Found \(error)")
-                self?.errorMessage = error.localizedDescription
-                self?.isLoading = false
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                    self.isLoading = false
+                }
             }
         }
     }

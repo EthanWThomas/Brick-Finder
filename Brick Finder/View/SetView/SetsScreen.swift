@@ -52,6 +52,7 @@ struct SetsScreen: View {
                         .padding(.horizontal, -15)
                 }
             }
+            .background(Color(UIColor.secondarySystemBackground))
         }
         .onSubmit {
             viewModel.seacrhLegoSet()

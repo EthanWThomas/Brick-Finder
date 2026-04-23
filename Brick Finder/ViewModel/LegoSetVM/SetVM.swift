@@ -77,20 +77,19 @@ class SetVM: ObservableObject {
         isLoading = true
         
         Task { [weak self] in
+            guard let self else { return }
             do {
-                guard let searchText = self?.searchText
-                else { return }
-                
-                let results = try await self?.apiManager.seacrhAllLegoSets(with: searchText).results
-                self?.isLoading = false
-                
-                await MainActor.run { [weak self] in
-                    self?.legoSetResults = results!
+                let results = try await self.apiManager.seacrhAllLegoSets(with: self.searchText).results
+                await MainActor.run {
+                    self.isLoading = false
+                    self.legoSetResults = results
                 }
             } catch {
                 print("No Result Found \(error)")
-                self?.errorMessage = error.localizedDescription
-                self?.isLoading = false
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                    self.isLoading = false
+                }
             }
         }
     }
@@ -132,23 +131,22 @@ class SetVM: ObservableObject {
         isLoading = true
         
         Task { [weak self] in
+            guard let self else { return }
             do {
-                guard let searchText = self?.searchText
-                else { return }
-                
-                guard let themeId = self?.themeId
-                else { return }
-                
-                let results = try await self?.apiManager.searchLegoSetWithTheme(searchTerm: searchText, theme: themeId).results
-                self?.isLoading = true
-                
-                await MainActor.run { [weak self] in
-                    self?.legoSetResults = results!
+                let results = try await self.apiManager.searchLegoSetWithTheme(
+                    searchTerm: self.searchText,
+                    theme: self.themeId
+                ).results
+                await MainActor.run {
+                    self.isLoading = false
+                    self.legoSetResults = results
                 }
             } catch {
                 print("No Result Found \(error)")
-                self?.errorMessage = error.localizedDescription
-                self?.isLoading = false
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                    self.isLoading = false
+                }
             }
         }
     }
@@ -157,34 +155,24 @@ class SetVM: ObservableObject {
     @MainActor
     func searchLegoSetWithAThemeAndYear() {
         Task { [weak self] in
+            guard let self else { return }
             do {
-                guard let searchText = self?.searchText
-                else { return }
-                
-                guard let themeId = self?.themeId
-                else { return }
-                
-                guard let minYear = self?.minYear
-                else { return }
-                
-                guard let maxYear = self?.maxYear
-                else { return }
-                
-                let results = try await self?.apiManager.searchLegoSetWithThemeAndYear(
-                    searchTerm: searchText,
-                    theme: themeId,
-                    minYear: Double(minYear),
-                    maxYear: Double(maxYear)
+                let results = try await self.apiManager.searchLegoSetWithThemeAndYear(
+                    searchTerm: self.searchText,
+                    theme: self.themeId,
+                    minYear: Double(self.minYear),
+                    maxYear: Double(self.maxYear)
                 ).results
-                self?.isLoading = true
-                
-                await MainActor.run { [weak self] in
-                    self?.legoSetResults = results!
+                await MainActor.run {
+                    self.isLoading = false
+                    self.legoSetResults = results
                 }
             } catch {
                 print("No Result Found \(error)")
-                self?.errorMessage = error.localizedDescription
-                self?.isLoading = false
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                    self.isLoading = false
+                }
             }
         }
     }

@@ -128,7 +128,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "134"
             endingLineNumber = "134"
-            landmarkName = "setdetailList"
+            landmarkName = "setheader"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -144,7 +144,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "117"
             endingLineNumber = "117"
-            landmarkName = "setdetailList"
+            landmarkName = "setheader"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -160,7 +160,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "118"
             endingLineNumber = "118"
-            landmarkName = "setdetailList"
+            landmarkName = "setheader"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -176,7 +176,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "116"
             endingLineNumber = "116"
-            landmarkName = "setdetailList"
+            landmarkName = "setheader"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -192,7 +192,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "159"
             endingLineNumber = "159"
-            landmarkName = "setPartDisplay"
+            landmarkName = "setdetailList"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -208,7 +208,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "125"
             endingLineNumber = "125"
-            landmarkName = "setdetailList"
+            landmarkName = "setheader"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -224,7 +224,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "127"
             endingLineNumber = "127"
-            landmarkName = "setdetailList"
+            landmarkName = "setheader"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -336,7 +336,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "223"
             endingLineNumber = "223"
-            landmarkName = "mocsDisplay"
+            landmarkName = "minifigureDisplay"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -352,7 +352,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "222"
             endingLineNumber = "222"
-            landmarkName = "mocsDisplay"
+            landmarkName = "minifigureDisplay"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -368,7 +368,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "119"
             endingLineNumber = "119"
-            landmarkName = "setdetailList"
+            landmarkName = "setheader"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -384,7 +384,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "126"
             endingLineNumber = "126"
-            landmarkName = "setdetailList"
+            landmarkName = "setheader"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -432,7 +432,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "203"
             endingLineNumber = "203"
-            landmarkName = "mocsDisplay"
+            landmarkName = "setPartDisplay"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -464,7 +464,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "535"
             endingLineNumber = "535"
-            landmarkName = "detailCardView(number:name:year:theme:ThemeGroup:category:subTheme:pleces:minifigs:rating:availability:instructionsCount:tags:description:setImageURL:retailPrice:)"
+            landmarkName = "detailCardView(number:name:year:theme:themeGroup:category:subTheme:pleces:minifigs:rating:availability:instructionsCount:tags:description:setImageURL:retailPrice:showHeroBlock:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -768,8 +768,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "52"
             endingLineNumber = "52"
-            landmarkName = "InventoryPartsVM"
-            landmarkType = "3">
+            landmarkName = "getInventoryMinifigerInSet(with:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -862,9 +862,9 @@
             filePath = "Brick Finder/View/MainView/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "categoryPills"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "headerSection"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -878,8 +878,8 @@
             filePath = "Brick Finder/View/MainView/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "categoryPills"
             landmarkType = "24">
          </BreakpointContent>
@@ -1090,6 +1090,80 @@
             endingLineNumber = "115"
             landmarkName = "getLegoIntructions(with:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C4432799-7CEC-401A-83D9-A2CDAAC8B7E1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Brick Finder/View/Setting/SettingView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "refresh()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C4432799-7CEC-401A-83D9-A2CDAAC8B7E1 - 31791503eb30b504"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Brick_Finder.CloudSyncStatusModel.refresh() async -&gt; ()"
+                  moduleName = "Brick Finder.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/View/Setting/SettingView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+               <Location
+                  uuid = "C4432799-7CEC-401A-83D9-A2CDAAC8B7E1 - ce616781d811a629"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for Brick_Finder.CloudSyncStatusModel.refresh() async -&gt; ()"
+                  moduleName = "Brick Finder.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/View/Setting/SettingView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+               <Location
+                  uuid = "C4432799-7CEC-401A-83D9-A2CDAAC8B7E1 - 3e2ffedadd83ef1a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Brick_Finder.CloudSyncStatusModel.refresh() async -&gt; ()"
+                  moduleName = "Brick Finder.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/View/Setting/SettingView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+               <Location
+                  uuid = "C4432799-7CEC-401A-83D9-A2CDAAC8B7E1 - 4586d57557544219"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Brick_Finder.CloudSyncStatusModel.refresh() async -&gt; ()"
+                  moduleName = "Brick Finder.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ethanthomas/Documents/IOS/Brick%20Finder/Brick%20Finder/View/Setting/SettingView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

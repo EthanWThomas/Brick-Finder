@@ -8,6 +8,15 @@
 import SwiftUI
 import SwiftData
 
+/// Remote photos use stable Wikimedia Commons URLs (CC-licensed), not Google Image hotlinks.
+private enum HomeCollectionPhotos {
+    static let minifigs = URL(string: "https://upload.wikimedia.org/wikipedia/commons/3/3d/LEGO_minifigures_display_case.jpg")!
+    /// Vintage set photo including box (Wikimedia Commons).
+    static let setWithBox = URL(string: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Lego_Space_-_Set_6823_Surface_Transport_%287465208532%29.jpg")!
+    static let parts = URL(string: "https://upload.wikimedia.org/wikipedia/commons/3/32/Lego_Color_Bricks.jpg")!
+    static let instructions = URL(string: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Lego_instructions.jpg")!
+}
+
 struct HomeView: View {
     @State private var searchText = ""
     @State private var showingAddItem = false
@@ -53,22 +62,22 @@ struct HomeView: View {
                         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                             // 1. Saved Minifigures
                             NavigationLink(destination: SavedMinifiguresScreen(viewModel: minifigureSavedDataVM)) {
-                                CollectionCard(title: "Saved Minifigs", image: "person.3.fill", color: .blue)
+                                CollectionCard(title: "Saved Minifigs", photo: .remote(HomeCollectionPhotos.minifigs), color: .blue)
                             }
                             
                             // 2. Saved Sets
                             NavigationLink(destination: SavedLegoSetsScreen(viewModel: setSavedDataVM)) {
-                                CollectionCard(title: "Saved Sets", image: "box.truck.fill", color: .orange)
+                                CollectionCard(title: "Saved Sets", photo: .remote(HomeCollectionPhotos.setWithBox), color: .orange)
                             }
                             
                             // 3. Saved Parts
                             NavigationLink(destination: SavedLegoPartScreen(viewModel: partSavedDataVM)) {
-                                CollectionCard(title: "Saved Parts", image: "puzzlepiece.fill", color: .green)
+                                CollectionCard(title: "Saved Parts", photo: .remote(HomeCollectionPhotos.parts), color: .green)
                             }
                             
                             // 4. LEGO Instructions (Logic Placeholder)
                             NavigationLink(destination: SearchInstructionView()) {
-                                CollectionCard(title: "Instructions", image: "doc.text.fill", color: .purple)
+                                CollectionCard(title: "Instructions", photo: .remote(HomeCollectionPhotos.instructions), color: .purple)
                             }
                         }
                         .padding(.horizontal)
@@ -78,7 +87,7 @@ struct HomeView: View {
                     .padding(.top)
                 }
             }
-            .background(Color(uiColor: .secondarySystemBackground))
+            .background(Color(UIColor.secondarySystemBackground))
         }
     }
     
@@ -89,21 +98,30 @@ struct HomeView: View {
                     Text("Brick Finder")
                         .font(.largeTitle)
                         .fontWeight(.heavy)
-                        .foregroundStyle(Color.red)
+                        .foregroundStyle(Color("TabbarColor"))
                 }
-                
-                Button(action: {}) {
+                NavigationLink {
+                    SettingView()
+                } label: {
                     Image(systemName: "slider.horizontal.3")
                         .padding(12)
                         .background(Color.white)
                         .clipShape(Circle())
                         .shadow(color: .black.opacity(0.05), radius: 5)
                 }
+                
+                //                Button(action: {}) {
+                //                    Image(systemName: "slider.horizontal.3")
+                //                        .padding(12)
+                //                        .background(Color.white)
+                //                        .clipShape(Circle())
+                //                        .shadow(color: .black.opacity(0.05), radius: 5)
+                //                }
             }
             .padding(.horizontal)
         }
         .padding(.bottom, 10)
-        .background(Color(uiColor: .secondarySystemBackground))
+        .background(Color(UIColor.secondarySystemBackground))
     }
     
     

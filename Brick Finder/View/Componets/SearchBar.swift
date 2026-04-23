@@ -15,16 +15,17 @@ struct SearchBar: View {
         HStack {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(
-                    searchText.isEmpty ? Color.secondary : Color.accentColor
+                    searchText.isEmpty ? Color.secondary : Color.primary
                 )
             
             TextField("Search sets, parts, minifigs...", text: $searchText)
                 .textFieldStyle(PlainTextFieldStyle())
+                .foregroundStyle(Color.black)
                 .overlay(
                     Image(systemName: "xmark.circle.fill")
                         .padding()
                         .offset(x: 10)
-                        .foregroundStyle(Color.accentColor)
+                        .foregroundStyle(Color.primary)
                         .opacity(searchText.isEmpty ? 0.0 : 1.0)
                         .onTapGesture {
                             searchText = ""

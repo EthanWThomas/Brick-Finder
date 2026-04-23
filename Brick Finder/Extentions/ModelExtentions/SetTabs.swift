@@ -9,7 +9,7 @@ import Foundation
 
 enum Tab: String, CaseIterable {
     case deteils = "Details"
-    case minifigs = "Minfigs"
+    case minifigs = "Minifigs"
     case parts = "Parts"
     case mocs = "MOCS"
     

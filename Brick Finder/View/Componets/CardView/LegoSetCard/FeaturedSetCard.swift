@@ -35,6 +35,7 @@ struct FeaturedSetCard: View {
                         if let setNumber = setInfo.setNumber {
                             Text(setNumber)
                                 .font(.caption2)
+                                .foregroundStyle(Color.black)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.white)
                                 .padding(.horizontal, 10)
@@ -50,9 +51,10 @@ struct FeaturedSetCard: View {
             // Text section
             Text(setInfo.name ?? "Unknown Set")
                 .font(.headline)
+                .foregroundStyle(Color.black)
                 .fontWeight(.bold)
                 .lineLimit(2)
-                .foregroundColor(.primary)
+               
             
             HStack(spacing: 8) {
                 if let year = setInfo.year {
@@ -92,7 +94,7 @@ struct FeaturedSetCard: View {
                     .clipped()
                     .containerRelativeFrame(
                         .vertical, count: 5,
-                        span: 2, spacing: 0
+                        span: 2, spacing: 10
                     )
             default:
                 Image("legoMinifigure")

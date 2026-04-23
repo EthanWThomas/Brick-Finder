@@ -32,11 +32,7 @@ struct MinifiguresDetailView: View {
             minifiguresList
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemBackground))
-        .onAppear {
-            addToHistory()
-            print("add to history")
-        }
+        .background(Color(UIColor.secondarySystemBackground))
     }
     
     private var heroSelection: some View {
@@ -408,17 +404,6 @@ struct MinifiguresDetailView: View {
         }
         .background(.gray.opacity(0.1), in: .capsule)
         .padding(.horizontal, 15)
-    }
-    
-    func addToHistory() {
-        let item = ViewedItem(
-            setNum: minifigure.setNum,
-            name: minifigure.name,
-            type: "Minifigures",
-            imageURL: minifigure.setImageURL
-        )
-        context.insert(item)
-        try? context.save()
     }
 }
 

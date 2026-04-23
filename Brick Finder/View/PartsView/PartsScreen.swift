@@ -60,6 +60,7 @@ struct PartsScreen: View {
                 
                 partCard
             }
+            .background(Color(UIColor.secondarySystemBackground))
         }
         .task {
             await partCategoriesVM.loadAllPartCategories()

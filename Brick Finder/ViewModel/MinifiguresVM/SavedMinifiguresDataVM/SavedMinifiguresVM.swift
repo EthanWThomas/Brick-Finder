@@ -44,18 +44,6 @@ class SavedMinifiguresVM {
         fetchLocalResult()
     }
     
-    func savedRecentlyViewedMinifigure(legoResult: Lego.LegoResults) {
-        let resultModel = ViewedItem(
-            setNum: legoResult.setNum,
-            name: legoResult.name,
-            type: "Minifigure",
-            imageURL: legoResult.setImageURL)
-        context.insert(resultModel)
-        try? context.save()
-        fetchLocalResult()
-        
-    }
-    
     func deleteLegoResult(legoDataModel: LegoDataModel) {
         context.delete(legoDataModel)
         try? context.save()

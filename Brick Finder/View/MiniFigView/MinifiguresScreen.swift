@@ -31,6 +31,7 @@ struct MinifiguresScreen: View {
                 miniFiguresGrid
                 
             }
+            .background(Color(UIColor.secondarySystemBackground))
             .onTapGesture {
                 if showDropdown {
                     withAnimation {

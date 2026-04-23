@@ -25,20 +25,19 @@ class InventoryPartsVM: ObservableObject {
         isLoading = true
         
         Task { [weak self] in
+            guard let self else { return }
             do {
-                guard let inventoryPart = self?.setNumber
-                else { return }
-                
-                let results = try await self?.apiManager.getInvetoryPartInASet(setNum: inventoryPart).results
-                self?.isLoading = false
-                
-                await MainActor.run { [weak self] in
-                    self?.inventoryPartResults = results!
+                let results = try await self.apiManager.getInvetoryPartInASet(setNum: self.setNumber).results
+                await MainActor.run {
+                    self.isLoading = false
+                    self.inventoryPartResults = results
                 }
             } catch {
                 print("No Result Found \(error)")
-                self?.errorMessage = error.localizedDescription
-                self?.isLoading = false
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                    self.isLoading = false
+                }
             }
         }
     }
@@ -64,21 +63,27 @@ class InventoryPartsVM: ObservableObject {
         }
 
         do {
-            async let partsTask: [InventoryParts.PartResult]? = includeParts
-            ? apiManager.getInvetoryPartInASet(setNum: setNumber).results
-            : nil
+            let partsResult: [InventoryParts.PartResult]?
+            let minifigsResult: [Lego.LegoResults]?
 
-            async let minifigsTask: [Lego.LegoResults]? = includeMinifigs
-            ? apiManager.getInvetoryMinifigerInASet(with: setNumber).results
-            : nil
-
-            var partsResult: [InventoryParts.PartResult]?
-            var minifigsResult: [Lego.LegoResults]?
-            if includeParts {
-                partsResult = try await partsTask
-            }
-            if includeMinifigs {
-                minifigsResult = try await minifigsTask
+            switch (includeParts, includeMinifigs) {
+            case (true, true):
+                async let partsData = try await apiManager.getInvetoryPartInASet(setNum: setNumber)
+                async let minifigsData = try await apiManager.getInvetoryMinifigerInASet(with: setNumber)
+                let (p, m) = try await (partsData, minifigsData)
+                partsResult = p.results
+                minifigsResult = m.results
+            case (true, false):
+                let p = try await apiManager.getInvetoryPartInASet(setNum: setNumber)
+                partsResult = p.results
+                minifigsResult = nil
+            case (false, true):
+                let m = try await apiManager.getInvetoryMinifigerInASet(with: setNumber)
+                partsResult = nil
+                minifigsResult = m.results
+            case (false, false):
+                partsResult = nil
+                minifigsResult = nil
             }
 
             await MainActor.run {
@@ -88,9 +93,6 @@ class InventoryPartsVM: ObservableObject {
                 if includeMinifigs {
                     getInventoryMinifiger = minifigsResult
                 }
-            }
-
-            await MainActor.run {
                 isLoading = false
             }
         } catch {

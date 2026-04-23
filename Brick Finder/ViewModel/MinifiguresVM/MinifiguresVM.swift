@@ -28,19 +28,19 @@ class MinifiguresVM: ObservableObject {
         isLoading = true
         
         Task { [weak self] in
+            guard let self else { return }
             do {
-                guard let searchText = self?.seacrhText else { return }
-                
-                let results = try await self?.apiManager.searchMinfigs(with: searchText).results
-                self?.isLoading = false
-                
-                await MainActor.run { [weak self] in
-                    self?.minifiguresResult = results!
+                let results = try await self.apiManager.searchMinfigs(with: self.seacrhText).results
+                await MainActor.run {
+                    self.isLoading = false
+                    self.minifiguresResult = results
                 }
             } catch {
                 print("No Result Found \(error)")
-                self?.errorMessage = error.localizedDescription
-                self?.isLoading = false
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                    self.isLoading = false
+                }
             }
         }
     }
@@ -50,20 +50,22 @@ class MinifiguresVM: ObservableObject {
         isLoading = true
         
         Task { [weak self] in
+            guard let self else { return }
             do {
-                guard let searchText = self?.seacrhText else { return }
-                guard let themeId = self?.themeId else { return }
-                
-                let results = try await self?.apiManager.searchMinifigureWithThemeId(theme: themeId, with: searchText).results
-                self?.isLoading = false
-                
-                await MainActor.run { [weak self] in
-                    self?.minifiguresResult = results!
+                let results = try await self.apiManager.searchMinifigureWithThemeId(
+                    theme: self.themeId,
+                    with: self.seacrhText
+                ).results
+                await MainActor.run {
+                    self.isLoading = false
+                    self.minifiguresResult = results
                 }
             } catch {
                 print("No Result Found \(error)")
-                self?.errorMessage = error.localizedDescription
-                self?.isLoading = false
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                    self.isLoading = false
+                }
             }
         }
     }
