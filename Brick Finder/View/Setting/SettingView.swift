@@ -100,6 +100,7 @@ struct SettingView: View {
         .scrollContentBackground(.hidden)
         .background(Color(UIColor.systemGroupedBackground))
         .navigationTitle("Settings")
+        .foregroundStyle(Color("TabbarColor"))
         .navigationBarTitleDisplayMode(.large)
         .searchable(text: $searchText, prompt: "Search settings")
         .listRowSeparatorTint(Color.primary.opacity(0.12))

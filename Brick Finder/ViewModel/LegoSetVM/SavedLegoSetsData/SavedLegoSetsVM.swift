@@ -17,6 +17,7 @@ class SavedLegoSetsVM {
     
     var legoDataModel = [LegoSetsDataModel]()
     
+    
     init (context: ModelContext) {
         self.context = context
         

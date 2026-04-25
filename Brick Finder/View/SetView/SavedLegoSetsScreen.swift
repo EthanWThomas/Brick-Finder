@@ -12,6 +12,9 @@ struct SavedLegoSetsScreen: View {
     
     @State var viewModel: SavedLegoSetsVM
     
+    @StateObject private var setVM = SetVM()
+    @StateObject private var inventoryVM = InventoryPartsVM()
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -44,7 +47,14 @@ struct SavedLegoSetsScreen: View {
     }
     
     private func listSavedSetItem(lego set: LegoSetsDataModel) -> some View {
-        SavedSetDataCard(legoSet: set, setSavedDataVM: viewModel)
+        NavigationLink {
+            SavedSetDetailView(
+                legoSet: set,
+                viewModel: setVM,
+                inventoryVM: inventoryVM)
+        } label: {
+            SavedSetDataCard(legoSet: set, setSavedDataVM: viewModel)
+        }
     }
     
 }

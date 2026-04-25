@@ -1,14 +1,15 @@
 //
-//  SetDetillView.swift
+//  SavedSetDetailView.swift
 //  Brick Finder
 //
-//  Created by Ethan Thomas on 8/28/25.
+//  Created by Ethan Thomas on 4/24/26.
 //
 
 import SwiftUI
+import SwiftData
 
-struct SetDetailView: View {
-    var legoSet: LegoSet.SetResults
+struct SavedSetDetailView: View {
+    var legoSet: LegoSetsDataModel
     
     @StateObject var viewModel: SetVM
     @StateObject var inventoryVM: InventoryPartsVM
@@ -51,6 +52,19 @@ struct SetDetailView: View {
     
     private var displaySetAvailability: String? {
         primarySetInfo?.availability
+    }
+    
+    private var legoSetResults: LegoSet.SetResults {
+        LegoSet.SetResults(
+            setNumber: legoSet.setNumber,
+            name: legoSet.name,
+            year: legoSet.year,
+            themeID: legoSet.themeID,
+            numberOfParts: legoSet.numberOfParts,
+            setImageURL: legoSet.setImageURL,
+            setURL: legoSet.setURL,
+            lastModifieDT: legoSet.lastModifieDT
+        )
     }
     
     var body: some View {
@@ -640,7 +654,7 @@ struct SetDetailView: View {
                         Image(systemName: "doc.richtext")
                             .foregroundStyle(.blue)
                     }
-                    instructionPage(lego: legoSet)
+                    instructionPage()
                 }
             }
             
@@ -764,9 +778,9 @@ struct SetDetailView: View {
         }
     }
     
-    private func instructionPage(lego set: LegoSet.SetResults) -> some View {
+    private func instructionPage() -> some View {
         NavigationLink {
-            LegoInstructionsView(legoSet: legoSet, viewModel: viewModel)
+            LegoInstructionsView(legoSet: legoSetResults, viewModel: viewModel)
         } label: {
             Text("View building instructions")
                 .font(.subheadline.weight(.semibold))
@@ -824,7 +838,7 @@ struct SetDetailView: View {
                 .padding(.bottom, -100)
         }
     }
-
+    
     @ViewBuilder
     func customTabBar() -> some View {
         HStack(spacing: 0) {

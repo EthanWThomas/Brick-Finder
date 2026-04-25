@@ -10,6 +10,7 @@ import SwiftData
 
 struct SavedLegoPartScreen: View {
     @State var viewModel: SavedLegoPartVM
+    @StateObject var partViewModel = PartVM()
     
     var body: some View {
         NavigationStack {
@@ -38,8 +39,14 @@ struct SavedLegoPartScreen: View {
     }
     
     private func savedListPartItem(lego parts: LegoPartsDataModel) -> some View {
-        SavedLegoPartDataCard(part: parts, viewModel: viewModel)
+        NavigationLink {
+            SavedPartDetailScreen(legoPart: parts, viewModel: partViewModel)
+        } label: {
+            SavedLegoPartDataCard(part: parts, viewModel: viewModel)
+        }
+
     }
+    
 }
 
 
