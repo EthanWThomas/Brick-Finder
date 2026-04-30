@@ -65,9 +65,10 @@ struct PartsScreen: View {
         .task {
             await partCategoriesVM.loadAllPartCategories()
         }
-        .onChange(of: partCategoriesVM.categories) { _, newValue in
-            guard viewModel.partId.isEmpty, let first = newValue.first else { return }
-            viewModel.partId = String(first.id)
+        .onChange(of: viewModel.partId) { _, newValue in
+//            guard viewModel.partId.isEmpty, let first = newValue.first else { return }
+//            viewModel.partId = String(first.id)
+            viewModel.searchLegoPartWithAPartId()
         }
     }
     

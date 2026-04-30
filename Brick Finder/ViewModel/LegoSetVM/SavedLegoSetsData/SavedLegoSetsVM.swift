@@ -22,6 +22,7 @@ class SavedLegoSetsVM {
         self.context = context
         
     }
+
     
     func fetchLocalResults() {
         do {

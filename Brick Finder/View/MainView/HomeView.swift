@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftData
-
 /// Remote photos use stable Wikimedia Commons URLs (CC-licensed), not Google Image hotlinks.
 private enum HomeCollectionPhotos {
     static let minifigs = URL(string: "https://upload.wikimedia.org/wikipedia/commons/3/3d/LEGO_minifigures_display_case.jpg")!

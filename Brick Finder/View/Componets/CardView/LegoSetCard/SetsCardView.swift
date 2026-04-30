@@ -97,7 +97,7 @@ struct SetsCardView: View {
                         .foregroundColor(.secondary)
                     Spacer()
                     
-                    Button("Save") {
+                    Button("Add to Collection") {
                         setSavedDataVM.savedLegoSetsResult(legoResult: legoSet)
                     }
                     .font(.system(size: 10, weight: .medium))

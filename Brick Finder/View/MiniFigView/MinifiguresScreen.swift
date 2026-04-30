@@ -39,6 +39,9 @@ struct MinifiguresScreen: View {
                     }
                 }
             }
+            .onChange(of: minifiguresVM.themeId) { _, _ in
+                minifiguresVM.seacrhMinifiguresWithAThemeId()
+            }
         }
     }
     
@@ -66,6 +69,7 @@ struct MinifiguresScreen: View {
                     ForEach(LegoThemes.allCases, id: \.id) { theme in
                         Text(theme.displayName)
                             .tag(theme.rawValue)
+                           
                     }
                 }
             }
@@ -89,18 +93,52 @@ struct MinifiguresScreen: View {
     
     private var miniFiguresGrid: some View {
         ScrollView {
-            LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible())
-                
-            ], spacing: 16) {
-                if let minifigures = minifiguresVM.searchMinifigures {
+            if minifiguresVM.isLoading {
+                ProgressView("Loading minifigures")
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
+            } else if let errorMessage = minifiguresVM.errorMessage {
+                VStack(spacing: 12) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .font(.largeTitle)
+                        .foregroundColor(.orange)
+                    Text("Couldn’t load Minifigures")
+                        .font(.headline)
+                    Text(errorMessage)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.top, 40)
+            } else if let minifigures = minifiguresVM.searchMinifigures, !minifigures.isEmpty {
+                LazyVGrid(columns: [
+                    GridItem(.flexible()),
+                    GridItem(.flexible())
+                    
+                ], spacing: 16) {
                     ForEach(minifigures, id: \.setNum) { legoMinifigures in
                         listMinifigItem(lego: legoMinifigures)
                     }
                 }
+                .padding(.horizontal)
+            } else if minifiguresVM.miniFigures != nil {
+                VStack(spacing: 12) {
+                    Image(systemName: "text.magnifyingglass")
+                        .font(.largeTitle)
+                        .foregroundColor(.secondary)
+                    Text("Search for a Minifigures")
+                        .font(.headline)
+                    Text("Type any Minifigure name")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.top, 40)
             }
-            .padding(.horizontal)
         }
         .onAppear {
             minifiguresVM.getMiniFigures()

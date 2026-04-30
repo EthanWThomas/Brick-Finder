@@ -51,6 +51,15 @@ struct SetsScreen: View {
                     listSetview
                         .padding(.horizontal, -15)
                 }
+                .onChange(of: viewModel.themeId) { _, _ in
+                    viewModel.searchLegoSetWithTheme()
+                }
+                .onChange(of: viewModel.minYear) { _, _ in
+                    viewModel.searchLegoSetWithAThemeAndYear()
+                }
+                .onChange(of: viewModel.maxYear) { _, _ in
+                    viewModel.searchLegoSetWithAThemeAndYear()
+                }
             }
             .background(Color(UIColor.secondarySystemBackground))
         }
