@@ -20,6 +20,7 @@ struct HomeView: View {
     @State private var searchText = ""
     @State private var showingAddItem = false
     @State private var selectedThemeId: String?
+    @State private var showAllThemes = false
     @State var setSavedDataVM: SavedLegoSetsVM
     @State var minifigureSavedDataVM: SavedMinifiguresVM
     @State var partSavedDataVM: SavedLegoPartVM
@@ -126,32 +127,37 @@ struct HomeView: View {
     
     private var categoryPills: some View {
         VStack(alignment: .leading, spacing: 8) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    if themeViewModel.isLoading {
-                        ProgressView()
-                            .padding(.leading, 4)
-                    } else if let themes = themeViewModel.legoThemes, !themes.isEmpty {
-                        ForEach(themes) { legoTheme in
-                            Button {
-                                guard selectedThemeId != legoTheme.id else { return }
-                                selectedThemeId = legoTheme.id
-                                setViewModel.getLegoSetWithTeme(themeId: legoTheme.id)
-                            } label: {
-                                CategoryPill(
-                                    theme: legoTheme,
-                                    isSelected: legoTheme.id == (selectedThemeId ?? themes.first?.id)
-                                )
+            HStack(spacing: 8) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 12) {
+                        if themeViewModel.isLoading {
+                            ProgressView()
+                                .padding(.leading, 4)
+                        } else if let themes = themeViewModel.legoThemes, !themes.isEmpty {
+                            ForEach(themes) { legoTheme in
+                                Button {
+                                    guard selectedThemeId != legoTheme.id else { return }
+                                    selectedThemeId = legoTheme.id
+                                    setViewModel.getLegoSetWithTeme(themeId: legoTheme.id)
+                                } label: {
+                                    CategoryPill(
+                                        theme: legoTheme,
+                                        isSelected: legoTheme.id == (selectedThemeId ?? themes.first?.id)
+                                    )
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
+                        } else {
+                            Text(themeViewModel.errorMessage ?? "No themes loaded yet.")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
-                    } else {
-                        Text(themeViewModel.errorMessage ?? "No themes loaded yet.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
+
+                allThemesButton
+                    .padding(.trailing)
             }
             if let err = themeViewModel.errorMessage, !err.isEmpty {
                 Text(err)
@@ -169,6 +175,77 @@ struct HomeView: View {
             selectedThemeId = firstThemeId
             setViewModel.getLegoSetWithTeme(themeId: firstThemeId)
         }
+        .sheet(isPresented: $showAllThemes) {
+            allThemesSheet
+        }
+    }
+
+    private var allThemesButton: some View {
+        Button {
+            showAllThemes = true
+        } label: {
+            Image(systemName: "line.3.horizontal")
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundColor(Color("TabbarColor"))
+                .padding(10)
+                .background(Color.white)
+                .clipShape(Circle())
+                .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
+        }
+        .accessibilityLabel("All themes")
+    }
+
+    private var allThemesSheet: some View {
+        NavigationStack {
+            Group {
+                if let themes = themeViewModel.legoThemes, !themes.isEmpty {
+                    List {
+                        ForEach(themes) { theme in
+                            Button {
+                                selectedThemeId = theme.id
+                                setViewModel.getLegoSetWithTeme(themeId: theme.id)
+                                showAllThemes = false
+                            } label: {
+                                HStack {
+                                    Text(theme.theme ?? "No Theme")
+                                        .foregroundColor(.primary)
+                                    Spacer()
+                                    if theme.id == selectedThemeId {
+                                        Image(systemName: "checkmark")
+                                            .foregroundColor(.accentColor)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .listStyle(.plain)
+                } else if themeViewModel.isLoading {
+                    ProgressView("Loading themes…")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    VStack(spacing: 12) {
+                        Image(systemName: "tray")
+                            .font(.largeTitle)
+                            .foregroundColor(.secondary)
+                        Text(themeViewModel.errorMessage ?? "No themes available.")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+            .navigationTitle("All Themes")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { showAllThemes = false }
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
     }
     
 //    private func listThemeItem(theme: Themes.ThemesResults) -> some View {

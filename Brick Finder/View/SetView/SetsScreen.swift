@@ -26,17 +26,8 @@ struct SetsScreen: View {
             ZStack {
                 VStack(spacing: 24) {
                     // Header
-                    VStack(alignment: .leading, spacing: 16) {
-                        HStack {
-                            Text("Lego Sets")
-                                .font(.system(size: 24, weight: .bold))
-                                .foregroundStyle(Color.primary)
-                            Spacer()
-                        }
-                        
-                        SearchBar(searchText: $viewModel.searchText)
-                    }
-                    .padding(.horizontal)
+                    header
+                        .padding(.horizontal)
                     HStack(spacing: 12) {
                         HStack {
                             themePicker
@@ -67,6 +58,18 @@ struct SetsScreen: View {
             viewModel.seacrhLegoSet()
             viewModel.searchLegoSetWithTheme()
             viewModel.searchLegoSetWithAThemeAndYear()
+        }
+    }
+    
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack {
+                Text("Lego Set")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundStyle(Color("TabbarColor"))
+                Spacer()
+            }
+            SearchBar(searchText: $viewModel.searchText)
         }
     }
     
@@ -148,16 +151,94 @@ struct SetsScreen: View {
     private var listSetview: some View {
         ScrollView {
             LazyVStack(spacing: 16) {
-                if let legoSet = viewModel.searchLegoSet {
+                let trimmedSearch = viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+                let hasNoQuery = trimmedSearch.isEmpty && viewModel.themeId.isEmpty
+                // Treat the cache as "has data" when we have any sets to show. We
+                // never want to replace a populated list with the error UI just
+                // because a stale/transient error is hanging around on the VM.
+                let hasCachedDefaults = !(viewModel.legoSet?.isEmpty ?? true)
+                let hasCachedSearch = !(viewModel.searchLegoSet?.isEmpty ?? true)
+                let hasAnyData = hasCachedDefaults || hasCachedSearch
+
+                // Only show the full-screen spinner when there's nothing cached
+                // to display. If we already have a populated list (e.g. when
+                // returning from the detail screen, or when filters refresh in
+                // the background), keep the LazyVStack mounted so SwiftUI can
+                // preserve the ScrollView's offset across navigation.
+                if viewModel.isLoading && !hasAnyData {
+                    ProgressView("Loading sets…")
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 40)
+                } else if let errorMessage = viewModel.errorMessage, !hasAnyData {
+                    VStack(spacing: 12) {
+                        Image(systemName: "exclamationmark.triangle")
+                            .font(.largeTitle)
+                            .foregroundColor(.orange)
+                        Text("Couldn’t load sets")
+                            .font(.headline)
+                        Text(errorMessage)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
+                } else if hasNoQuery {
+                    if let defaultSets = viewModel.legoSet, !defaultSets.isEmpty {
+                        ForEach(defaultSets, id: \.setNumber) { set in
+                            listSetItem(lego: set)
+                        }
+                    } else {
+                        VStack(spacing: 12) {
+                            Image(systemName: "text.magnifyingglass")
+                                .font(.largeTitle)
+                                .foregroundColor(.secondary)
+                            Text("Search for a set")
+                                .font(.headline)
+                            Text("Enter a set name or pick a theme to begin.")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 40)
+                    }
+                } else if let legoSet = viewModel.searchLegoSet, !legoSet.isEmpty {
                     ForEach(legoSet, id: \.setNumber) { set in
                         listSetItem(lego: set)
                     }
+                } else {
+                    VStack(spacing: 12) {
+                        Image(systemName: "questionmark.folder")
+                            .font(.largeTitle)
+                            .foregroundColor(.secondary)
+                        Text("Set not found.")
+                            .font(.headline)
+                        Text("Try a different name, theme, or year range.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
                 }
             }
             .padding()
         }
         .onAppear {
-            viewModel.getLegoSet()
+            // Clear any stale list-level error left over from previous activity
+            // (e.g. a request that was cancelled when navigating back from the
+            // detail view) before we kick off a fresh load.
+            viewModel.clearListError()
+            // Only fetch the default sets if we don't already have them cached;
+            // otherwise we'd flash a loading spinner every time the user returns
+            // from the detail screen.
+            if viewModel.legoSet == nil {
+                viewModel.getLegoSet()
+            }
         }
     }
     

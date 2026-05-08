@@ -219,8 +219,9 @@ struct SettingView: View {
     private func settingsLabel(_ title: String, systemImage: String, filled: Bool) -> some View {
         HStack(spacing: 12) {
             settingsIcon(systemImage, filled: filled)
-            Text(title)
-                .font(.body)
+            Button(title) {
+                cloudSync.requestAuthorization()
+            }
         }
     }
     

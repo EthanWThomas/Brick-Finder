@@ -30,7 +30,7 @@ struct LegoInstructionsView: View {
                     ProgressView()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .padding(.top, 50)
-                } else if let errorMessage = viewModel.errorMessage {
+                } else if let errorMessage = viewModel.detailErrorMessage {
                     VStack(spacing: 12) {
                         Image(systemName: "exclamationmark.triangle")
                             .font(.largeTitle)

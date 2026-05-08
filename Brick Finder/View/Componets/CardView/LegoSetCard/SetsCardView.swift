@@ -101,6 +101,7 @@ struct SetsCardView: View {
                         setSavedDataVM.savedLegoSetsResult(legoResult: legoSet)
                     }
                     .font(.system(size: 10, weight: .medium))
+                    .foregroundStyle(Color.red)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
                     .background(Color.gray.opacity(0.1))

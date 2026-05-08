@@ -47,7 +47,7 @@ struct SearchInstructionView: View {
                     ProgressView("Loading instructions…")
                         .frame(maxWidth: .infinity)
                         .padding(.top, 40)
-                } else if let errorMessage = viewModel.errorMessage {
+                } else if let errorMessage = viewModel.detailErrorMessage {
                     VStack(spacing: 12) {
                         Image(systemName: "exclamationmark.triangle")
                             .font(.largeTitle)

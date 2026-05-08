@@ -94,7 +94,7 @@ struct FeaturedSetCard: View {
                     .clipped()
                     .containerRelativeFrame(
                         .vertical, count: 5,
-                        span: 2, spacing: 10
+                        span: 1, spacing: 10
                     )
             default:
                 Image("legoMinifigure")

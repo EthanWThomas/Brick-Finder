@@ -33,6 +33,11 @@ struct PartDetailsView: View {
             viewModel.getLegoPartsColor(part: legoPart.partNumber ?? "No part Number")
             
         }
+        .onDisappear {
+            // Clear any detail-only error state so it can't leak into the list
+            // view's UI when the user navigates back.
+            viewModel.cancelDetailLoading()
+        }
     }
     
  

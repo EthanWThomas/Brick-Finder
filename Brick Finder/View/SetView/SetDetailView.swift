@@ -193,6 +193,12 @@ struct SetDetailView: View {
                 inventoryVM: inventoryVM
             )
         }
+        .onDisappear {
+            // Cancel any in-flight detail-only requests (e.g. the deferred MOCs
+            // fetch) so a late completion can't write to the shared SetVM and
+            // make the list view briefly flash an error banner.
+            viewModel.cancelDetailLoading()
+        }
     }
     
     private var setPartDisplay: some View {

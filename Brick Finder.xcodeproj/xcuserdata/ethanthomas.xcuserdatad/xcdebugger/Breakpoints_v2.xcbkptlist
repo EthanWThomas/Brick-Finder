@@ -416,7 +416,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "176"
             endingLineNumber = "176"
-            landmarkName = "searchLegoSetWithAThemeAndYear()"
+            landmarkName = "getLegoIntructions(with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -528,7 +528,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "162"
             endingLineNumber = "162"
-            landmarkName = "searchLegoSetWithAThemeAndYear()"
+            landmarkName = "getLegoIntructions(with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1088,7 +1088,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "115"
             endingLineNumber = "115"
-            landmarkName = "getLegoIntructions(with:)"
+            landmarkName = "cancelDetailLoading()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
