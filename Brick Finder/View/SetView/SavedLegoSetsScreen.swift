@@ -22,6 +22,7 @@ struct SavedLegoSetsScreen: View {
                     listView
                 }
             }
+            .background(Color(UIColor.secondarySystemBackground))
         }
     }
     

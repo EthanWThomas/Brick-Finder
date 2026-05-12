@@ -54,12 +54,31 @@ class InventoryPartsVM: ObservableObject {
         }
     }
 
+    /// Clears the cached parts + minifig inventory. Call this when navigating to a
+    /// new set so the detail screen doesn't render the previously-viewed set's
+    /// inventory while a fresh fetch is in flight.
+    @MainActor
+    func clearInventory() {
+        setInventoryPart = nil
+        getInventoryMinifiger = nil
+        errorMessage = nil
+    }
+
     /// Loads inventory parts + minifigs concurrently for a set.
     /// Use this from a parent loader (e.g. `SetVM`) to avoid multiple overlapping Tasks.
     func loadSetInventory(setNumber: String, includeParts: Bool = true, includeMinifigs: Bool = true) async {
         await MainActor.run {
             isLoading = true
             errorMessage = nil
+            // Wipe any prior set's inventory so we don't show stale data
+            // (e.g. parts from the previously-viewed set) under the loading
+            // indicator before the new fetch lands.
+            if includeParts {
+                setInventoryPart = nil
+            }
+            if includeMinifigs {
+                getInventoryMinifiger = nil
+            }
         }
 
         do {
@@ -99,6 +118,14 @@ class InventoryPartsVM: ObservableObject {
             print(error)
             await MainActor.run {
                 errorMessage = error.localizedDescription
+                // Surface an empty state instead of a stuck ProgressView when
+                // the inventory API fails for this set.
+                if includeParts {
+                    setInventoryPart = []
+                }
+                if includeMinifigs {
+                    getInventoryMinifiger = []
+                }
                 isLoading = false
             }
         }

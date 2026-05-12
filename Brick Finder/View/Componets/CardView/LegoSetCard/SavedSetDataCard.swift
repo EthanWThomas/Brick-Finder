@@ -92,6 +92,7 @@ struct SavedSetDataCard: View {
                     Button("Delete") {
                         setSavedDataVM.deleteLegoResult(lego: legoSet)
                     }
+                    .foregroundStyle(Color.red)
                     .font(.system(size: 10, weight: .medium))
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)

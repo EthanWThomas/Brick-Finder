@@ -336,7 +336,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "223"
             endingLineNumber = "223"
-            landmarkName = "minifigureDisplay"
+            landmarkName = "setPartDisplay"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -352,7 +352,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "222"
             endingLineNumber = "222"
-            landmarkName = "minifigureDisplay"
+            landmarkName = "setPartDisplay"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -432,8 +432,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "203"
             endingLineNumber = "203"
-            landmarkName = "setPartDisplay"
-            landmarkType = "24">
+            landmarkName = "SetDetailView"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -464,7 +464,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "535"
             endingLineNumber = "535"
-            landmarkName = "detailCardView(number:name:year:theme:themeGroup:category:subTheme:pleces:minifigs:rating:availability:instructionsCount:tags:description:setImageURL:retailPrice:showHeroBlock:)"
+            landmarkName = "mocsCard(name:creator:year:set:moc:numberOf:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -528,7 +528,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "162"
             endingLineNumber = "162"
-            landmarkName = "getLegoIntructions(with:)"
+            landmarkName = "seacrhLegoSet()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1088,7 +1088,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "115"
             endingLineNumber = "115"
-            landmarkName = "cancelDetailLoading()"
+            landmarkName = "loadSetDetail(setNumber:inventoryVM:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -58,11 +58,17 @@ class SetVM: ObservableObject {
     /// Call this from the view using `.task(id:)` so it cancels automatically when the set changes.
     func loadSetDetail(setNumber: String, inventoryVM: InventoryPartsVM) async {
         // Cancel any previous MOC fetch from a prior set before we start a new one.
+        // Also wipe any detail state left over from a previously-viewed set so the
+        // detail view doesn't render stale image/description/MOCs/inventory while
+        // the new fetch is in flight (or if the new set has no extended info).
         await MainActor.run {
             mocsTask?.cancel()
             mocsTask = nil
             isLoading = true
             detailErrorMessage = nil
+            setInfo = nil
+            legoSetMOCS = nil
+            inventoryVM.clearInventory()
         }
 
         // Phase 1: prioritize the Details tab (set info) + inventory.
@@ -79,7 +85,12 @@ class SetVM: ObservableObject {
                     await MainActor.run { self.setInfo = info }
                 } catch {
                     if Task.isCancelled || Self.isCancellation(error) { return }
-                    await MainActor.run { self.detailErrorMessage = error.localizedDescription }
+                    // Surface an empty state instead of a stuck ProgressView when
+                    // the detail API has no info (or fails) for this set.
+                    await MainActor.run {
+                        self.detailErrorMessage = error.localizedDescription
+                        self.setInfo = []
+                    }
                 }
             }
         }
@@ -109,7 +120,10 @@ class SetVM: ObservableObject {
                     await MainActor.run { self.legoSetMOCS = mocs }
                 } catch {
                     if Task.isCancelled || Self.isCancellation(error) { return }
-                    await MainActor.run { self.detailErrorMessage = error.localizedDescription }
+                    await MainActor.run {
+                        self.detailErrorMessage = error.localizedDescription
+                        self.legoSetMOCS = []
+                    }
                 }
             }
         }

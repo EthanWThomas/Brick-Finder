@@ -21,6 +21,7 @@ struct SavedMinifiguresScreen: View {
                     listView
                 }
             }
+            .background(Color(UIColor.secondarySystemBackground))
         }
     }
     

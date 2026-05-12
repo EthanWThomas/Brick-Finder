@@ -203,22 +203,33 @@ struct SetDetailView: View {
     
     private var setPartDisplay: some View {
         ScrollView(.vertical) {
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), content:  {
-                if let parts = inventoryVM.setInventoryPart {
-                    ForEach(parts, id: \.id) { legoPart in
-                        partCard(
-                            image: legoPart.part.partImageURL,
-                            part: legoPart.part.partNumber,
-                            set: legoPart.quantity)
-                    }
-                    .onSubmit {
-                        inventoryVM.getInventoryPart(with: legoSet.setNumber ?? "no number")
-                    }
+            if let parts = inventoryVM.setInventoryPart {
+                if parts.isEmpty {
+                    emptyTabState(
+                        icon: "cube.box",
+                        message: "This set has no parts"
+                    )
+                } else {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), content:  {
+                        ForEach(parts, id: \.id) { legoPart in
+                            partCard(
+                                image: legoPart.part.partImageURL,
+                                part: legoPart.part.partNumber,
+                                set: legoPart.quantity)
+                        }
+                        .onSubmit {
+                            inventoryVM.getInventoryPart(with: legoSet.setNumber ?? "no number")
+                        }
+                    })
+                    .padding(15)
+                    .padding(.top, 8)
+                    .padding(.bottom, 12)
                 }
-            })
-            .padding(15)
-            .padding(.top, 8)
-            .padding(.bottom, 12)
+            } else {
+                ProgressView()
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
+            }
         }
         .scrollIndicators(.automatic)
         .safeAreaPadding(.bottom, 8)
@@ -226,25 +237,50 @@ struct SetDetailView: View {
     
     private var minifigureDisplay: some View {
         ScrollView(.vertical) {
-            LazyVGrid(columns: Array(repeating: GridItem(), count: 2), content:  {
-                if let minifigures = inventoryVM.getInventoryMinifiger {
-                    ForEach(minifigures, id: \.setNum) { legoMinfigures in
-                        minifigCard(
-                            image: legoMinfigures.setImageURL,
-                            part: legoMinfigures.setNum
-                        )
-                    }
-                    .onSubmit {
-                        inventoryVM.getInventoryMinifigerInSet(with: legoSet.setNumber ?? "No set number")
-                    }
+            if let minifigures = inventoryVM.getInventoryMinifiger {
+                if minifigures.isEmpty {
+                    emptyTabState(
+                        icon: "person.3",
+                        message: "This set has no minifigures"
+                    )
+                } else {
+                    LazyVGrid(columns: Array(repeating: GridItem(), count: 2), content:  {
+                        ForEach(minifigures, id: \.setNum) { legoMinfigures in
+                            minifigCard(
+                                image: legoMinfigures.setImageURL,
+                                part: legoMinfigures.setNum
+                            )
+                        }
+                        .onSubmit {
+                            inventoryVM.getInventoryMinifigerInSet(with: legoSet.setNumber ?? "No set number")
+                        }
+                    })
+                    .padding(15)
+                    .padding(.top, 8)
+                    .padding(.bottom, 12)
                 }
-            })
-            .padding(15)
-            .padding(.top, 8)
-            .padding(.bottom, 12)
+            } else {
+                ProgressView()
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
+            }
         }
         .scrollIndicators(.automatic)
         .safeAreaPadding(.bottom, 8)
+    }
+
+    private func emptyTabState(icon: String, message: String) -> some View {
+        VStack(spacing: 10) {
+            Image(systemName: icon)
+                .font(.largeTitle)
+                .foregroundColor(.secondary)
+
+            Text(message)
+                .font(.headline)
+                .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 40)
     }
     
     private var mocsDisplay: some View {
@@ -297,17 +333,25 @@ struct SetDetailView: View {
         ScrollView(.vertical) {
             if let details = viewModel.setInfo {
                 if details.isEmpty {
-                    VStack(spacing: 10) {
-                        Image(systemName: "sparkles")
-                            .font(.largeTitle)
-                            .foregroundColor(.secondary)
-                        
-                        Text("No detail for this set yet")
-                            .font(.headline)
-                            .foregroundColor(.secondary)
+                    VStack(spacing: 16) {
+                        VStack(spacing: 10) {
+                            Image(systemName: "sparkles")
+                                .font(.largeTitle)
+                                .foregroundColor(.secondary)
+
+                            Text("No info available yet")
+                                .font(.headline)
+                                .foregroundColor(.secondary)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 40)
+
+                        // Even without extended set info we can still surface
+                        // building instructions for the clicked set, since the
+                        // instructions view fetches independently by setNumber.
+                        instructionPage(lego: legoSet)
+                            .padding(.horizontal, 15)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 40)
                 } else {
                     ForEach(details, id: \.setID) { setDeteils in
                         detailCardView(

@@ -56,8 +56,13 @@ struct SavedMinifigureDataCard: View {
                     Button {
                         viewModel.deleteLegoResult(legoDataModel: minifigures)
                     } label: {
-                        Image(systemName: "xmark.circle")
+                        Text("Delete")
                             .foregroundStyle(Color.red)
+                            .font(.system(size: 10, weight: .medium))
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(Color.gray.opacity(0.1))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
 
                 }

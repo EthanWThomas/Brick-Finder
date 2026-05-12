@@ -19,6 +19,7 @@ struct SavedLegoPartScreen: View {
                     listView
                 }
             }
+            .background(Color(UIColor.secondarySystemBackground))
         }
     }
     
