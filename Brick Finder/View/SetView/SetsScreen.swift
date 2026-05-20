@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct SetsScreen: View {
+    @EnvironmentObject private var themeViewModel: ThemeViewModel
     @StateObject var viewModel = SetVM()
     @StateObject var inventoryVM = InventoryPartsVM()
     
@@ -46,13 +47,18 @@ struct SetsScreen: View {
                     viewModel.searchLegoSetWithTheme()
                 }
                 .onChange(of: viewModel.minYear) { _, _ in
+                    guard viewModel.minYear != 0 || viewModel.maxYear != 0 else { return }
                     viewModel.searchLegoSetWithAThemeAndYear()
                 }
                 .onChange(of: viewModel.maxYear) { _, _ in
+                    guard viewModel.minYear != 0 || viewModel.maxYear != 0 else { return }
                     viewModel.searchLegoSetWithAThemeAndYear()
                 }
             }
             .background(Color(UIColor.secondarySystemBackground))
+        }
+        .task {
+            themeViewModel.loadThemesIfNeeded()
         }
         .onSubmit {
             viewModel.seacrhLegoSet()
@@ -75,27 +81,7 @@ struct SetsScreen: View {
     
     private var themePicker: some View {
         HStack {
-            Menu("Theme") {
-                Picker("lego", selection: $viewModel.themeId) {
-                    ForEach(LegoThemes.allCases, id: \.id) { theme in
-                        Text(theme.displayName)
-                            .tag(theme.rawValue)
-                    }
-                }
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-            .frame(width: 140, height: 40)
-            .foregroundStyle(Color.black)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.white)
-                    .stroke(Color.gray)
-                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
-            )
-            .cornerRadius(8)
-            .offset(y: 4)
-            .zIndex(1000)
+            ThemePickerMenu(themeId: $viewModel.themeId, themeViewModel: themeViewModel)
             Spacer()
         }
     }

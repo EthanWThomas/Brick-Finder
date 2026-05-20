@@ -9,7 +9,12 @@ import SwiftUI
 
 struct SearchInstructionView: View {
     @StateObject var viewModel = SetVM()
-    
+    @FocusState private var isSearchFocused: Bool
+
+    private var showsClearButton: Bool {
+        isSearchFocused || !viewModel.searchText.isEmpty
+    }
+
     var body: some View {
         VStack(spacing: 24) {
             searchView
@@ -21,9 +26,23 @@ struct SearchInstructionView: View {
     private var searchView: some View {
         HStack(spacing: 12) {
             Image(systemName: "magnifyingglass")
+                .foregroundStyle(
+                    viewModel.searchText.isEmpty ? Color.secondary : Color.primary
+                )
             TextField("LEGO set number (e.g. 75192)", text: $viewModel.searchText)
+                .textFieldStyle(.plain)
+                .foregroundStyle(Color.black)
+                .focused($isSearchFocused)
                 .submitLabel(.search)
                 .onSubmit { viewModel.getLegoIntructions(with: viewModel.searchText) }
+            if showsClearButton {
+                Button(action: cancelSearch) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(Color.primary)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Clear search")
+            }
             Button("Search") {
                 viewModel.getLegoIntructions(with: viewModel.searchText)
             }
@@ -39,7 +58,13 @@ struct SearchInstructionView: View {
         )
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
-    
+
+    private func cancelSearch() {
+        viewModel.searchText = ""
+        isSearchFocused = false
+        viewModel.getLegoIntructions(with: "")
+    }
+
     private var displayInstructions: some View {
         ScrollView(.vertical) {
             VStack(spacing: 16) {

@@ -11,6 +11,8 @@ import SwiftData
 struct TabNavigation: View {
     @State private var selectedTab = 0
     @State private var searchText: String = ""
+    @StateObject private var themeViewModel = ThemeViewModel()
+    @StateObject private var partCategoryViewModel = PartCategoryViewModel()
     
     let cantainer: ModelContainer
     
@@ -34,21 +36,25 @@ struct TabNavigation: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             HomeView(context: ModelContext(cantainer))
+                .environmentObject(themeViewModel)
                 .modelContainer(cantainer)
                 .tabItem { Label("Home", systemImage: "house") }
                 .tag(0)
             
             MinifiguresScreen(context: ModelContext(cantainer))
+                .environmentObject(themeViewModel)
                 .modelContainer(cantainer)
                 .tabItem { Label("Minifigures", systemImage: "person.crop.circle") }
                 .tag(1)
             
             SetsScreen(context: ModelContext(cantainer))
+                .environmentObject(themeViewModel)
                 .modelContainer(cantainer)
                 .tabItem { Label("Sets", systemImage: "folder.fill") }
                 .tag(2)
             
             PartsScreen(context: ModelContext(cantainer))
+                .environmentObject(partCategoryViewModel)
                 .modelContainer(cantainer)
                 .tabItem { Label("Parts", systemImage: "square.and.arrow.down") }
                 .tag(3)

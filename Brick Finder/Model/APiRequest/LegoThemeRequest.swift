@@ -23,38 +23,38 @@ private struct RebrickableThemeRow: Decodable {
 }
 
 extension RebrickableApi {
-    /// `GET /api/v3/lego/themes/` — same API key as your other Rebrickable calls.
-    func getAllLegoTheme() async throws -> Themes {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/themes/?page_size=500&key=\(RebrickableApi.apiKey)")
-        else { throw RequestError.failedToCreateURL }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
-        case 200:
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let page = try decoder.decode(RebrickableThemesPage.self, from: data)
-            let mapped = page.results.map { row in
-                Themes.ThemesResults(
-                    theme: row.name,
-                    setCount: 0,
-                    subthemeCount: 0,
-                    yearFrom: nil,
-                    yearTo: nil,
-                    id: String(row.id)
-                )
+    /// `GET /api/v3/lego/themes/` — follows pagination until all themes are loaded.
+    func fetchAllLegoThemes() async throws -> [LegoTheme] {
+        var all: [LegoTheme] = []
+        var nextURL: URL? = URL(
+            string: "https://rebrickable.com/api/v3/lego/themes/?page_size=1000&key=\(RebrickableApi.apiKey)"
+        )
+
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        while let url = nextURL {
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+            let (data, response) = try await URLSession.shared.data(for: request)
+
+            switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
+            case 200:
+                let page = try decoder.decode(RebrickableThemesPage.self, from: data)
+                all.append(contentsOf: page.results.map {
+                    LegoTheme(id: $0.id, parentId: $0.parentId, name: $0.name)
+                })
+                nextURL = page.next.flatMap { URL(string: $0) }
+            case 201, 204, 400, 401, 403, 404, 429:
+                throw try JSONDecoder().decode(ErrorResponse.self, from: data)
+            default:
+                throw ResponseError.unownedErrorOccurred
             }
-            return Themes(themes: mapped)
-        case 201, 204, 400, 401, 403, 404, 429:
-            throw try JSONDecoder().decode(ErrorResponse.self, from: data)
-        default:
-            throw ResponseError.unownedErrorOccurred
         }
+
+        return LegoTheme.withManualOverrides(LegoTheme.deduplicatedByName(all))
     }
 }
 
@@ -71,13 +71,13 @@ extension BrickableAPI {
     func getAllLegoThemeFromBrickset() async throws -> Themes {
         guard let url = URL(string: "https://brickset.com/api/v3.asmx/getThemes?apiKey=\(BrickableAPI.apiKey)")
         else { throw RequestError.failedToCreateURL }
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+
         let (data, response) = try await URLSession.shared.data(for: request)
-        
+
         switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
         case 200:
             let envelope = try JSONDecoder().decode(BricksetThemesEnvelope.self, from: data)

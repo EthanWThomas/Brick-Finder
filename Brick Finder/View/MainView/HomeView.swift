@@ -29,7 +29,7 @@ struct HomeView: View {
     @StateObject private var inventoryViemModel = InventoryPartsVM()
     @StateObject private var setViewModel = SetVM()
     @StateObject private var partViewModel = PartVM()
-    @StateObject private var themeViewModel = ThemeViewModel()
+    @EnvironmentObject private var themeViewModel: ThemeViewModel
     
     //    @Query(sort: \ViewedItem.timestamp, order: .reverse)
     //    var history: ViewedItem
@@ -133,16 +133,16 @@ struct HomeView: View {
                         if themeViewModel.isLoading {
                             ProgressView()
                                 .padding(.leading, 4)
-                        } else if let themes = themeViewModel.legoThemes, !themes.isEmpty {
-                            ForEach(themes) { legoTheme in
+                        } else if !themeViewModel.themes.isEmpty {
+                            ForEach(themeViewModel.sortedThemes) { legoTheme in
                                 Button {
-                                    guard selectedThemeId != legoTheme.id else { return }
-                                    selectedThemeId = legoTheme.id
-                                    setViewModel.getLegoSetWithTeme(themeId: legoTheme.id)
+                                    guard selectedThemeId != legoTheme.idString else { return }
+                                    selectedThemeId = legoTheme.idString
+                                    setViewModel.getLegoSetWithTeme(themeId: legoTheme.idString)
                                 } label: {
                                     CategoryPill(
                                         theme: legoTheme,
-                                        isSelected: legoTheme.id == (selectedThemeId ?? themes.first?.id)
+                                        isSelected: legoTheme.idString == (selectedThemeId ?? themeViewModel.sortedThemes.first?.idString)
                                     )
                                 }
                                 .buttonStyle(.plain)
@@ -167,13 +167,12 @@ struct HomeView: View {
             }
         }
         .task {
-            themeViewModel.getAllLegoThemes()
-            
+            themeViewModel.loadThemesIfNeeded()
         }
-        .onChange(of: themeViewModel.legoThemes?.first?.id) { _, newValue in
+        .onChange(of: themeViewModel.themes.first?.id) { _, newValue in
             guard selectedThemeId == nil, let firstThemeId = newValue else { return }
-            selectedThemeId = firstThemeId
-            setViewModel.getLegoSetWithTeme(themeId: firstThemeId)
+            selectedThemeId = String(firstThemeId)
+            setViewModel.getLegoSetWithTeme(themeId: String(firstThemeId))
         }
         .sheet(isPresented: $showAllThemes) {
             allThemesSheet
@@ -198,19 +197,19 @@ struct HomeView: View {
     private var allThemesSheet: some View {
         NavigationStack {
             Group {
-                if let themes = themeViewModel.legoThemes, !themes.isEmpty {
+                if !themeViewModel.sortedThemes.isEmpty {
                     List {
-                        ForEach(themes) { theme in
+                        ForEach(themeViewModel.sortedThemes) { theme in
                             Button {
-                                selectedThemeId = theme.id
-                                setViewModel.getLegoSetWithTeme(themeId: theme.id)
+                                selectedThemeId = theme.idString
+                                setViewModel.getLegoSetWithTeme(themeId: theme.idString)
                                 showAllThemes = false
                             } label: {
                                 HStack {
-                                    Text(theme.theme ?? "No Theme")
+                                    Text(theme.name)
                                         .foregroundColor(.primary)
                                     Spacer()
-                                    if theme.id == selectedThemeId {
+                                    if theme.idString == selectedThemeId {
                                         Image(systemName: "checkmark")
                                             .foregroundColor(.accentColor)
                                     }

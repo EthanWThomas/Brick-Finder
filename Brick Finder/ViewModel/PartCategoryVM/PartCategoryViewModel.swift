@@ -1,21 +1,19 @@
 //
-//  ThemeViewModel.swift
+//  PartCategoryViewModel.swift
 //  Brick Finder
-//
-//  Created by Ethan Thomas on 3/17/26.
 //
 
 import Foundation
 
 @MainActor
-final class ThemeViewModel: ObservableObject {
+final class PartCategoryViewModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var errorMessage: String?
-    @Published private(set) var themes: [LegoTheme] = []
+    @Published private(set) var categories: [PartCategory] = []
 
-    /// Alphabetical, name-unique list for pickers and sheets.
-    var sortedThemes: [LegoTheme] {
-        LegoTheme.deduplicatedByName(themes).sorted {
+    /// Alphabetical list for pickers and sheets.
+    var sortedCategories: [PartCategory] {
+        categories.sorted {
             $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
         }
     }
@@ -24,37 +22,36 @@ final class ThemeViewModel: ObservableObject {
     private var loadTask: Task<Void, Never>?
 
     /// Loads from disk cache immediately when available, then refreshes from Rebrickable.
-    func loadThemesIfNeeded() {
+    func loadCategoriesIfNeeded() {
         guard loadTask == nil else { return }
-        loadTask = Task { await loadThemes() }
+        loadTask = Task { await loadCategories() }
     }
 
-    func loadThemes() async {
-        if let cached = LegoThemeCache.load() {
-            themes = LegoTheme.withManualOverrides(LegoTheme.deduplicatedByName(cached))
+    func loadCategories() async {
+        if let cached = PartCategoryCache.load() {
+            categories = cached
             isLoading = false
         } else {
             isLoading = true
-            themes = []
         }
         errorMessage = nil
 
         do {
-            let fetched = try await rebrickable.fetchAllLegoThemes()
-            themes = fetched
-            LegoThemeCache.save(fetched)
+            let fetched = try await rebrickable.fetchAllPartCategories()
+            categories = fetched
+            PartCategoryCache.save(fetched)
             isLoading = false
             errorMessage = nil
         } catch {
-            if themes.isEmpty {
+            if categories.isEmpty {
                 errorMessage = error.localizedDescription
             }
             isLoading = false
         }
     }
 
-    func theme(withIdString id: String) -> LegoTheme? {
+    func category(withIdString id: String) -> PartCategory? {
         guard let intId = Int(id) else { return nil }
-        return themes.first { $0.id == intId }
+        return categories.first { $0.id == intId }
     }
 }

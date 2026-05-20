@@ -10,12 +10,11 @@ import SwiftData
 
 
 struct PartsScreen: View {
+    @EnvironmentObject private var partCategoryViewModel: PartCategoryViewModel
     @StateObject var viewModel = PartVM()
     
     @State private var showDropdown = false
     @State var savedPartViewModel: SavedLegoPartVM
-
-    @StateObject private var partCategoriesVM = PartCategoryViewModel()
     
     init(context: ModelContext) {
         self.savedPartViewModel = SavedLegoPartVM(context: context)
@@ -28,31 +27,10 @@ struct PartsScreen: View {
                 
                 HStack {
                     HStack {
-                        Menu("Category") {
-                            Picker("lego", selection: $viewModel.partId) {
-                                if partCategoriesVM.isLoading {
-                                    Text("Loading...")
-                                } else {
-                                    ForEach(partCategoriesVM.categories, id: \.id) { cat in
-                                        Text(cat.name)
-                                            .tag(String(cat.id))
-                                    }
-                                }
-                            }
-                        }
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 10)
-                        .frame(width: 140, height: 40)
-                        .foregroundStyle(Color.black)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.white)
-                                .stroke(Color.gray)
-                                .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
+                        PartCategoryPickerMenu(
+                            partCategoryId: $viewModel.partId,
+                            partCategoryViewModel: partCategoryViewModel
                         )
-                        .cornerRadius(8)
-                        .offset(y: 4)
-                        .zIndex(1000)
                         Spacer()
                     }
                 }
@@ -63,11 +41,9 @@ struct PartsScreen: View {
             .background(Color(UIColor.secondarySystemBackground))
         }
         .task {
-            await partCategoriesVM.loadAllPartCategories()
+            partCategoryViewModel.loadCategoriesIfNeeded()
         }
-        .onChange(of: viewModel.partId) { _, newValue in
-//            guard viewModel.partId.isEmpty, let first = newValue.first else { return }
-//            viewModel.partId = String(first.id)
+        .onChange(of: viewModel.partId) { _, _ in
             viewModel.searchLegoPartWithAPartId()
         }
     }

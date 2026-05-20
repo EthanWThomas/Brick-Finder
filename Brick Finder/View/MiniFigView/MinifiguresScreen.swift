@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct MinifiguresScreen: View {
+    @EnvironmentObject private var themeViewModel: ThemeViewModel
     @StateObject var minifiguresVM = MinifiguresVM()
     @StateObject var minifigSetVM = MiniFiguresDetailVM()
     @StateObject var minifigPartVM = PartVM()
@@ -42,6 +43,9 @@ struct MinifiguresScreen: View {
             .onChange(of: minifiguresVM.themeId) { _, _ in
                 minifiguresVM.seacrhMinifiguresWithAThemeId()
             }
+            .task {
+                themeViewModel.loadThemesIfNeeded()
+            }
         }
     }
     
@@ -64,28 +68,7 @@ struct MinifiguresScreen: View {
     
     private var tabbar: some View {
         HStack {
-            Menu("Theme") {
-                Picker("lego", selection: $minifiguresVM.themeId) {
-                    ForEach(LegoThemes.allCases, id: \.id) { theme in
-                        Text(theme.displayName)
-                            .tag(theme.rawValue)
-                           
-                    }
-                }
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-            .frame(width: 140, height: 40)
-            .foregroundStyle(Color.black)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.white)
-                    .stroke(Color.gray)
-                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
-            )
-            .cornerRadius(8)
-            .offset(y: 4)
-            .zIndex(1000)
+            ThemePickerMenu(themeId: $minifiguresVM.themeId, themeViewModel: themeViewModel)
             Spacer()
         }
         .padding(.horizontal)

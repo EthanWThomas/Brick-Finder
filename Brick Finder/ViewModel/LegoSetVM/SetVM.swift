@@ -17,7 +17,13 @@ class SetVM: ObservableObject {
     @Published private(set) var detailErrorMessage: String?
     
     @Published var searchText = ""
-    @Published var themeId: String = ""
+    @Published var themeId: String = "" {
+        didSet {
+            guard themeId != oldValue else { return }
+            minYear = 0
+            maxYear = 0
+        }
+    }
     @Published var maxYear = 0
     @Published var minYear = 0
     
