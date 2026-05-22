@@ -1,0 +1,40 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/Componets/CardView/LegoSetCard/SetsCardView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 46
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 63
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld pleces (%lld)",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 95
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add to Collection",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 100
+        }
+      }
+    ]
+  },
+  "version": 1
+}

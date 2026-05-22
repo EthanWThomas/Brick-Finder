@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>colors</key>
+	<array>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameTabbarColor</string>
+			<key>relativePath</key>
+			<string>./Colors/TabbarColor.colorset</string>
+			<key>swiftSymbol</key>
+			<string>tabbar</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameMainBackgroundColor</string>
+			<key>relativePath</key>
+			<string>./Colors/mainBackgroundColor.colorset</string>
+			<key>swiftSymbol</key>
+			<string>mainBackground</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameMainBackgroundColor2</string>
+			<key>relativePath</key>
+			<string>./Colors/mainBackgroundColor2.colorset</string>
+			<key>swiftSymbol</key>
+			<string>mainBackgroundColor2</string>
+		</dict>
+	</array>
+	<key>images</key>
+	<array>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameGeminiGeneratedImage7Vf8Eq7Vf8Eq7Vf8</string>
+			<key>relativePath</key>
+			<string>./Images/Logo/Gemini_Generated_Image_7vf8eq7vf8eq7vf8.imageset</string>
+			<key>swiftSymbol</key>
+			<string>geminiGeneratedImage7Vf8Eq7Vf8Eq7Vf8</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameRedLegoBrick</string>
+			<key>relativePath</key>
+			<string>./Images/RedLegoBrick.imageset</string>
+			<key>swiftSymbol</key>
+			<string>redLegoBrick</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameLegoMinifigure</string>
+			<key>relativePath</key>
+			<string>./Images/legoMinifigure.imageset</string>
+			<key>swiftSymbol</key>
+			<string>legoMinifigure</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameLegoRedBrick</string>
+			<key>relativePath</key>
+			<string>./Images/legoRedBrick.imageset</string>
+			<key>swiftSymbol</key>
+			<string>legoRedBrick</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameMinifigure</string>
+			<key>relativePath</key>
+			<string>./Images/minifigure.imageset</string>
+			<key>swiftSymbol</key>
+			<string>minifigure</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameSetImage</string>
+			<key>relativePath</key>
+			<string>./Images/setImage.imageset</string>
+			<key>swiftSymbol</key>
+			<string>set</string>
+		</dict>
+	</array>
+	<key>symbols</key>
+	<array/>
+</dict>
+</plist>

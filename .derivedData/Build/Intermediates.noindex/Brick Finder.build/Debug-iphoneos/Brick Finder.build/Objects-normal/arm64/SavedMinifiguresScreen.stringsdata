@@ -1,0 +1,24 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/MiniFigView/SavedMinifiguresScreen.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "No saved minifigures yet",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 41
+        }
+      },
+      {
+        "comment": "",
+        "key": "Go save a minifigure to start your collection!",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 43
+        }
+      }
+    ]
+  },
+  "version": 1
+}

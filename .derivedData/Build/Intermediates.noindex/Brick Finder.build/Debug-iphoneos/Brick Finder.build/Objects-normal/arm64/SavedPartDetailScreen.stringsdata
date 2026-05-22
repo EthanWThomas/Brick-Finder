@@ -1,0 +1,88 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/PartsView/SavedPartDetailScreen.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Part not found",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 64
+        }
+      },
+      {
+        "comment": "",
+        "key": "Available Colors",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 82
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld color%@ available",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 87
+        }
+      },
+      {
+        "comment": "",
+        "key": "No colors found",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 117
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 168
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sets",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 171
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 184
+        }
+      },
+      {
+        "comment": "",
+        "key": "Set Parts",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 187
+        }
+      },
+      {
+        "comment": "",
+        "key": "Color ID: %lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 276
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld - %lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 291
+        }
+      }
+    ]
+  },
+  "version": 1
+}

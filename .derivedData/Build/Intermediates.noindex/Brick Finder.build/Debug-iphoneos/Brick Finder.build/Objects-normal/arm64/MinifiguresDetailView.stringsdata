@@ -1,0 +1,72 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/MiniFigView/MinifiguresDetailView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Minifigure Parts",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 134
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld part%@",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 140
+        }
+      },
+      {
+        "comment": "",
+        "key": "No parts found",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 169
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sets This Minifigure Appears In",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 189
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld set%@",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 195
+        }
+      },
+      {
+        "comment": "",
+        "key": "No sets found",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 225
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 250
+        }
+      },
+      {
+        "comment": "",
+        "key": "×",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 253
+        }
+      }
+    ]
+  },
+  "version": 1
+}

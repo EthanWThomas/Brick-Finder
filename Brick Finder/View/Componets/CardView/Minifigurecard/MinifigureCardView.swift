@@ -36,16 +36,26 @@ struct MinifigureCardView: View {
             .cornerRadius(8)
             
             VStack(alignment: .leading, spacing: 4) {
+                Text(minifigures.name ?? "Person")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color.primary)
+                    .lineLimit(2)
                 HStack {
-                    Text(minifigures.name ?? "Person")
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(Color.primary)
-                        .lineLimit(2)
+                    Text(minifigures.setNum ?? "00001")
+                        .font(.system(size: 12))
+                        .foregroundColor(.secondary)
+                        .background(Color(.systemGray5))
+                        .clipShape(Capsule())
+                        .overlay(
+                            Capsule()
+                                .stroke(Color(.systemGray4), lineWidth: 1)
+                        )
+                    
                     Button {
                         minifigureSavedDataVM.savedLegoResult(legoResult: minifigures)
                     } label: {
                         Text("Add to Collection")
-                            .font(.system(size: 10, weight: .medium))
+                            .font(.system(size: 8, weight: .medium))
                             .foregroundStyle(Color.red)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)
@@ -55,15 +65,7 @@ struct MinifigureCardView: View {
 
                 }
                 
-                Text(minifigures.setNum ?? "00001")
-                    .font(.system(size: 12))
-                    .foregroundColor(.secondary)
-                    .background(Color(.systemGray5))
-                    .clipShape(Capsule())
-                    .overlay(
-                        Capsule()
-                            .stroke(Color(.systemGray4), lineWidth: 1)
-                    )
+               
             }
         }
         .padding(12)

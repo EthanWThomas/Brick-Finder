@@ -1,0 +1,96 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/SetView/SetsScreen.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Lego Set",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 73
+        }
+      },
+      {
+        "comment": "",
+        "key": "Min_year",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 91
+        }
+      },
+      {
+        "comment": "",
+        "key": "Max_year",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 113
+        }
+      },
+      {
+        "comment": "",
+        "key": "Minimum",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 92
+        }
+      },
+      {
+        "comment": "",
+        "key": "Maximum",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 114
+        }
+      },
+      {
+        "comment": "",
+        "key": "Loading sets…",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 155
+        }
+      },
+      {
+        "comment": "",
+        "key": "Couldn’t load sets",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 163
+        }
+      },
+      {
+        "comment": "",
+        "key": "Search for a set",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 183
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enter a set name or pick a theme to begin.",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 185
+        }
+      },
+      {
+        "comment": "",
+        "key": "Set not found.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 203
+        }
+      },
+      {
+        "comment": "",
+        "key": "Try a different name, theme, or year range.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 205
+        }
+      }
+    ]
+  },
+  "version": 1
+}

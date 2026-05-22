@@ -1,0 +1,72 @@
+{
+  "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Extentions/ModelExtentions/Part.swift" : {
+    "const-values" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/Part.swiftconstvalues",
+    "dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/Part.d",
+    "diagnostics" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/Part.dia",
+    "object" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/Part.o",
+    "swift-dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/Part.swiftdeps"
+  },
+  "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Extentions/ModelExtentions/SetTabs.swift" : {
+    "const-values" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/SetTabs.swiftconstvalues",
+    "dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/SetTabs.d",
+    "diagnostics" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/SetTabs.dia",
+    "object" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/SetTabs.o",
+    "swift-dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/SetTabs.swiftdeps"
+  },
+  "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Extentions/MyCustomColors.swift" : {
+    "const-values" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/MyCustomColors.swiftconstvalues",
+    "dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/MyCustomColors.d",
+    "diagnostics" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/MyCustomColors.dia",
+    "object" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/MyCustomColors.o",
+    "swift-dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/MyCustomColors.swiftdeps"
+  },
+  "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Model/APiRequest/GetLegoSetInfo.swift" : {
+    "const-values" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/GetLegoSetInfo.swiftconstvalues",
+    "dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/GetLegoSetInfo.d",
+    "diagnostics" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/GetLegoSetInfo.dia",
+    "object" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/GetLegoSetInfo.o",
+    "swift-dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/GetLegoSetInfo.swiftdeps"
+  },
+  "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Model/APiRequest/InstructionsRequest.swift" : {
+    "const-values" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/InstructionsRequest.swiftconstvalues",
+    "dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/InstructionsRequest.d",
+    "diagnostics" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/InstructionsRequest.dia",
+    "object" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/InstructionsRequest.o",
+    "swift-dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/InstructionsRequest.swiftdeps"
+  },
+  "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Model/APiRequest/LegoSetRequest.swift" : {
+    "const-values" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/LegoSetRequest.swiftconstvalues",
+    "dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/LegoSetRequest.d",
+    "diagnostics" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/LegoSetRequest.dia",
+    "object" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/LegoSetRequest.o",
+    "swift-dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/LegoSetRequest.swiftdeps"
+  },
+  "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Model/APiRequest/LegoThemeRequest.swift" : {
+    "const-values" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/LegoThemeRequest.swiftconstvalues",
+    "dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/LegoThemeRequest.d",
+    "diagnostics" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/LegoThemeRequest.dia",
+    "object" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/LegoThemeRequest.o",
+    "swift-dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/LegoThemeRequest.swiftdeps"
+  },
+  "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Model/APiRequest/MinifigsRequest.swift" : {
+    "const-values" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/MinifigsRequest.swiftconstvalues",
+    "dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/MinifigsRequest.d",
+    "diagnostics" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/MinifigsRequest.dia",
+    "object" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/MinifigsRequest.o",
+    "swift-dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/MinifigsRequest.swiftdeps"
+  },
+  "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Model/APiRequest/PartCategoryRequest.swift" : {
+    "const-values" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/PartCategoryRequest.swiftconstvalues",
+    "dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/PartCategoryRequest.d",
+    "diagnostics" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/PartCategoryRequest.dia",
+    "object" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/PartCategoryRequest.o",
+    "swift-dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/PartCategoryRequest.swiftdeps"
+  },
+  "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Model/APiRequest/PartRequest.swift" : {
+    "const-values" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/PartRequest.swiftconstvalues",
+    "dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/PartRequest.d",
+    "diagnostics" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/PartRequest.dia",
+    "object" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/PartRequest.o",
+    "swift-dependencies" : "/Users/ethanthomas/Documents/IOS/Brick Finder/.derivedData/Build/Intermediates.noindex/Brick Finder.build/Debug-iphonesimulator/Brick Finder.build/Objects-normal/x86_64/PartRequest.swiftdeps"
+  }
+}

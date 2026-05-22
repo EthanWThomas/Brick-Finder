@@ -14,15 +14,39 @@ struct SavedMinifiguresScreen: View {
     @StateObject private var minifigSetVM = MiniFiguresDetailVM()
     @StateObject private var minifigPartVM = PartVM()
     
+    private var savedMinifigures: [LegoDataModel] {
+        viewModel.legoDataModel
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
-                VStack(alignment: .leading, spacing: 24) {
-                    listView
+                if savedMinifigures.isEmpty {
+                    emptyStateView
+                } else {
+                    VStack(alignment: .leading, spacing: 24) {
+                        listView
+                    }
                 }
             }
             .background(Color(UIColor.secondarySystemBackground))
+            .onAppear {
+                viewModel.fetchLocalResult()
+            }
         }
+    }
+    
+    private var emptyStateView: some View {
+        VStack(spacing: 12) {
+            Text("No saved minifigures yet")
+                .font(.headline)
+            Text("Go save a minifigure to start your collection!")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     private var listView: some View {
@@ -34,9 +58,6 @@ struct SavedMinifiguresScreen: View {
                 ForEach(viewModel.legoDataModel, id: \.setNum) { minifigure in
                     listSavedMinifigureItem(lego: minifigure)
                 }
-            }
-            .onAppear {
-                viewModel.fetchLocalResult()
             }
         }
     }

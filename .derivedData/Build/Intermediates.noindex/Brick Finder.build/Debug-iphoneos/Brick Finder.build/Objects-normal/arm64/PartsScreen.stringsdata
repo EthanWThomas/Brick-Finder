@@ -1,0 +1,64 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/PartsView/PartsScreen.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Lego Parts",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 54
+        }
+      },
+      {
+        "comment": "",
+        "key": "Loading parts…",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 85
+        }
+      },
+      {
+        "comment": "",
+        "key": "Couldn’t load parts",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 93
+        }
+      },
+      {
+        "comment": "",
+        "key": "Search for a part",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 111
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enter a part name or pick a category to begin.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 113
+        }
+      },
+      {
+        "comment": "",
+        "key": "Part not found.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 129
+        }
+      },
+      {
+        "comment": "",
+        "key": "Try a different name or category.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 131
+        }
+      }
+    ]
+  },
+  "version": 1
+}

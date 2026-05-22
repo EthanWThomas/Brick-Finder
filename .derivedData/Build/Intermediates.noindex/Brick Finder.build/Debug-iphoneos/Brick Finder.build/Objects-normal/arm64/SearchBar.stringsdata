@@ -1,0 +1,24 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/Componets/SearchBar.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Search sets, parts, minifigs...",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": "Clear search",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 75
+        }
+      }
+    ]
+  },
+  "version": 1
+}

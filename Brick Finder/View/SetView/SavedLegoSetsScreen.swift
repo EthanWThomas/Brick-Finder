@@ -15,21 +15,45 @@ struct SavedLegoSetsScreen: View {
     @StateObject private var setVM = SetVM()
     @StateObject private var inventoryVM = InventoryPartsVM()
     
+    private var savedSets: [LegoSetsDataModel] {
+        viewModel.legoDataModel
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
-                VStack(alignment: .leading, spacing: 24) {
-                    listView
+                if savedSets.isEmpty {
+                    emptyStateView
+                } else {
+                    VStack(alignment: .leading, spacing: 24) {
+                        listView
+                    }
                 }
             }
             .background(Color(UIColor.secondarySystemBackground))
+            .onAppear {
+                viewModel.fetchLocalResults()
+            }
         }
+    }
+    
+    private var emptyStateView: some View {
+        VStack(spacing: 12) {
+            Text("No saved sets yet")
+                .font(.headline)
+            Text("Go save a set to start your collection!")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     private var listView: some View {
         ScrollView {
             LazyVStack(spacing: 16) {
-                ForEach(viewModel.legoDataModel, id: \.setNumber) { set in
+                ForEach(savedSets, id: \.setNumber) { set in
                     listSavedSetItem(lego: set)
                         .swipeActions {
                             Button {
@@ -40,9 +64,6 @@ struct SavedLegoSetsScreen: View {
                             }
                         }
                 }
-            }
-            .onAppear {
-                viewModel.fetchLocalResults()
             }
         }
     }

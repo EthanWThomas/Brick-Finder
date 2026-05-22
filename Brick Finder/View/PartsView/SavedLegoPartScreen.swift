@@ -12,15 +12,39 @@ struct SavedLegoPartScreen: View {
     @State var viewModel: SavedLegoPartVM
     @StateObject var partViewModel = PartVM()
     
+    private var savedParts: [LegoPartsDataModel] {
+        viewModel.legoDataModel
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
-                VStack(spacing: 24) {
-                    listView
+                if savedParts.isEmpty {
+                    emptyStateView
+                } else {
+                    VStack(spacing: 24) {
+                        listView
+                    }
                 }
             }
             .background(Color(UIColor.secondarySystemBackground))
+            .onAppear {
+                viewModel.fechLocalResult()
+            }
         }
+    }
+    
+    private var emptyStateView: some View {
+        VStack(spacing: 12) {
+            Text("No saved parts yet")
+                .font(.headline)
+            Text("Go save a part to start your collection!")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     private var listView: some View {
@@ -31,9 +55,6 @@ struct SavedLegoPartScreen: View {
                     ForEach(viewModel.legoDataModel, id: \.partNumber) { part in
                         savedListPartItem(lego: part)
                     }
-                }
-                .onAppear {
-                    viewModel.fechLocalResult()
                 }
         }
         
