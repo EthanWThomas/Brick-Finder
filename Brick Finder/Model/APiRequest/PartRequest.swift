@@ -11,7 +11,8 @@ extension RebrickableApi {
     
     // MARK: - Sesrch all lego parts
     func searchParts(with searchTerm: String) async throws -> AllParts {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/?search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
+        let encoded = SearchQueryNormalizer.urlQueryEncoded(searchTerm)
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/?search=\(encoded)&key=\(RebrickableApi.apiKey)")
                 
         else { throw RequestError.failedToCreateURL }
         
@@ -49,7 +50,8 @@ extension RebrickableApi {
     
     // MARK: - Get Seacrh Part with id
     func searchPartWithId(part id: String, searchTerm: String) async throws -> AllParts {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/?part_cat_id=\(id)&search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
+        let encoded = SearchQueryNormalizer.urlQueryEncoded(searchTerm)
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/parts/?part_cat_id=\(id)&search=\(encoded)&key=\(RebrickableApi.apiKey)")
         else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)

@@ -7,7 +7,7 @@
         "key": "Search sets, parts, minifigs...",
         "location": {
           "startingColumn": 23,
-          "startingLine": 31
+          "startingLine": 32
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Clear search",
         "location": {
           "startingColumn": 29,
-          "startingLine": 75
+          "startingLine": 77
         }
       }
     ]

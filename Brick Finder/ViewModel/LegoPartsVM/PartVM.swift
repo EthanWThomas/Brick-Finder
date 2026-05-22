@@ -30,6 +30,7 @@ class PartVM: ObservableObject {
     
    
    private let apiManager = RebrickableApi()
+    private let searchCoordinator = SearchTaskCoordinator()
 
     /// Returns true when an error represents user-driven cancellation (e.g. tapping
     /// Back while a request is in flight). These should never surface as UI errors.
@@ -62,60 +63,79 @@ class PartVM: ObservableObject {
     }
     
     @MainActor
-    func searchLegoParts() {
-        isLoading = true
-        errorMessage = nil
-        
-        Task { [weak self] in
-            guard let self else { return }
-            do {
-                let results = try await self.apiManager.searchParts(with: self.searchText).results
-                await MainActor.run {
-                    self.isLoading = false
-                    self.legoPartsResult = results
-                }
-            } catch {
-                if Self.isCancellation(error) {
-                    await MainActor.run { self.isLoading = false }
-                    return
-                }
-                print("No Result Found \(error)")
-                await MainActor.run {
-                    self.errorMessage = error.localizedDescription
-                    self.isLoading = false
-                }
-            }
-        }
+    func submitSearch() {
+        let query = SearchQueryNormalizer.normalizedForAPI(searchText)
+        guard !query.isEmpty else { return }
+        runFilteredPartSearch()
     }
-    
+
+    @MainActor
+    func searchLegoParts() {
+        submitSearch()
+    }
+
     @MainActor
     func searchLegoPartWithAPartId() {
+        runFilteredPartSearch()
+    }
+
+    @MainActor
+    private func runFilteredPartSearch() {
+        let query = SearchQueryNormalizer.normalizedForAPI(searchText)
+        let signature = "parts|\(query)|\(partId)"
+
+        searchCoordinator.run(signature: signature) { [weak self] in
+            guard let self else { return }
+            await self.performFilteredPartSearch(query: query)
+        }
+    }
+
+    @MainActor
+    private func performFilteredPartSearch(query: String) async {
         isLoading = true
         errorMessage = nil
-        
-        Task { [weak self] in
-            guard let self else { return }
-            do {
-                let result = try await self.apiManager.searchPartWithId(
-                    part: self.partId,
-                    searchTerm: self.searchText
-                ).results
-                await MainActor.run {
-                    self.isLoading = false
-                    self.legoPartsResult = result
-                }
-            } catch {
-                if Self.isCancellation(error) {
-                    await MainActor.run { self.isLoading = false }
+
+        do {
+            let results: [AllParts.PartResults]
+            if query.isEmpty {
+                guard !partId.isEmpty else {
+                    isLoading = false
                     return
                 }
-                print("No Result Found \(error)")
-                await MainActor.run {
-                    self.errorMessage = error.localizedDescription
-                    self.isLoading = false
+                results = try await apiManager.searchPartWithId(
+                    part: partId,
+                    searchTerm: ""
+                ).results
+            } else {
+                results = try await SearchQueryNormalizer.searchWithFallback(query: query) { term in
+                    try await self.fetchParts(searchTerm: term)
                 }
             }
+            guard !Task.isCancelled else {
+                isLoading = false
+                return
+            }
+            legoPartsResult = results
+            isLoading = false
+        } catch {
+            if Self.isCancellation(error) {
+                isLoading = false
+                return
+            }
+            print("No Result Found \(error)")
+            errorMessage = error.localizedDescription
+            isLoading = false
         }
+    }
+
+    private func fetchParts(searchTerm: String) async throws -> [AllParts.PartResults] {
+        if !partId.isEmpty {
+            return try await apiManager.searchPartWithId(
+                part: partId,
+                searchTerm: searchTerm
+            ).results
+        }
+        return try await apiManager.searchParts(with: searchTerm).results
     }
     
     @MainActor
@@ -243,12 +263,6 @@ class PartVM: ObservableObject {
     }
     
     func getsearchResult() -> [AllParts.PartResults] {
-        if searchText.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            return legoPartsResult
-        } else {
-            return legoPartsResult.filter { result in
-                result.name?.range(of: searchText, options: .caseInsensitive) != nil
-            }
-        }
+        legoPartsResult
     }
 }

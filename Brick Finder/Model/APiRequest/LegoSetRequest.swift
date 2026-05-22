@@ -11,7 +11,8 @@ extension RebrickableApi {
     
     // MARK: Search for all lego sets
     func seacrhAllLegoSets(with searchTerm: String) async throws -> LegoSet {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
+        let encoded = SearchQueryNormalizer.urlQueryEncoded(searchTerm)
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?search=\(encoded)&key=\(RebrickableApi.apiKey)")
         else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
@@ -29,7 +30,8 @@ extension RebrickableApi {
     
     // MARK: - Search all Lego sets with a theme
     func searchLegoSetWithTheme(searchTerm: String, theme: String) async throws -> LegoSet {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(theme)&search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
+        let encoded = SearchQueryNormalizer.urlQueryEncoded(searchTerm)
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(theme)&search=\(encoded)&key=\(RebrickableApi.apiKey)")
         else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
@@ -52,7 +54,8 @@ extension RebrickableApi {
         minYear: Double,
         maxYear: Double
     ) async throws -> LegoSet {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(theme)&min_year=\(minYear)&max_year=\(maxYear)&search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
+        let encoded = SearchQueryNormalizer.urlQueryEncoded(searchTerm)
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(theme)&min_year=\(minYear)&max_year=\(maxYear)&search=\(encoded)&key=\(RebrickableApi.apiKey)")
         else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)

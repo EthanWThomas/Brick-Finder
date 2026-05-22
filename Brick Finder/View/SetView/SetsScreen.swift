@@ -60,11 +60,6 @@ struct SetsScreen: View {
         .task {
             themeViewModel.loadThemesIfNeeded()
         }
-        .onSubmit {
-            viewModel.seacrhLegoSet()
-            viewModel.searchLegoSetWithTheme()
-            viewModel.searchLegoSetWithAThemeAndYear()
-        }
     }
     
     private var header: some View {
@@ -75,7 +70,7 @@ struct SetsScreen: View {
                     .foregroundStyle(Color("TabbarColor"))
                 Spacer()
             }
-            SearchBar(searchText: $viewModel.searchText)
+            SearchBar(searchText: $viewModel.searchText, onSubmit: { viewModel.submitSearch() })
         }
     }
     

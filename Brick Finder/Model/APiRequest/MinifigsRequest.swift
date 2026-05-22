@@ -10,7 +10,8 @@ import Foundation
 extension RebrickableApi {
     
     func searchMinfigs(with searchTerm: String) async throws -> Lego {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs/?search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
+        let encoded = SearchQueryNormalizer.urlQueryEncoded(searchTerm)
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs/?search=\(encoded)&key=\(RebrickableApi.apiKey)")
         else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
@@ -92,7 +93,8 @@ extension RebrickableApi {
     }
     
     func searchMinifigureWithThemeId(theme id: String, with searchTerm: String) async throws -> Lego {
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs/?in_theme_id=\(id)&search=\(searchTerm)&key=\(RebrickableApi.apiKey)")
+        let encoded = SearchQueryNormalizer.urlQueryEncoded(searchTerm)
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/minifigs/?in_theme_id=\(id)&search=\(encoded)&key=\(RebrickableApi.apiKey)")
         else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)

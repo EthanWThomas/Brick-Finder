@@ -7,7 +7,7 @@
         "key": "Lego Set",
         "location": {
           "startingColumn": 22,
-          "startingLine": 73
+          "startingLine": 68
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Min_year",
         "location": {
           "startingColumn": 18,
-          "startingLine": 91
+          "startingLine": 86
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Max_year",
         "location": {
           "startingColumn": 18,
-          "startingLine": 113
+          "startingLine": 108
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Minimum",
         "location": {
           "startingColumn": 24,
-          "startingLine": 92
+          "startingLine": 87
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Maximum",
         "location": {
           "startingColumn": 24,
-          "startingLine": 114
+          "startingLine": 109
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Loading sets…",
         "location": {
           "startingColumn": 34,
-          "startingLine": 155
+          "startingLine": 150
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Couldn’t load sets",
         "location": {
           "startingColumn": 30,
-          "startingLine": 163
+          "startingLine": 158
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Search for a set",
         "location": {
           "startingColumn": 34,
-          "startingLine": 183
+          "startingLine": 178
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "Enter a set name or pick a theme to begin.",
         "location": {
           "startingColumn": 34,
-          "startingLine": 185
+          "startingLine": 180
         }
       },
       {
@@ -79,7 +79,7 @@
         "key": "Set not found.",
         "location": {
           "startingColumn": 30,
-          "startingLine": 203
+          "startingLine": 198
         }
       },
       {
@@ -87,7 +87,7 @@
         "key": "Try a different name, theme, or year range.",
         "location": {
           "startingColumn": 30,
-          "startingLine": 205
+          "startingLine": 200
         }
       }
     ]

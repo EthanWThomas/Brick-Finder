@@ -36,6 +36,7 @@ class SetVM: ObservableObject {
     
     private let apiManager = RebrickableApi()
     private let brickableApiManager = BrickableAPI()
+    private let searchCoordinator = SearchTaskCoordinator()
 
     /// Tracks the Phase 2 MOCs task so we can cancel a stale fetch when the user
     /// navigates to a different set or leaves the detail screen entirely.
@@ -150,28 +151,17 @@ class SetVM: ObservableObject {
         get { return getsearchResult() }
     }
     
+    /// Primary search entry — keyboard submit and search bar actions should call this.
+    @MainActor
+    func submitSearch() {
+        let query = SearchQueryNormalizer.normalizedForAPI(searchText)
+        guard !query.isEmpty else { return }
+        runFilteredSetSearch()
+    }
+
     @MainActor
     func seacrhLegoSet() {
-        isLoading = true
-        errorMessage = nil
-        
-        Task { [weak self] in
-            guard let self else { return }
-            do {
-                let results = try await self.apiManager.seacrhAllLegoSets(with: self.searchText).results
-                await MainActor.run {
-                    self.isLoading = false
-                    self.legoSetResults = results
-                }
-            } catch {
-                if Self.isCancellation(error) { return }
-                print("No Result Found \(error)")
-                await MainActor.run {
-                    self.errorMessage = error.localizedDescription
-                    self.isLoading = false
-                }
-            }
-        }
+        submitSearch()
     }
     
     /// Loads instructions for a set number (e.g. from search). Trims whitespace; empty input clears results.
@@ -212,57 +202,77 @@ class SetVM: ObservableObject {
     
     @MainActor
     func searchLegoSetWithTheme() {
-        isLoading = true
-        errorMessage = nil
-        
-        Task { [weak self] in
-            guard let self else { return }
-            do {
-                let results = try await self.apiManager.searchLegoSetWithTheme(
-                    searchTerm: self.searchText,
-                    theme: self.themeId
-                ).results
-                await MainActor.run {
-                    self.isLoading = false
-                    self.legoSetResults = results
-                }
-            } catch {
-                if Self.isCancellation(error) { return }
-                print("No Result Found \(error)")
-                await MainActor.run {
-                    self.errorMessage = error.localizedDescription
-                    self.isLoading = false
-                }
-            }
-        }
+        runFilteredSetSearch()
     }
-    
-    
+
     @MainActor
     func searchLegoSetWithAThemeAndYear() {
-        errorMessage = nil
-        Task { [weak self] in
+        runFilteredSetSearch()
+    }
+
+    @MainActor
+    private func runFilteredSetSearch() {
+        let query = SearchQueryNormalizer.normalizedForAPI(searchText)
+        let signature = "sets|\(query)|\(themeId)|\(minYear)|\(maxYear)"
+
+        searchCoordinator.run(signature: signature) { [weak self] in
             guard let self else { return }
-            do {
-                let results = try await self.apiManager.searchLegoSetWithThemeAndYear(
-                    searchTerm: self.searchText,
-                    theme: self.themeId,
-                    minYear: Double(self.minYear),
-                    maxYear: Double(self.maxYear)
-                ).results
-                await MainActor.run {
-                    self.isLoading = false
-                    self.legoSetResults = results
+            await self.performFilteredSetSearch(query: query)
+        }
+    }
+
+    @MainActor
+    private func performFilteredSetSearch(query: String) async {
+        isLoading = true
+        errorMessage = nil
+
+        do {
+            let results: [LegoSet.SetResults]
+            if query.isEmpty {
+                guard !themeId.isEmpty else {
+                    isLoading = false
+                    return
                 }
-            } catch {
-                if Self.isCancellation(error) { return }
-                print("No Result Found \(error)")
-                await MainActor.run {
-                    self.errorMessage = error.localizedDescription
-                    self.isLoading = false
+                // Theme/year-only filters (no search text) — same routing as text search.
+                results = try await fetchSets(searchTerm: "")
+            } else {
+                results = try await SearchQueryNormalizer.searchWithFallback(query: query) { term in
+                    try await self.fetchSets(searchTerm: term)
                 }
             }
+            guard !Task.isCancelled else {
+                isLoading = false
+                return
+            }
+            legoSetResults = results
+            isLoading = false
+        } catch {
+            if Self.isCancellation(error) {
+                isLoading = false
+                return
+            }
+            print("No Result Found \(error)")
+            errorMessage = error.localizedDescription
+            isLoading = false
         }
+    }
+
+    private func fetchSets(searchTerm: String) async throws -> [LegoSet.SetResults] {
+        if !themeId.isEmpty, minYear != 0 || maxYear != 0 {
+            return try await apiManager.searchLegoSetWithThemeAndYear(
+                searchTerm: searchTerm,
+                theme: themeId,
+                minYear: Double(minYear),
+                maxYear: Double(maxYear)
+            ).results
+        }
+        if !themeId.isEmpty {
+            return try await apiManager.searchLegoSetWithTheme(
+                searchTerm: searchTerm,
+                theme: themeId
+            ).results
+        }
+        return try await apiManager.seacrhAllLegoSets(with: searchTerm).results
     }
     
     @MainActor
@@ -347,12 +357,6 @@ class SetVM: ObservableObject {
     }
     
     func getsearchResult() -> [LegoSet.SetResults] {
-        if searchText.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            return legoSetResults
-        } else {
-            return legoSetResults.filter { result in
-                result.name?.range(of: searchText, options: .caseInsensitive) != nil
-            }
-        }
+        legoSetResults
     }
 }

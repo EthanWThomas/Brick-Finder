@@ -56,11 +56,7 @@ struct PartsScreen: View {
                     .foregroundStyle(Color("TabbarColor"))
                 Spacer()
             }
-            SearchBar(searchText: $viewModel.searchText)
-        }
-        .onSubmit {
-            viewModel.searchLegoParts()
-            viewModel.searchLegoPartWithAPartId()
+            SearchBar(searchText: $viewModel.searchText, onSubmit: { viewModel.submitSearch() })
         }
         .padding(.horizontal)
     }

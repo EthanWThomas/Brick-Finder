@@ -18,6 +18,7 @@ class MinifiguresVM: ObservableObject {
     @Published var miniFigures: [Lego.LegoResults]?
     
     private let apiManager = RebrickableApi()
+    private let searchCoordinator = SearchTaskCoordinator()
 
     /// Returns true when an error represents user-driven cancellation (e.g. tapping
     /// Back while a request is in flight). These should never surface as UI errors.
@@ -38,60 +39,79 @@ class MinifiguresVM: ObservableObject {
     }
     
     @MainActor
-    func seacrhMinifigures() {
-        isLoading = true
-        errorMessage = nil
-        
-        Task { [weak self] in
-            guard let self else { return }
-            do {
-                let results = try await self.apiManager.searchMinfigs(with: self.seacrhText).results
-                await MainActor.run {
-                    self.isLoading = false
-                    self.minifiguresResult = results
-                }
-            } catch {
-                if Self.isCancellation(error) {
-                    await MainActor.run { self.isLoading = false }
-                    return
-                }
-                print("No Result Found \(error)")
-                await MainActor.run {
-                    self.errorMessage = error.localizedDescription
-                    self.isLoading = false
-                }
-            }
-        }
+    func submitSearch() {
+        let query = SearchQueryNormalizer.normalizedForAPI(seacrhText)
+        guard !query.isEmpty else { return }
+        runFilteredMinifigureSearch()
     }
-    
+
+    @MainActor
+    func seacrhMinifigures() {
+        submitSearch()
+    }
+
     @MainActor
     func seacrhMinifiguresWithAThemeId() {
+        runFilteredMinifigureSearch()
+    }
+
+    @MainActor
+    private func runFilteredMinifigureSearch() {
+        let query = SearchQueryNormalizer.normalizedForAPI(seacrhText)
+        let signature = "minifigs|\(query)|\(themeId)"
+
+        searchCoordinator.run(signature: signature) { [weak self] in
+            guard let self else { return }
+            await self.performFilteredMinifigureSearch(query: query)
+        }
+    }
+
+    @MainActor
+    private func performFilteredMinifigureSearch(query: String) async {
         isLoading = true
         errorMessage = nil
-        
-        Task { [weak self] in
-            guard let self else { return }
-            do {
-                let results = try await self.apiManager.searchMinifigureWithThemeId(
-                    theme: self.themeId,
-                    with: self.seacrhText
-                ).results
-                await MainActor.run {
-                    self.isLoading = false
-                    self.minifiguresResult = results
-                }
-            } catch {
-                if Self.isCancellation(error) {
-                    await MainActor.run { self.isLoading = false }
+
+        do {
+            let results: [Lego.LegoResults]
+            if query.isEmpty {
+                guard !themeId.isEmpty else {
+                    isLoading = false
                     return
                 }
-                print("No Result Found \(error)")
-                await MainActor.run {
-                    self.errorMessage = error.localizedDescription
-                    self.isLoading = false
+                results = try await apiManager.searchMinifigureWithThemeId(
+                    theme: themeId,
+                    with: ""
+                ).results
+            } else {
+                results = try await SearchQueryNormalizer.searchWithFallback(query: query) { term in
+                    try await self.fetchMinifigures(searchTerm: term)
                 }
             }
+            guard !Task.isCancelled else {
+                isLoading = false
+                return
+            }
+            minifiguresResult = results
+            isLoading = false
+        } catch {
+            if Self.isCancellation(error) {
+                isLoading = false
+                return
+            }
+            print("No Result Found \(error)")
+            errorMessage = error.localizedDescription
+            isLoading = false
         }
+    }
+
+    private func fetchMinifigures(searchTerm: String) async throws -> [Lego.LegoResults] {
+        if !themeId.isEmpty {
+            return try await apiManager.searchMinifigureWithThemeId(
+                theme: themeId,
+                with: searchTerm
+            ).results
+        }
+        return try await apiManager.searchMinfigs(with: searchTerm).results
     }
     
     @MainActor
@@ -144,12 +164,6 @@ class MinifiguresVM: ObservableObject {
 //    }
     
     func getSeacrhResult() -> [Lego.LegoResults]? {
-        if seacrhText.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            return minifiguresResult
-        } else {
-            return minifiguresResult.filter { result in
-                result.name?.range(of: seacrhText, options: .caseInsensitive) != nil
-            }
-        }
+        minifiguresResult
     }
 }

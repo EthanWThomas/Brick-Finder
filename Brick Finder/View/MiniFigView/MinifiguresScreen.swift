@@ -57,11 +57,7 @@ struct MinifiguresScreen: View {
                     .foregroundStyle(Color("TabbarColor"))
                 Spacer()
             }
-            SearchBar(searchText: $minifiguresVM.seacrhText)
-        }
-        .onSubmit {
-            minifiguresVM.seacrhMinifigures()
-            minifiguresVM.seacrhMinifiguresWithAThemeId()
+            SearchBar(searchText: $minifiguresVM.seacrhText, onSubmit: { minifiguresVM.submitSearch() })
         }
         .padding(.horizontal)
     }

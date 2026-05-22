@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: - Search Bar
 struct SearchBar: View {
     @Binding var searchText: String
+    var onSubmit: (() -> Void)? = nil
     var onCancel: (() -> Void)? = nil
 
     @FocusState private var isFocused: Bool
@@ -36,6 +37,7 @@ struct SearchBar: View {
                 .focused($isFocused)
                 .submitLabel(.search)
                 .autocorrectionDisabled()
+                .onSubmit { onSubmit?() }
 
             if showsClearButton {
                 clearButton

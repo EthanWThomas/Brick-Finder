@@ -15,7 +15,7 @@
         "key": "Loading parts…",
         "location": {
           "startingColumn": 30,
-          "startingLine": 85
+          "startingLine": 81
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Couldn’t load parts",
         "location": {
           "startingColumn": 26,
-          "startingLine": 93
+          "startingLine": 89
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Search for a part",
         "location": {
           "startingColumn": 30,
-          "startingLine": 111
+          "startingLine": 107
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Enter a part name or pick a category to begin.",
         "location": {
           "startingColumn": 30,
-          "startingLine": 113
+          "startingLine": 109
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Part not found.",
         "location": {
           "startingColumn": 26,
-          "startingLine": 129
+          "startingLine": 125
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Try a different name or category.",
         "location": {
           "startingColumn": 26,
-          "startingLine": 131
+          "startingLine": 127
         }
       }
     ]
