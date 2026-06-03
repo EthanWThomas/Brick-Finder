@@ -1,0 +1,1 @@
+BrickFinder does not collect, store, or share any personal user data. All collection data is stored locally on your device, and network requests are used solely to fetch public LEGO catalog data from the Rebrickable API and brickable API.
