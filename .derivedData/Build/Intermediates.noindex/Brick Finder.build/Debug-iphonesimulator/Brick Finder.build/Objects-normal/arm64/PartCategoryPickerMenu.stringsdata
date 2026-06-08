@@ -1,0 +1,40 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/Componets/PartCategoryPickerMenu.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Category",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 14
+        }
+      },
+      {
+        "comment": "",
+        "key": "lego",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 15
+        }
+      },
+      {
+        "comment": "",
+        "key": "All Categories",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 16
+        }
+      },
+      {
+        "comment": "",
+        "key": "Loading…",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 20
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,112 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/SetView/SetDetailView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "This set has no MOCs",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 296
+        }
+      },
+      {
+        "comment": "",
+        "key": "No info available yet",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 342
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ x",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 399
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 481
+        }
+      },
+      {
+        "comment": "",
+        "key": "Created by %@",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 504
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld pieces · %lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 526
+        }
+      },
+      {
+        "comment": "",
+        "key": "Specifications & description",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 632
+        }
+      },
+      {
+        "comment": "",
+        "key": "Released %lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 609
+        }
+      },
+      {
+        "comment": "",
+        "key": "Set Snapshot",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 672
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld building instruction%@",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 686
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tags",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 699
+        }
+      },
+      {
+        "comment": "",
+        "key": "Description",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 721
+        }
+      },
+      {
+        "comment": "",
+        "key": "View building instructions",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 821
+        }
+      }
+    ]
+  },
+  "version": 1
+}

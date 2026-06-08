@@ -20,6 +20,7 @@ struct SetDetailView: View {
     @State private var dataLoadingTask: Task<Void, Never>? = nil
     
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     private var primarySetInfo: SetInfo.Sets? {
         viewModel.setInfo?.first
@@ -71,6 +72,7 @@ struct SetDetailView: View {
                         .zIndex(0)
                 }
             }
+            .adaptiveReadableWidth(AdaptiveLayout.ContentWidth.detail, sizeClass: horizontalSizeClass)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -210,7 +212,7 @@ struct SetDetailView: View {
                         message: "This set has no parts"
                     )
                 } else {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), content:  {
+                    LazyVGrid(columns: AdaptiveLayout.cardColumns(minimum: 150), content:  {
                         ForEach(parts, id: \.id) { legoPart in
                             partCard(
                                 image: legoPart.part.partImageURL,
@@ -244,7 +246,7 @@ struct SetDetailView: View {
                         message: "This set has no minifigures"
                     )
                 } else {
-                    LazyVGrid(columns: Array(repeating: GridItem(), count: 2), content:  {
+                    LazyVGrid(columns: AdaptiveLayout.cardColumns(minimum: 150), content:  {
                         ForEach(minifigures, id: \.setNum) { legoMinfigures in
                             minifigCard(
                                 image: legoMinfigures.setImageURL,

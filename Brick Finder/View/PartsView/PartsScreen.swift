@@ -13,6 +13,7 @@ struct PartsScreen: View {
     @EnvironmentObject private var partCategoryViewModel: PartCategoryViewModel
     @StateObject var viewModel = PartVM()
     
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var showDropdown = false
     @State var savedPartViewModel: SavedLegoPartVM
     
@@ -150,15 +151,13 @@ struct PartsScreen: View {
     }
 
     private func partsGrid(parts: [AllParts.PartResults]) -> some View {
-        LazyVGrid(
-            columns: Array(repeating: GridItem(.flexible()), count: 2),
-            spacing: 24
-        ) {
+        LazyVGrid(columns: AdaptiveLayout.cardColumns(spacing: 24), spacing: 24) {
             ForEach(parts, id: \.partNumber) { part in
                 listPartItem(lego: part)
             }
         }
         .padding(.horizontal)
+        .adaptiveReadableWidth(AdaptiveLayout.ContentWidth.wide, sizeClass: horizontalSizeClass)
     }
     
     private func listPartItem(lego part: AllParts.PartResults) -> some View {

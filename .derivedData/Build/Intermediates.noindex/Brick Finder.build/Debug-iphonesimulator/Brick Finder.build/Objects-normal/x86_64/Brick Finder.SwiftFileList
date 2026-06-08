@@ -1,6 +1,7 @@
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Extentions/ModelExtentions/Part.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Extentions/ModelExtentions/SetTabs.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Extentions/MyCustomColors.swift
+/Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Extentions/SearchQueryNormalizer.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Model/APiRequest/GetLegoSetInfo.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Model/APiRequest/InstructionsRequest.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Model/APiRequest/LegoSetRequest.swift
@@ -72,6 +73,7 @@
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/ViewModel/MinifiguresVM/MiniFiguresDetailVM.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/ViewModel/MinifiguresVM/MinifiguresVM.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/ViewModel/PartCategoryVM/PartCategoryViewModel.swift
+/Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/ViewModel/Search/SearchTaskCoordinator.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/ViewModel/SettingVM/SettingViewModel.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/ViewModel/ThemeVM/ThemeViewModel.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Brick_FinderApp.swift

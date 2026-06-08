@@ -14,6 +14,7 @@ struct SavedLegoSetsScreen: View {
     
     @StateObject private var setVM = SetVM()
     @StateObject private var inventoryVM = InventoryPartsVM()
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     private var savedSets: [LegoSetsDataModel] {
         viewModel.legoDataModel
@@ -65,6 +66,8 @@ struct SavedLegoSetsScreen: View {
                         }
                 }
             }
+            .padding(.horizontal)
+            .adaptiveReadableWidth(AdaptiveLayout.ContentWidth.standard, sizeClass: horizontalSizeClass)
         }
     }
     

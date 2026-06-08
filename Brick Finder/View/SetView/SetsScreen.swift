@@ -15,6 +15,7 @@ struct SetsScreen: View {
     
     @State var setSavedDataVM: SavedLegoSetsVM
     
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var isSearching = false
     @State private var showDropdown = false
     
@@ -208,6 +209,7 @@ struct SetsScreen: View {
                 }
             }
             .padding()
+            .adaptiveReadableWidth(AdaptiveLayout.ContentWidth.standard, sizeClass: horizontalSizeClass)
         }
         .onAppear {
             // Clear any stale list-level error left over from previous activity

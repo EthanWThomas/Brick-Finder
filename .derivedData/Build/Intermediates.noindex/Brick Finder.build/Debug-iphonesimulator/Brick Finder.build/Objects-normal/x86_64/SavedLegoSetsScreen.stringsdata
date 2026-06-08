@@ -1,0 +1,24 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/SetView/SavedLegoSetsScreen.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "No saved sets yet",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 42
+        }
+      },
+      {
+        "comment": "",
+        "key": "Go save a set to start your collection!",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 44
+        }
+      }
+    ]
+  },
+  "version": 1
+}

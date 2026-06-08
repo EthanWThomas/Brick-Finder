@@ -11,6 +11,7 @@ import SwiftData
 struct SavedLegoPartScreen: View {
     @State var viewModel: SavedLegoPartVM
     @StateObject var partViewModel = PartVM()
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     private var savedParts: [LegoPartsDataModel] {
         viewModel.legoDataModel
@@ -49,13 +50,13 @@ struct SavedLegoPartScreen: View {
     
     private var listView: some View {
         ScrollView {
-            LazyVGrid(
-                columns: Array(repeating: GridItem(.flexible()), count: 2),
-                spacing: 24) {
-                    ForEach(viewModel.legoDataModel, id: \.partNumber) { part in
-                        savedListPartItem(lego: part)
-                    }
+            LazyVGrid(columns: AdaptiveLayout.cardColumns(spacing: 24), spacing: 24) {
+                ForEach(viewModel.legoDataModel, id: \.partNumber) { part in
+                    savedListPartItem(lego: part)
                 }
+            }
+            .padding(.horizontal)
+            .adaptiveReadableWidth(AdaptiveLayout.ContentWidth.wide, sizeClass: horizontalSizeClass)
         }
         
     }

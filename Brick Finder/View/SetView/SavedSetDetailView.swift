@@ -21,6 +21,7 @@ struct SavedSetDetailView: View {
     @State private var dataLoadingTask: Task<Void, Never>? = nil
     
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     private var primarySetInfo: SetInfo.Sets? {
         viewModel.setInfo?.first
@@ -85,6 +86,7 @@ struct SavedSetDetailView: View {
                         .zIndex(0)
                 }
             }
+            .adaptiveReadableWidth(AdaptiveLayout.ContentWidth.detail, sizeClass: horizontalSizeClass)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -211,7 +213,7 @@ struct SavedSetDetailView: View {
     
     private var setPartDisplay: some View {
         ScrollView(.vertical) {
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), content:  {
+            LazyVGrid(columns: AdaptiveLayout.cardColumns(minimum: 150), content:  {
                 if let parts = inventoryVM.setInventoryPart {
                     ForEach(parts, id: \.id) { legoPart in
                         partCard(
@@ -234,7 +236,7 @@ struct SavedSetDetailView: View {
     
     private var minifigureDisplay: some View {
         ScrollView(.vertical) {
-            LazyVGrid(columns: Array(repeating: GridItem(), count: 2), content:  {
+            LazyVGrid(columns: AdaptiveLayout.cardColumns(minimum: 150), content:  {
                 if let minifigures = inventoryVM.getInventoryMinifiger {
                     ForEach(minifigures, id: \.setNum) { legoMinfigures in
                         minifigCard(

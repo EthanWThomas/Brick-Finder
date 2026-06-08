@@ -48,6 +48,48 @@
 			<key>uniqueIdentifier</key>
 			<string>31017D12-9BB2-4B6E-A345-94AE762E1AE1</string>
 		</dict>
+		<key>C96584CA-19B0-468C-BA83-116331050A63</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>C96584CA-19B0-468C-BA83-116331050A63.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>1</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>Brick Finder project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>Brick Finder</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project Brick Finder with scheme Brick Finder</string>
+			<key>timeStartedRecording</key>
+			<real>801982556.79968202</real>
+			<key>timeStoppedRecording</key>
+			<real>801982692.30417097</real>
+			<key>title</key>
+			<string>Building project Brick Finder with scheme Brick Finder</string>
+			<key>uniqueIdentifier</key>
+			<string>C96584CA-19B0-468C-BA83-116331050A63</string>
+		</dict>
 	</dict>
 </dict>
 </plist>

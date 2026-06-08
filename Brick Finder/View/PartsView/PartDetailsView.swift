@@ -19,6 +19,7 @@ struct PartDetailsView: View {
     @State private var tabProgress: CGFloat = 0
     
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
    
     var body: some View {
         VStack(spacing: 0) {
@@ -26,6 +27,7 @@ struct PartDetailsView: View {
             
             displayPart
         }
+        .adaptiveReadableWidth(AdaptiveLayout.ContentWidth.standard, sizeClass: horizontalSizeClass)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))
         .onAppear {

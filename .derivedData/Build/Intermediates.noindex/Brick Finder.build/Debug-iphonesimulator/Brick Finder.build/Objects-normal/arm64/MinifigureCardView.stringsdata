@@ -1,0 +1,16 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/Componets/CardView/Minifigurecard/MinifigureCardView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Add to Collection",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 57
+        }
+      }
+    ]
+  },
+  "version": 1
+}

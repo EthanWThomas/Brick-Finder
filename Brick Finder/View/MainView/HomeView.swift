@@ -30,6 +30,7 @@ struct HomeView: View {
     @StateObject private var setViewModel = SetVM()
     @StateObject private var partViewModel = PartVM()
     @EnvironmentObject private var themeViewModel: ThemeViewModel
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     //    @Query(sort: \ViewedItem.timestamp, order: .reverse)
     //    var history: ViewedItem
@@ -59,36 +60,41 @@ struct HomeView: View {
                             .font(.headline)
                             .padding(.horizontal)
                         
-                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                            // 1. Saved Minifigures
-                            NavigationLink(destination: SavedMinifiguresScreen(viewModel: minifigureSavedDataVM)) {
-                                CollectionCard(title: "Saved Minifigs", photo: .remote(HomeCollectionPhotos.minifigs), color: .blue)
-                            }
-                            
-                            // 2. Saved Sets
-                            NavigationLink(destination: SavedLegoSetsScreen(viewModel: setSavedDataVM)) {
-                                CollectionCard(title: "Saved Sets", photo: .remote(HomeCollectionPhotos.setWithBox), color: .orange)
-                            }
-                            
-                            // 3. Saved Parts
-                            NavigationLink(destination: SavedLegoPartScreen(viewModel: partSavedDataVM)) {
-                                CollectionCard(title: "Saved Parts", photo: .remote(HomeCollectionPhotos.parts), color: .green)
-                            }
-                            
-                            // 4. LEGO Instructions (Logic Placeholder)
-                            NavigationLink(destination: SearchInstructionView()) {
-                                CollectionCard(title: "Instructions", photo: .remote(HomeCollectionPhotos.instructions), color: .purple)
-                            }
-                        }
-                        .padding(.horizontal)
+                        collectionGrid
                         
                         Spacer(minLength: 100)
                     }
                     .padding(.top)
+                    .adaptiveReadableWidth(AdaptiveLayout.ContentWidth.wide, sizeClass: horizontalSizeClass)
                 }
             }
             .background(Color(UIColor.secondarySystemBackground))
         }
+    }
+    
+    private var collectionGrid: some View {
+        LazyVGrid(columns: AdaptiveLayout.cardColumns(), spacing: 16) {
+            // 1. Saved Minifigures
+            NavigationLink(destination: SavedMinifiguresScreen(viewModel: minifigureSavedDataVM)) {
+                CollectionCard(title: "Saved Minifigs", photo: .remote(HomeCollectionPhotos.minifigs), color: .blue)
+            }
+            
+            // 2. Saved Sets
+            NavigationLink(destination: SavedLegoSetsScreen(viewModel: setSavedDataVM)) {
+                CollectionCard(title: "Saved Sets", photo: .remote(HomeCollectionPhotos.setWithBox), color: .orange)
+            }
+            
+            // 3. Saved Parts
+            NavigationLink(destination: SavedLegoPartScreen(viewModel: partSavedDataVM)) {
+                CollectionCard(title: "Saved Parts", photo: .remote(HomeCollectionPhotos.parts), color: .green)
+            }
+            
+            // 4. LEGO Instructions (Logic Placeholder)
+            NavigationLink(destination: SearchInstructionView()) {
+                CollectionCard(title: "Instructions", photo: .remote(HomeCollectionPhotos.instructions), color: .purple)
+            }
+        }
+        .padding(.horizontal)
     }
     
     private var headerSection: some View {

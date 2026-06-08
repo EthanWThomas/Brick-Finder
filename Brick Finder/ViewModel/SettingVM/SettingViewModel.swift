@@ -7,7 +7,6 @@
 
 import Foundation
 import CloudKit
-import UserNotifications
 
 // MARK: - CloudKit / iCloud (read-only status for Settings)
 @MainActor
@@ -42,17 +41,6 @@ final class CloudSyncStatusModel: ObservableObject {
         } catch {
             statusSummary = "Error"
             detailMessage = error.localizedDescription
-        }
-    }
-    
-    func requestAuthorization() {
-        let option: UNAuthorizationOptions = [.alert, .sound, .badge]
-        UNUserNotificationCenter.current().requestAuthorization(options: option) { (success, error) in
-            if let error = error {
-                print(" ERROR \(error.localizedDescription)")
-            } else {
-                print("SUCCESS")
-            }
         }
     }
 }

@@ -1,0 +1,144 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/Setting/SettingView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Settings",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 66
+        }
+      },
+      {
+        "comment": "",
+        "key": "Search settings",
+        "location": {
+          "startingColumn": 48,
+          "startingLine": 69
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cloud Sync",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 113
+        }
+      },
+      {
+        "comment": "",
+        "key": "Check out Brick Finder",
+        "location": {
+          "startingColumn": 61,
+          "startingLine": 144
+        }
+      },
+      {
+        "comment": "",
+        "key": "Rebrickable",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 198
+        }
+      },
+      {
+        "comment": "",
+        "key": "Brickset",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 202
+        }
+      },
+      {
+        "comment": "",
+        "key": "Data is provided by third-party APIs. Brick Finder is not affiliated with the LEGO Group.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 212
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cloud Sync",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 280
+        }
+      },
+      {
+        "comment": "",
+        "key": "iCloud status",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 263
+        }
+      },
+      {
+        "comment": "",
+        "key": "Refresh status",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 270
+        }
+      },
+      {
+        "comment": "",
+        "key": "Open iCloud & Apple ID Settings",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 273
+        }
+      },
+      {
+        "comment": "",
+        "key": "Display",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 304
+        }
+      },
+      {
+        "comment": "",
+        "key": "Appearance",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 293
+        }
+      },
+      {
+        "comment": "",
+        "key": "Light",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 294
+        }
+      },
+      {
+        "comment": "",
+        "key": "Dark",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 295
+        }
+      },
+      {
+        "comment": "",
+        "key": "Automatic",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 296
+        }
+      },
+      {
+        "comment": "",
+        "key": "Automatic follows the system setting. This applies across Brick Finder.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 300
+        }
+      }
+    ]
+  },
+  "version": 1
+}

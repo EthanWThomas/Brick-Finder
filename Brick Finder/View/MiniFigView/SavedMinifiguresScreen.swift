@@ -13,6 +13,7 @@ struct SavedMinifiguresScreen: View {
     
     @StateObject private var minifigSetVM = MiniFiguresDetailVM()
     @StateObject private var minifigPartVM = PartVM()
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     private var savedMinifigures: [LegoDataModel] {
         viewModel.legoDataModel
@@ -51,14 +52,13 @@ struct SavedMinifiguresScreen: View {
     
     private var listView: some View {
         ScrollView {
-            LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ], spacing: 16) {
+            LazyVGrid(columns: AdaptiveLayout.cardColumns(), spacing: 16) {
                 ForEach(viewModel.legoDataModel, id: \.setNum) { minifigure in
                     listSavedMinifigureItem(lego: minifigure)
                 }
             }
+            .padding(.horizontal)
+            .adaptiveReadableWidth(AdaptiveLayout.ContentWidth.wide, sizeClass: horizontalSizeClass)
         }
     }
     

@@ -1,0 +1,16 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/Componets/CardView/LegoPartCard/PartSavedDataView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Parts",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 19
+        }
+      }
+    ]
+  },
+  "version": 1
+}

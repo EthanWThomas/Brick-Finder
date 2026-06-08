@@ -13,6 +13,7 @@ struct MinifiguresScreen: View {
     @StateObject var minifiguresVM = MinifiguresVM()
     @StateObject var minifigSetVM = MiniFiguresDetailVM()
     @StateObject var minifigPartVM = PartVM()
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     @State private var showDropdown = false
     
@@ -156,15 +157,13 @@ struct MinifiguresScreen: View {
     }
 
     private func minifiguresGridContent(minifigures: [Lego.LegoResults]) -> some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible()),
-            GridItem(.flexible())
-        ], spacing: 16) {
+        LazyVGrid(columns: AdaptiveLayout.cardColumns(), spacing: 16) {
             ForEach(minifigures, id: \.setNum) { legoMinifigures in
                 listMinifigItem(lego: legoMinifigures)
             }
         }
         .padding(.horizontal)
+        .adaptiveReadableWidth(AdaptiveLayout.ContentWidth.wide, sizeClass: horizontalSizeClass)
     }
     
     private func listMinifigItem(lego minifigures: Lego.LegoResults) -> some View {

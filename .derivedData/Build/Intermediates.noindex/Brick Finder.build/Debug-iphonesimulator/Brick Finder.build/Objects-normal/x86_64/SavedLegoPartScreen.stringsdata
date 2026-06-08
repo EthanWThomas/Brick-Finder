@@ -1,0 +1,24 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/PartsView/SavedLegoPartScreen.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "No saved parts yet",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 39
+        }
+      },
+      {
+        "comment": "",
+        "key": "Go save a part to start your collection!",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 41
+        }
+      }
+    ]
+  },
+  "version": 1
+}

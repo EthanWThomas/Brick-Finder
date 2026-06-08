@@ -1,0 +1,16 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/Componets/CollectionCard.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "View all items",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 36
+        }
+      }
+    ]
+  },
+  "version": 1
+}

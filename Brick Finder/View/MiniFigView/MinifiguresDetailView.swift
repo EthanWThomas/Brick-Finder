@@ -21,6 +21,7 @@ struct MinifiguresDetailView: View {
     
     @Environment(\.colorScheme) private var scheme
     @Environment(\.modelContext) private var context
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     var body: some View {
         VStack(spacing: 0) {
@@ -31,6 +32,7 @@ struct MinifiguresDetailView: View {
             
             minifiguresList
         }
+        .adaptiveReadableWidth(AdaptiveLayout.ContentWidth.detail, sizeClass: horizontalSizeClass)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(UIColor.secondarySystemBackground))
     }
@@ -152,7 +154,7 @@ struct MinifiguresDetailView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 40)
                 } else if let parts = partVM.inventoryPart, !parts.isEmpty {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 16) {
+                    LazyVGrid(columns: AdaptiveLayout.cardColumns(minimum: 150, spacing: 12), spacing: 16) {
                         ForEach(parts, id: \.id) { part in
                             partCard(
                                 image: part.part.partImageURL,

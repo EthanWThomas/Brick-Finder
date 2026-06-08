@@ -8,6 +8,7 @@
 import SwiftUI
 import CloudKit
 import StoreKit
+import UserNotifications
 
 // MARK: - Settings
 
@@ -20,6 +21,7 @@ struct SettingView: View {
     @StateObject private var cloudSync = CloudSyncStatusModel()
     @Environment(\.openURL) private var openURL
     @Environment(\.requestReview) private var requestReview
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     private let rebrickableURL = URL(string: "https://rebrickable.com/")!
     private let bricksetURL = URL(string: "https://brickset.com/")!
@@ -61,15 +63,13 @@ struct SettingView: View {
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
+        .adaptiveReadableWidth(AdaptiveLayout.ContentWidth.standard, sizeClass: horizontalSizeClass)
         .background(Color(UIColor.systemGroupedBackground))
         .navigationTitle("Settings")
         .foregroundStyle(Color("TabbarColor"))
         .navigationBarTitleDisplayMode(.large)
         .searchable(text: $searchText, prompt: "Search settings")
         .listRowSeparatorTint(Color.primary.opacity(0.12))
-//        .task {
-//            await cloudSync.refresh()
-//        }
     }
     
     // MARK: Sections
@@ -80,8 +80,28 @@ struct SettingView: View {
                 settingsLabel("Notifications", systemImage: "bell", filled: notificationsEnabled)
             }
             .tint(.accentColor)
+            .onChange(of: notificationsEnabled) { _, isOn in
+                guard isOn else { return }
+                Task { await requestNotificationPermission() }
+            }
         } header: {
             sectionHeader("Preferences")
+        }
+    }
+
+    /// Requests notification authorization when the toggle is switched on.
+    /// `requestAuthorization` only prompts once; if it's already been denied it
+    /// returns `false`, so we flip the toggle back off to reflect the real state.
+    @MainActor
+    private func requestNotificationPermission() async {
+        let center = UNUserNotificationCenter.current()
+        do {
+            let granted = try await center.requestAuthorization(options: [.alert, .badge, .sound])
+            if !granted {
+                notificationsEnabled = false
+            }
+        } catch {
+            notificationsEnabled = false
         }
     }
     
@@ -198,7 +218,7 @@ struct SettingView: View {
     }
     
     private var apiCreditsText: String {
-        "Brick Finder utilizes the Rebrickable API and the Brickset API to provide comprehensive and up-to-date information on LEGO sets, parts, and minifigures. We are grateful to the teams at Rebrickable and Brickset for their dedication to the LEGO community and for making this data available to the public."
+        "Brick Finder Companion utilizes the Rebrickable API and the Brickset API to provide comprehensive and up-to-date information on LEGO sets, parts, and minifigures. We are grateful to the teams at Rebrickable and Brickset for their dedication to the LEGO community and for making this data available to the public."
     }
     
     private func matchesSearch(_ tokens: String...) -> Bool {
@@ -219,9 +239,8 @@ struct SettingView: View {
     private func settingsLabel(_ title: String, systemImage: String, filled: Bool) -> some View {
         HStack(spacing: 12) {
             settingsIcon(systemImage, filled: filled)
-            Button(title) {
-                cloudSync.requestAuthorization()
-            }
+            Text(title)
+                .font(.body)
         }
     }
     
