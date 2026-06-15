@@ -7,7 +7,7 @@
         "key": "Minifigure Parts",
         "location": {
           "startingColumn": 26,
-          "startingLine": 135
+          "startingLine": 137
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "%lld part%@",
         "location": {
           "startingColumn": 30,
-          "startingLine": 141
+          "startingLine": 143
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "No parts found",
         "location": {
           "startingColumn": 30,
-          "startingLine": 170
+          "startingLine": 172
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Sets This Minifigure Appears In",
         "location": {
           "startingColumn": 26,
-          "startingLine": 190
+          "startingLine": 192
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "%lld set%@",
         "location": {
           "startingColumn": 30,
-          "startingLine": 196
+          "startingLine": 198
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "No sets found",
         "location": {
           "startingColumn": 30,
-          "startingLine": 226
+          "startingLine": 228
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "%@",
         "location": {
           "startingColumn": 22,
-          "startingLine": 251
+          "startingLine": 253
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "×",
         "location": {
           "startingColumn": 22,
-          "startingLine": 254
+          "startingLine": 256
         }
       }
     ]

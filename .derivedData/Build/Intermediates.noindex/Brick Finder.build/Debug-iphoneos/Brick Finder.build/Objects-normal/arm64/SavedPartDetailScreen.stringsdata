@@ -7,7 +7,7 @@
         "key": "Part not found",
         "location": {
           "startingColumn": 26,
-          "startingLine": 64
+          "startingLine": 66
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Available Colors",
         "location": {
           "startingColumn": 30,
-          "startingLine": 82
+          "startingLine": 84
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "%lld color%@ available",
         "location": {
           "startingColumn": 30,
-          "startingLine": 87
+          "startingLine": 89
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "No colors found",
         "location": {
           "startingColumn": 30,
-          "startingLine": 117
+          "startingLine": 119
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "%lld",
         "location": {
           "startingColumn": 34,
-          "startingLine": 168
+          "startingLine": 170
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Sets",
         "location": {
           "startingColumn": 34,
-          "startingLine": 171
+          "startingLine": 173
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "%lld",
         "location": {
           "startingColumn": 34,
-          "startingLine": 184
+          "startingLine": 186
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Set Parts",
         "location": {
           "startingColumn": 34,
-          "startingLine": 187
+          "startingLine": 189
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "Color ID: %lld",
         "location": {
           "startingColumn": 26,
-          "startingLine": 276
+          "startingLine": 278
         }
       },
       {
@@ -79,7 +79,7 @@
         "key": "%lld - %lld",
         "location": {
           "startingColumn": 30,
-          "startingLine": 291
+          "startingLine": 293
         }
       }
     ]

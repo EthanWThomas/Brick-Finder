@@ -38,12 +38,14 @@ struct PartCard: View {
             
             VStack(spacing: 8) {
                 Text(part.name ?? "No Name")
+                    .foregroundStyle(Color("PartIdColor"))
                     .font(.system(size: 10))
                     .font(.headline)
                     .fontWeight(.semibold)
                     .multilineTextAlignment(.center)
                 
                 Text(part.partNumber ?? "No Part Number")
+                    .foregroundStyle(Color("PartIdColor"))
                     .font(.system(size: 10))
                     .font(.caption)
                     .padding(.horizontal, 8)

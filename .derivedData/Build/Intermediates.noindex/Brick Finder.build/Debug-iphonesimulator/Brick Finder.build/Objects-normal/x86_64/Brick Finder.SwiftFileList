@@ -1,5 +1,6 @@
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Extentions/ModelExtentions/Part.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Extentions/ModelExtentions/SetTabs.swift
+/Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Extentions/AdaptiveLayout.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Extentions/MyCustomColors.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Extentions/SearchQueryNormalizer.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/Model/APiRequest/GetLegoSetInfo.swift
@@ -30,6 +31,7 @@
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/Componets/CardView/LegoPartCard/PartCard.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/Componets/CardView/LegoPartCard/PartSavedDataView.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/Componets/CardView/LegoPartCard/SavedLegoPartDataCard.swift
+/Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/Componets/CardView/LegoPartCard/SetPartCardView.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/Componets/CardView/LegoSetCard/FeaturedSetCard.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/Componets/CardView/LegoSetCard/SavedSetDataCard.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/Componets/CardView/LegoSetCard/SetSavedDataView.swift
@@ -59,6 +61,7 @@
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/PartsView/SavedPartDetailScreen.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/Setting/SettingView.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/SetView/Helpers/View+Extension.swift
+/Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/SetView/AllSetPartsScreen.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/SetView/LegoInstructionsView.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/SetView/SavedLegoSetsScreen.swift
 /Users/ethanthomas/Documents/IOS/Brick\ Finder/Brick\ Finder/View/SetView/SavedSetDetailView.swift

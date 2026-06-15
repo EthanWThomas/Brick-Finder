@@ -8,6 +8,16 @@
 			<key>catalogPath</key>
 			<string>/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Assets.xcassets</string>
 			<key>objcSymbol</key>
+			<string>ACColorNamePartIdColor</string>
+			<key>relativePath</key>
+			<string>./Colors/PartIdColor.colorset</string>
+			<key>swiftSymbol</key>
+			<string>partId</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/Assets.xcassets</string>
+			<key>objcSymbol</key>
 			<string>ACColorNameTabbarColor</string>
 			<key>relativePath</key>
 			<string>./Colors/TabbarColor.colorset</string>

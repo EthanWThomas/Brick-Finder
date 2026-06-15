@@ -84,10 +84,10 @@ struct SetsScreen: View {
     
     private var minAndMaxYearPicker: some View {
         HStack {
-            Menu("Min_year") {
+            Menu("year to") {
                 Picker("Minimum", selection: $viewModel.minYear) {
                     ForEach(1999...2055, id: \.self) { year in
-                        Text(year.formatted(.number))
+                        Text(year.formatted(.number.grouping(.never)))
                     }
                 }
             }
@@ -106,10 +106,10 @@ struct SetsScreen: View {
             .zIndex(1000)
             Spacer()
             
-            Menu("Max_year") {
+            Menu("year from") {
                 Picker("Maximum", selection: $viewModel.maxYear) {
                     ForEach(1999...2055, id: \.self) { year in
-                        Text(year.formatted(.number))
+                        Text(year.formatted(.number.grouping(.never)))
                     }
                 }
             }

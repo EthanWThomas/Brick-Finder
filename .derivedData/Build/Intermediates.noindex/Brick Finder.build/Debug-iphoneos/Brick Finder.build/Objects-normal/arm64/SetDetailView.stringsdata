@@ -4,10 +4,26 @@
     "Localizable": [
       {
         "comment": "",
+        "key": "Showing %lld of %lld",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 254
+        }
+      },
+      {
+        "comment": "",
+        "key": "See all",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 267
+        }
+      },
+      {
+        "comment": "",
         "key": "This set has no MOCs",
         "location": {
           "startingColumn": 34,
-          "startingLine": 296
+          "startingLine": 335
         }
       },
       {
@@ -15,15 +31,7 @@
         "key": "No info available yet",
         "location": {
           "startingColumn": 34,
-          "startingLine": 342
-        }
-      },
-      {
-        "comment": "",
-        "key": "%@ x",
-        "location": {
-          "startingColumn": 22,
-          "startingLine": 399
+          "startingLine": 381
         }
       },
       {

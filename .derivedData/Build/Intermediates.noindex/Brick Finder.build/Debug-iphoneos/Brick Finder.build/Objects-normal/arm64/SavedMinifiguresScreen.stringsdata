@@ -7,7 +7,7 @@
         "key": "No saved minifigures yet",
         "location": {
           "startingColumn": 18,
-          "startingLine": 41
+          "startingLine": 42
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Go save a minifigure to start your collection!",
         "location": {
           "startingColumn": 18,
-          "startingLine": 43
+          "startingLine": 44
         }
       }
     ]

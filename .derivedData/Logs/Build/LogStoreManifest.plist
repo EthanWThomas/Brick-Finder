@@ -6,7 +6,7 @@
 	<integer>12</integer>
 	<key>logs</key>
 	<dict>
-		<key>31017D12-9BB2-4B6E-A345-94AE762E1AE1</key>
+		<key>29DE79EB-AC71-41C3-88F8-AFF5DEB732F2</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,21 +15,21 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>31017D12-9BB2-4B6E-A345-94AE762E1AE1.xcactivitylog</string>
+			<string>29DE79EB-AC71-41C3-88F8-AFF5DEB732F2.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
 			<dict>
 				<key>highLevelStatus</key>
-				<string>E</string>
+				<string>W</string>
 				<key>totalNumberOfAnalyzerIssues</key>
 				<integer>0</integer>
 				<key>totalNumberOfErrors</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>totalNumberOfTestFailures</key>
 				<integer>0</integer>
 				<key>totalNumberOfWarnings</key>
-				<integer>0</integer>
+				<integer>1</integer>
 			</dict>
 			<key>schemeIdentifier-containerName</key>
 			<string>Brick Finder project</string>
@@ -40,15 +40,15 @@
 			<key>signature</key>
 			<string>Building project Brick Finder with scheme Brick Finder</string>
 			<key>timeStartedRecording</key>
-			<real>801118919.86538696</real>
+			<real>803013312.11253095</real>
 			<key>timeStoppedRecording</key>
-			<real>801118960.60697401</real>
+			<real>803013349.55179906</real>
 			<key>title</key>
 			<string>Building project Brick Finder with scheme Brick Finder</string>
 			<key>uniqueIdentifier</key>
-			<string>31017D12-9BB2-4B6E-A345-94AE762E1AE1</string>
+			<string>29DE79EB-AC71-41C3-88F8-AFF5DEB732F2</string>
 		</dict>
-		<key>C96584CA-19B0-468C-BA83-116331050A63</key>
+		<key>C59DE006-21CC-4502-86AF-17252697DC5C</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -57,17 +57,17 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>C96584CA-19B0-468C-BA83-116331050A63.xcactivitylog</string>
+			<string>C59DE006-21CC-4502-86AF-17252697DC5C.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
 			<dict>
 				<key>highLevelStatus</key>
-				<string>E</string>
+				<string>S</string>
 				<key>totalNumberOfAnalyzerIssues</key>
 				<integer>0</integer>
 				<key>totalNumberOfErrors</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>totalNumberOfTestFailures</key>
 				<integer>0</integer>
 				<key>totalNumberOfWarnings</key>
@@ -82,13 +82,13 @@
 			<key>signature</key>
 			<string>Building project Brick Finder with scheme Brick Finder</string>
 			<key>timeStartedRecording</key>
-			<real>801982556.79968202</real>
+			<real>803195949.88306797</real>
 			<key>timeStoppedRecording</key>
-			<real>801982692.30417097</real>
+			<real>803196385.48803306</real>
 			<key>title</key>
 			<string>Building project Brick Finder with scheme Brick Finder</string>
 			<key>uniqueIdentifier</key>
-			<string>C96584CA-19B0-468C-BA83-116331050A63</string>
+			<string>C59DE006-21CC-4502-86AF-17252697DC5C</string>
 		</dict>
 	</dict>
 </dict>

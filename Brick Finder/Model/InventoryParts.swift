@@ -9,9 +9,18 @@ import Foundation
 
 struct InventoryParts: Codable {
     
+    // Rebrickable paginates list endpoints. `count` is the total number of
+    // parts in the set, while `next`/`previous` are fully-formed URLs (key and
+    // page params already included) used to walk through the remaining pages.
+    let count: Int?
+    let next: String?
+    let previous: String?
     let results: [PartResult]
     
     enum CodingKeys: String, CodingKey {
+        case count
+        case next
+        case previous
         case results = "results"
     }
     

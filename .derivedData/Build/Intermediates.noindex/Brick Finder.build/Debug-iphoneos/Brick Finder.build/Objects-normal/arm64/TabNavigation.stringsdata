@@ -7,7 +7,7 @@
         "key": "Home",
         "location": {
           "startingColumn": 34,
-          "startingLine": 41
+          "startingLine": 83
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Minifigures",
         "location": {
           "startingColumn": 34,
-          "startingLine": 47
+          "startingLine": 87
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Sets",
         "location": {
           "startingColumn": 34,
-          "startingLine": 53
+          "startingLine": 91
         }
       },
       {
@@ -31,7 +31,15 @@
         "key": "Parts",
         "location": {
           "startingColumn": 34,
-          "startingLine": 59
+          "startingLine": 95
+        }
+      },
+      {
+        "comment": "",
+        "key": "Brick Finder",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 110
         }
       }
     ]

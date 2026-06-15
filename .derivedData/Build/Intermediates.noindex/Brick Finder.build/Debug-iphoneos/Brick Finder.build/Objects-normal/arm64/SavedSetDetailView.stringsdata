@@ -4,26 +4,34 @@
     "Localizable": [
       {
         "comment": "",
+        "key": "Showing %lld of %lld",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 262
+        }
+      },
+      {
+        "comment": "",
+        "key": "See all",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 275
+        }
+      },
+      {
+        "comment": "",
         "key": "This set has no MOCs",
         "location": {
           "startingColumn": 34,
-          "startingLine": 268
+          "startingLine": 332
         }
       },
       {
         "comment": "",
         "key": "No detail for this set yet",
         "location": {
-          "startingColumn": 30,
-          "startingLine": 313
-        }
-      },
-      {
-        "comment": "",
-        "key": "%@ x",
-        "location": {
-          "startingColumn": 22,
-          "startingLine": 363
+          "startingColumn": 34,
+          "startingLine": 378
         }
       },
       {
@@ -31,7 +39,7 @@
         "key": "%@",
         "location": {
           "startingColumn": 38,
-          "startingLine": 445
+          "startingLine": 478
         }
       },
       {
@@ -39,7 +47,7 @@
         "key": "Created by %@",
         "location": {
           "startingColumn": 30,
-          "startingLine": 468
+          "startingLine": 501
         }
       },
       {
@@ -47,7 +55,7 @@
         "key": "%lld pieces · %lld",
         "location": {
           "startingColumn": 26,
-          "startingLine": 490
+          "startingLine": 523
         }
       },
       {
@@ -55,7 +63,7 @@
         "key": "Specifications & description",
         "location": {
           "startingColumn": 22,
-          "startingLine": 596
+          "startingLine": 629
         }
       },
       {
@@ -63,7 +71,7 @@
         "key": "Released %lld",
         "location": {
           "startingColumn": 30,
-          "startingLine": 573
+          "startingLine": 606
         }
       },
       {
@@ -71,7 +79,7 @@
         "key": "Set Snapshot",
         "location": {
           "startingColumn": 22,
-          "startingLine": 636
+          "startingLine": 669
         }
       },
       {
@@ -79,7 +87,7 @@
         "key": "%lld building instruction%@",
         "location": {
           "startingColumn": 30,
-          "startingLine": 650
+          "startingLine": 683
         }
       },
       {
@@ -87,7 +95,7 @@
         "key": "Tags",
         "location": {
           "startingColumn": 26,
-          "startingLine": 663
+          "startingLine": 696
         }
       },
       {
@@ -95,7 +103,7 @@
         "key": "Description",
         "location": {
           "startingColumn": 26,
-          "startingLine": 685
+          "startingLine": 718
         }
       },
       {
@@ -103,7 +111,7 @@
         "key": "View building instructions",
         "location": {
           "startingColumn": 18,
-          "startingLine": 785
+          "startingLine": 818
         }
       }
     ]

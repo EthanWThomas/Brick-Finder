@@ -213,25 +213,87 @@ struct SavedSetDetailView: View {
     
     private var setPartDisplay: some View {
         ScrollView(.vertical) {
-            LazyVGrid(columns: AdaptiveLayout.cardColumns(minimum: 150), content:  {
-                if let parts = inventoryVM.setInventoryPart {
-                    ForEach(parts, id: \.id) { legoPart in
-                        partCard(
-                            image: legoPart.part.partImageURL,
-                            part: legoPart.part.partNumber,
-                            set: legoPart.quantity)
-                    }
-                    .onSubmit {
-                        inventoryVM.getInventoryPart(with: legoSet.setNumber ?? "no number")
+            if let parts = inventoryVM.setInventoryPart {
+                if parts.isEmpty {
+                    emptyTabState(
+                        icon: "cube.box",
+                        message: "This set has no parts"
+                    )
+                } else {
+                    seeAllPartsHeader(loadedCount: parts.count)
+                        .padding(.horizontal, 15)
+                        .padding(.top, 12)
+
+                    LazyVGrid(columns: AdaptiveLayout.cardColumns(minimum: 150), content:  {
+                        ForEach(parts, id: \.id) { legoPart in
+                            SetPartCardView(
+                                imageURL: legoPart.part.partImageURL,
+                                partNumber: legoPart.part.partNumber,
+                                quantity: legoPart.quantity)
+                                .onAppear {
+                                    inventoryVM.loadMorePartsIfNeeded(currentItem: legoPart)
+                                }
+                        }
+                    })
+                    .padding(15)
+                    .padding(.top, 8)
+                    .padding(.bottom, 12)
+
+                    if inventoryVM.isLoadingMoreParts {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                            .padding(.bottom, 16)
                     }
                 }
-            })
-            .padding(15)
-            .padding(.top, 8)
-            .padding(.bottom, 12)
+            } else {
+                ProgressView()
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
+            }
         }
         .scrollIndicators(.automatic)
         .safeAreaPadding(.bottom, 8)
+    }
+
+    @ViewBuilder
+    private func seeAllPartsHeader(loadedCount: Int) -> some View {
+        let total = max(inventoryVM.partsTotalCount, loadedCount)
+        HStack {
+            Text("Showing \(loadedCount) of \(total)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            Spacer()
+
+            NavigationLink {
+                AllSetPartsScreen(
+                    setName: displaySetName,
+                    inventoryVM: inventoryVM
+                )
+            } label: {
+                HStack(spacing: 4) {
+                    Text("See all")
+                    Image(systemName: "chevron.right")
+                        .font(.caption2.weight(.semibold))
+                }
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(Color.blue)
+            }
+        }
+    }
+
+    private func emptyTabState(icon: String, message: String) -> some View {
+        VStack(spacing: 10) {
+            Image(systemName: icon)
+                .font(.largeTitle)
+                .foregroundColor(.secondary)
+
+            Text(message)
+                .font(.headline)
+                .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 40)
     }
     
     private var minifigureDisplay: some View {
@@ -307,17 +369,25 @@ struct SavedSetDetailView: View {
         ScrollView(.vertical) {
             if let details = viewModel.setInfo {
                 if details.isEmpty {
-                    VStack(spacing: 10) {
-                        Image(systemName: "sparkles")
-                            .font(.largeTitle)
-                            .foregroundColor(.secondary)
-                        
-                        Text("No detail for this set yet")
-                            .font(.headline)
-                            .foregroundColor(.secondary)
+                    VStack(spacing: 16) {
+                        VStack(spacing: 10) {
+                            Image(systemName: "sparkles")
+                                .font(.largeTitle)
+                                .foregroundColor(.secondary)
+
+                            Text("No detail for this set yet")
+                                .font(.headline)
+                                .foregroundColor(.secondary)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 40)
+
+                        // Even without extended set info we can still surface
+                        // building instructions for the saved set, since the
+                        // instructions view fetches independently by setNumber.
+                        instructionPage()
+                            .padding(.horizontal, 15)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 40)
                 } else {
                     ForEach(details, id: \.setID) { setDeteils in
                         detailCardView(
@@ -353,45 +423,6 @@ struct SavedSetDetailView: View {
         .scrollIndicators(.automatic)
         .safeAreaPadding(.bottom, 8)
         .padding(.top, 8)
-    }
-    
-    private func partCard(image url: String?, part num: String?, set quantity: Int) -> some View {
-        VStack {
-            displayUrlImage(url: url)
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 100, height: 100)
-                
-            HStack(spacing: 8) {
-                Text("\(quantity.formatted(.number)) x")
-                    .font(.headline)
-                    .padding()
-                    .foregroundColor(.secondary)
-                
-                Text(num ?? "no number")
-                    .font(.caption)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color(.systemGray5))
-                    .clipShape(Capsule())
-                    .overlay(
-                        Capsule()
-                            .stroke(Color(.systemGray4), lineWidth: 1)
-                    )
-            }
-        }
-        .padding(24)
-        .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color.white, Color(.systemGray6).opacity(0.3)]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-        .scaleEffect(1.0)
-        .animation(.easeInOut(duration: 0.2), value: false)
-        .frame(height: 210)
     }
     
     private func minifigCard(image url: String?, part num: String?) -> some View {

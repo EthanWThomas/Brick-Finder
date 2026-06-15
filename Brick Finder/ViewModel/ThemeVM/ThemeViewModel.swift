@@ -20,6 +20,48 @@ final class ThemeViewModel: ObservableObject {
         }
     }
 
+    /// Curated set of universally recognizable LEGO themes, matched against the
+    /// Rebrickable `name` (case-insensitive). These are surfaced in a "Popular
+    /// Themes" section at the top of the picker so users don't have to scroll
+    /// past hundreds of obscure, niche themes to reach the classics.
+    ///
+    /// Stored lowercased so lookups are a cheap, case-insensitive `Set` hit.
+    static let popularThemeNames: Set<String> = [
+        "star wars",
+        "harry potter",
+        "city",
+        "ninjago",
+        "technic",
+        "marvel super heroes",
+        "batman",
+        "creator",
+        "icons",
+        "friends",
+        "speed champions",
+        "super mario",
+        "minecraft",
+        "ideas",
+        "architecture",
+        "disney",
+        "duplo"
+    ]
+
+    /// True when a theme is part of our curated "popular" list.
+    private func isPopular(_ theme: LegoTheme) -> Bool {
+        Self.popularThemeNames.contains(theme.name.lowercased())
+    }
+
+    /// Curated, highly recognizable themes only — alphabetical.
+    /// Derived from `sortedThemes`, so it inherits dedup + alphabetical order.
+    var popularThemes: [LegoTheme] {
+        sortedThemes.filter(isPopular)
+    }
+
+    /// Every remaining (non-popular) theme — alphabetical.
+    var otherThemes: [LegoTheme] {
+        sortedThemes.filter { !isPopular($0) }
+    }
+
     private let rebrickable = RebrickableApi()
     private var loadTask: Task<Void, Never>?
 

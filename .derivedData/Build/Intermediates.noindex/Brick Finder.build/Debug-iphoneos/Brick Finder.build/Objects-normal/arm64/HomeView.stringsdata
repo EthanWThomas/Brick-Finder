@@ -7,7 +7,7 @@
         "key": "My Collection",
         "location": {
           "startingColumn": 30,
-          "startingLine": 58
+          "startingLine": 59
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Brick Finder",
         "location": {
           "startingColumn": 26,
-          "startingLine": 98
+          "startingLine": 104
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "All themes",
         "location": {
           "startingColumn": 29,
-          "startingLine": 194
+          "startingLine": 200
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "All Themes",
         "location": {
           "startingColumn": 30,
-          "startingLine": 238
+          "startingLine": 244
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Loading themes…",
         "location": {
           "startingColumn": 34,
-          "startingLine": 222
+          "startingLine": 228
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Done",
         "location": {
           "startingColumn": 28,
-          "startingLine": 242
+          "startingLine": 248
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Featured Sets",
         "location": {
           "startingColumn": 18,
-          "startingLine": 256
+          "startingLine": 262
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "No sets for this theme",
         "location": {
           "startingColumn": 42,
-          "startingLine": 280
+          "startingLine": 286
         }
       }
     ]

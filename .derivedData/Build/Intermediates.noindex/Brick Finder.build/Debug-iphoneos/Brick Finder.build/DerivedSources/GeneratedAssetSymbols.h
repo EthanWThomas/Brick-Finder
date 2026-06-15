@@ -9,6 +9,9 @@
 /// The resource bundle ID.
 static NSString * const ACBundleID AC_SWIFT_PRIVATE = @"Edu.dixietech.mad.ethanthomas-gmail.com.Brick-Finder";
 
+/// The "PartIdColor" asset catalog color resource.
+static NSString * const ACColorNamePartIdColor AC_SWIFT_PRIVATE = @"PartIdColor";
+
 /// The "TabbarColor" asset catalog color resource.
 static NSString * const ACColorNameTabbarColor AC_SWIFT_PRIVATE = @"TabbarColor";
 

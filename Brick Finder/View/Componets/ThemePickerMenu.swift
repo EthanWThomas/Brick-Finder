@@ -13,6 +13,7 @@ struct ThemePickerMenu: View {
     var body: some View {
         Menu("Theme") {
             Picker("lego", selection: $themeId) {
+                // Reset / "show everything" option always stays pinned at the top.
                 Text("All Themes")
                     .tag("")
 
@@ -23,9 +24,22 @@ struct ThemePickerMenu: View {
                     Text(themeViewModel.errorMessage ?? "No themes available")
                         .tag("")
                 } else {
-                    ForEach(themeViewModel.sortedThemes) { theme in
-                        Text(theme.name)
-                            .tag(theme.idString)
+                    // Curated, recognizable themes float to the top for quick access.
+                    if !themeViewModel.popularThemes.isEmpty {
+                        Section("Popular Themes") {
+                            ForEach(themeViewModel.popularThemes) { theme in
+                                Text(theme.name)
+                                    .tag(theme.idString)
+                            }
+                        }
+                    }
+
+                    // Everything else, alphabetized.
+                    Section("Other Themes") {
+                        ForEach(themeViewModel.otherThemes) { theme in
+                            Text(theme.name)
+                                .tag(theme.idString)
+                        }
                     }
                 }
             }

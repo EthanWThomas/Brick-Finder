@@ -23,7 +23,7 @@
         "key": "All Themes",
         "location": {
           "startingColumn": 22,
-          "startingLine": 16
+          "startingLine": 17
         }
       },
       {
@@ -31,7 +31,23 @@
         "key": "Loading…",
         "location": {
           "startingColumn": 26,
-          "startingLine": 20
+          "startingLine": 21
+        }
+      },
+      {
+        "comment": "",
+        "key": "Popular Themes",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "Other Themes",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 38
         }
       }
     ]

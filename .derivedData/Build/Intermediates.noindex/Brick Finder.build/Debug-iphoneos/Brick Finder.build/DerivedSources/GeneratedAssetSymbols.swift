@@ -24,6 +24,9 @@ private let resourceBundle = Foundation.Bundle(for: ResourceBundleClass.self)
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 extension DeveloperToolsSupport.ColorResource {
 
+    /// The "PartIdColor" asset catalog color resource.
+    static let partId = DeveloperToolsSupport.ColorResource(name: "PartIdColor", bundle: resourceBundle)
+
     /// The "TabbarColor" asset catalog color resource.
     static let tabbar = DeveloperToolsSupport.ColorResource(name: "TabbarColor", bundle: resourceBundle)
 
@@ -67,6 +70,15 @@ extension DeveloperToolsSupport.ImageResource {
 @available(macCatalyst, unavailable)
 extension AppKit.NSColor {
 
+    /// The "PartIdColor" asset catalog color.
+    static var partId: AppKit.NSColor {
+#if !targetEnvironment(macCatalyst)
+        .init(resource: .partId)
+#else
+        .init()
+#endif
+    }
+
     /// The "TabbarColor" asset catalog color.
     static var tabbar: AppKit.NSColor {
 #if !targetEnvironment(macCatalyst)
@@ -102,6 +114,15 @@ extension AppKit.NSColor {
 @available(watchOS, unavailable)
 extension UIKit.UIColor {
 
+    /// The "PartIdColor" asset catalog color.
+    static var partId: UIKit.UIColor {
+#if !os(watchOS)
+        .init(resource: .partId)
+#else
+        .init()
+#endif
+    }
+
     /// The "TabbarColor" asset catalog color.
     static var tabbar: UIKit.UIColor {
 #if !os(watchOS)
@@ -136,6 +157,9 @@ extension UIKit.UIColor {
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 extension SwiftUI.Color {
 
+    /// The "PartIdColor" asset catalog color.
+    static var partId: SwiftUI.Color { .init(.partId) }
+
     /// The "TabbarColor" asset catalog color.
     static var tabbar: SwiftUI.Color { .init(.tabbar) }
 
@@ -149,6 +173,9 @@ extension SwiftUI.Color {
 
 @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 extension SwiftUI.ShapeStyle where Self == SwiftUI.Color {
+
+    /// The "PartIdColor" asset catalog color.
+    static var partId: SwiftUI.Color { .init(.partId) }
 
     /// The "TabbarColor" asset catalog color.
     static var tabbar: SwiftUI.Color { .init(.tabbar) }
