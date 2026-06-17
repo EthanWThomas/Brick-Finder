@@ -4,10 +4,10 @@
     "Localizable": [
       {
         "comment": "",
-        "key": "Add to Collection",
+        "key": "Save",
         "location": {
-          "startingColumn": 30,
-          "startingLine": 57
+          "startingColumn": 26,
+          "startingLine": 98
         }
       }
     ]

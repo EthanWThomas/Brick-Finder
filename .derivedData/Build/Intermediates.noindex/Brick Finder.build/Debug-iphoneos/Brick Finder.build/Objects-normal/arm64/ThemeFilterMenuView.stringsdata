@@ -1,0 +1,40 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/Componets/ThemeFilterMenuView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Choose a Theme",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 62
+        }
+      },
+      {
+        "comment": "",
+        "key": "Popular Themes",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 44
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 66
+        }
+      },
+      {
+        "comment": "",
+        "key": "Loading themes…",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 120
+        }
+      }
+    ]
+  },
+  "version": 1
+}

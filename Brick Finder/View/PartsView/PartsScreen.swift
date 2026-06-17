@@ -28,7 +28,11 @@ struct PartsScreen: View {
                 
                 HStack {
                     HStack {
-                        PartCategoryPickerMenu(
+//                        PartCategoryPickerMenu(
+//                            partCategoryId: $viewModel.partId,
+//                            partCategoryViewModel: partCategoryViewModel
+//                        )
+                        PartButton(
                             partCategoryId: $viewModel.partId,
                             partCategoryViewModel: partCategoryViewModel
                         )

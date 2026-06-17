@@ -18,6 +18,12 @@ struct SearchBar: View {
     private let cornerRadius: CGFloat = 12
     private var accentColor: Color { Color("TabbarColor") }
 
+    /// The search field's background is always white (a "card" look in both light
+    /// and dark mode), so the typed text must stay dark in every appearance.
+    /// Using `Color.primary` here would flip to white in dark mode and vanish
+    /// against the white field, hiding what the user is typing.
+    private let fieldTextColor = Color.black
+
     private var showsClearButton: Bool {
         isFocused || !searchText.isEmpty
     }
@@ -32,7 +38,7 @@ struct SearchBar: View {
             TextField("Search sets, parts, minifigs...", text: $searchText)
                 .font(.subheadline)
                 .textFieldStyle(.plain)
-                .foregroundStyle(Color.primary)
+                .foregroundStyle(fieldTextColor)
                 .tint(accentColor)
                 .focused($isFocused)
                 .submitLabel(.search)
@@ -79,7 +85,9 @@ struct SearchBar: View {
 
     private var magnifyingGlassColor: Color {
         if isFocused { return accentColor }
-        return searchText.isEmpty ? Color.secondary : Color.primary
+        // Use a fixed gray/dark instead of the adaptive `Color.secondary`/
+        // `Color.primary` so the icon stays visible on the white field in dark mode.
+        return searchText.isEmpty ? Color.gray : fieldTextColor
     }
 
     private var borderColor: Color {

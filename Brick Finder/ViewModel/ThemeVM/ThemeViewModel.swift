@@ -62,6 +62,34 @@ final class ThemeViewModel: ObservableObject {
         sortedThemes.filter { !isPopular($0) }
     }
 
+    /// A single A–Z bucket for the theme browser (e.g. "A" with every theme that
+    /// starts with "A"). `id`/`title` is the section letter; the catch-all "#"
+    /// bucket holds names that don't begin with a letter.
+    struct ThemeAlphabetSection: Identifiable {
+        let id: String
+        let themes: [LegoTheme]
+        var title: String { id }
+    }
+
+    /// The non-popular themes grouped by their starting letter, A→Z, with the
+    /// non-letter "#" bucket sorted last. Because the input (`otherThemes`) is
+    /// already alphabetical, every section's contents stay alphabetical too.
+    var alphabeticalSections: [ThemeAlphabetSection] {
+        let grouped = Dictionary(grouping: otherThemes) { theme -> String in
+            guard let first = theme.name.first, first.isLetter else { return "#" }
+            return String(first).uppercased()
+        }
+
+        return grouped
+            .map { ThemeAlphabetSection(id: $0.key, themes: $0.value) }
+            .sorted { lhs, rhs in
+                // Letters first (A→Z); the "#" catch-all always trails the end.
+                if lhs.id == "#" { return false }
+                if rhs.id == "#" { return true }
+                return lhs.id < rhs.id
+            }
+    }
+
     private let rebrickable = RebrickableApi()
     private var loadTask: Task<Void, Never>?
 

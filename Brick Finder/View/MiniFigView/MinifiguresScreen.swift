@@ -65,7 +65,8 @@ struct MinifiguresScreen: View {
     
     private var tabbar: some View {
         HStack {
-            ThemePickerMenu(themeId: $minifiguresVM.themeId, themeViewModel: themeViewModel)
+//            ThemePickerMenu(themeId: $minifiguresVM.themeId, themeViewModel: themeViewModel)
+            ThemeButton(themeId: $minifiguresVM.themeId, themeViewModel: themeViewModel)
             Spacer()
         }
         .padding(.horizontal)

@@ -55,7 +55,11 @@ extension RebrickableApi {
         maxYear: Double
     ) async throws -> LegoSet {
         let encoded = SearchQueryNormalizer.urlQueryEncoded(searchTerm)
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(theme)&min_year=\(minYear)&max_year=\(maxYear)&search=\(encoded)&key=\(RebrickableApi.apiKey)")
+        // Send whole-number years (e.g. `2009`, not `2009.0`) since Rebrickable's
+        // `min_year`/`max_year` expect integers.
+        let minYearParam = Int(minYear)
+        let maxYearParam = Int(maxYear)
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(theme)&min_year=\(minYearParam)&max_year=\(maxYearParam)&search=\(encoded)&key=\(RebrickableApi.apiKey)")
         else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
@@ -71,6 +75,27 @@ extension RebrickableApi {
         }
     }
     
+    // MARK: - Fetch a specific sets page by its pagination URL
+    /// Loads the next page of sets directly from the `next` URL that Rebrickable
+    /// returns. That URL already contains the API key, filters, and page number,
+    /// so we just request it as-is.
+    func getSetsPage(urlString: String) async throws -> LegoSet {
+        guard let url = URL(string: urlString)
+        else { throw RequestError.failedToCreateURL }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        switch (response as? HTTPURLResponse)?.statusCode ?? 0 {
+            case 200: return try JSONDecoder().decode(LegoSet.self, from: data)
+            case 201, 204, 400, 401, 403, 404, 429: throw try JSONDecoder().decode(ErrorResponse.self, from: data)
+            default: throw ResponseError.unownedErrorOccurred
+        }
+    }
+
     // MARK: - Get All Lego Seta
     func getAllLegoSet() async throws -> LegoSet {
         guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?key=\(RebrickableApi.apiKey)")

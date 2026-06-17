@@ -8,6 +8,12 @@
 import Foundation
 
 struct LegoSet: Codable {
+    // Rebrickable paginates the /sets/ endpoint. `count` is the total number of
+    // sets matching the query, while `next`/`previous` are fully-formed URLs
+    // (all query params + key + page already included) for walking the pages.
+    let count: Int?
+    let next: String?
+    let previous: String?
     let results: [SetResults]
     
     struct SetResults: Codable {

@@ -1,0 +1,40 @@
+{
+  "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/Componets/PartFilterMenuView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Choose a Category",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 62
+        }
+      },
+      {
+        "comment": "",
+        "key": "Popular Categories",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 44
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 66
+        }
+      },
+      {
+        "comment": "",
+        "key": "Loading categories…",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 120
+        }
+      }
+    ]
+  },
+  "version": 1
+}

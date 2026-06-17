@@ -29,6 +29,19 @@ class SetVM: ObservableObject {
     
     @Published var legoSetResults = [LegoSet.SetResults]()
     @Published var legoSet: [LegoSet.SetResults]?
+
+    /// Total number of sets the API reports for the current filtered search
+    /// (across all pages), so the UI can show "Showing X of N" if desired.
+    @Published private(set) var setsTotalCount = 0
+    /// True while an additional page of filtered sets is being appended.
+    @Published private(set) var isLoadingMoreSets = false
+
+    /// Fully-formed URL for the next page of the current filtered search, or nil
+    /// when there are no more pages (or no active filtered search).
+    private var nextSetsPageURL: String?
+
+    /// Whether there are more sets left to fetch for the current search.
+    var hasMoreSets: Bool { nextSetsPageURL != nil }
     @Published var legoSetMOCS: [LegoMOCS.LegoMOCSResult]?
     @Published var instructions: [Instructions.InstructionsResult]?
     @Published var setInfo: [SetInfo.Sets]?
@@ -226,25 +239,33 @@ class SetVM: ObservableObject {
         isLoading = true
         errorMessage = nil
 
+        // A brand-new search range invalidates any prior pagination state — wipe
+        // it now so a stale "next" URL from the previous filter can't be used and
+        // pagination effectively resets to page 1.
+        nextSetsPageURL = nil
+        setsTotalCount = 0
+        isLoadingMoreSets = false
+
         do {
-            let results: [LegoSet.SetResults]
+            let response: LegoSet
             if query.isEmpty {
                 guard !themeId.isEmpty else {
                     isLoading = false
                     return
                 }
                 // Theme/year-only filters (no search text) — same routing as text search.
-                results = try await fetchSets(searchTerm: "")
+                response = try await fetchSets(searchTerm: "")
             } else {
-                results = try await SearchQueryNormalizer.searchWithFallback(query: query) { term in
-                    try await self.fetchSets(searchTerm: term)
-                }
+                response = try await fetchSetsWithFallback(query: query)
             }
             guard !Task.isCancelled else {
                 isLoading = false
                 return
             }
-            legoSetResults = results
+            // First page replaces the list; capture the pagination cursor + total.
+            legoSetResults = response.results
+            nextSetsPageURL = response.next
+            setsTotalCount = response.count ?? response.results.count
             isLoading = false
         } catch {
             if Self.isCancellation(error) {
@@ -257,22 +278,122 @@ class SetVM: ObservableObject {
         }
     }
 
-    private func fetchSets(searchTerm: String) async throws -> [LegoSet.SetResults] {
-        if !themeId.isEmpty, minYear != 0 || maxYear != 0 {
+    /// Mirrors `SearchQueryNormalizer.searchWithFallback`, but returns the full
+    /// `LegoSet` response (not just `results`) so we keep the `next`/`count`
+    /// pagination metadata for the page that actually produced results.
+    private func fetchSetsWithFallback(query: String) async throws -> LegoSet {
+        var lastResponse = LegoSet(count: nil, next: nil, previous: nil, results: [])
+        for term in SearchQueryNormalizer.fallbackTerms(for: query) {
+            try Task.checkCancellation()
+            let response = try await fetchSets(searchTerm: term)
+            if !response.results.isEmpty {
+                return response
+            }
+            lastResponse = response
+        }
+        return lastResponse
+    }
+
+    /// Loads the next page of the current filtered search and appends it to the
+    /// existing array. Triggered from the list's lazy-loading hook. Safe to call
+    /// repeatedly — it no-ops while a fetch is in flight or once fully loaded.
+    @MainActor
+    func loadMoreSetsIfNeeded(currentItem: LegoSet.SetResults?) {
+        guard let currentItem else {
+            loadMoreSets()
+            return
+        }
+        guard let index = legoSetResults.firstIndex(where: { $0.setNumber == currentItem.setNumber })
+        else { return }
+
+        // Pre-fetch a little before the very last row so the next page is ready
+        // by the time the user reaches the bottom.
+        let threshold = legoSetResults.index(
+            legoSetResults.endIndex,
+            offsetBy: -5,
+            limitedBy: legoSetResults.startIndex
+        ) ?? legoSetResults.startIndex
+
+        if index >= threshold {
+            loadMoreSets()
+        }
+    }
+
+    @MainActor
+    func loadMoreSets() {
+        guard !isLoadingMoreSets, let nextURL = nextSetsPageURL else { return }
+        isLoadingMoreSets = true
+
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                let page = try await self.apiManager.getSetsPage(urlString: nextURL)
+                await MainActor.run {
+                    // Seamlessly append; the LazyVStack keeps existing rows mounted
+                    // so the user's scroll position is preserved.
+                    self.legoSetResults.append(contentsOf: page.results)
+                    self.nextSetsPageURL = page.next
+                    if let count = page.count { self.setsTotalCount = count }
+                    self.isLoadingMoreSets = false
+                }
+            } catch {
+                if Self.isCancellation(error) {
+                    await MainActor.run { self.isLoadingMoreSets = false }
+                    return
+                }
+                print("Failed to load more sets \(error)")
+                await MainActor.run { self.isLoadingMoreSets = false }
+            }
+        }
+    }
+
+    /// LEGO's earliest sets date to 1949; used as the floor when the user has
+    /// only chosen a "Year To" boundary.
+    private static let earliestLegoYear = 1949
+
+    /// The current calendar year, used as the ceiling when the user has only
+    /// chosen a "Year From" boundary.
+    private static var currentYear: Int {
+        Calendar.current.component(.year, from: Date())
+    }
+
+    private func fetchSets(searchTerm: String) async throws -> LegoSet {
+        // A year filter is active as soon as EITHER boundary is set — we no
+        // longer wait for both to be filled in.
+        let hasYearFilter = minYear != 0 || maxYear != 0
+
+        if !themeId.isEmpty, hasYearFilter {
+            // Default whichever side the user hasn't picked yet so a one-sided
+            // selection still produces a valid range:
+            //   • "Year From" only  → [chosenYear ... chosenYear]  (just that one year)
+            //   • "Year To" only    → [earliestLegoYear ... chosenMax]
+            // Picking the second boundary later expands it into the full range.
+            let chosenMin = minYear != 0 ? minYear : Self.earliestLegoYear
+            // When only "Year From" is set, mirror it as the upper bound so the
+            // results are limited to that single year until a "Year To" is chosen.
+            let chosenMax = maxYear != 0
+                ? maxYear
+                : (minYear != 0 ? minYear : Self.currentYear)
+
+            // Guard against an inverted range (e.g. From 2020, To 2010) so the
+            // API always receives lower ≤ upper and still returns results.
+            let lowerYear = min(chosenMin, chosenMax)
+            let upperYear = max(chosenMin, chosenMax)
+
             return try await apiManager.searchLegoSetWithThemeAndYear(
                 searchTerm: searchTerm,
                 theme: themeId,
-                minYear: Double(minYear),
-                maxYear: Double(maxYear)
-            ).results
+                minYear: Double(lowerYear),
+                maxYear: Double(upperYear)
+            )
         }
         if !themeId.isEmpty {
             return try await apiManager.searchLegoSetWithTheme(
                 searchTerm: searchTerm,
                 theme: themeId
-            ).results
+            )
         }
-        return try await apiManager.seacrhAllLegoSets(with: searchTerm).results
+        return try await apiManager.seacrhAllLegoSets(with: searchTerm)
     }
     
     @MainActor

@@ -44,13 +44,19 @@ struct SetsScreen: View {
                     listSetview
                         .padding(.horizontal, -15)
                 }
+                // Picking a theme reloads immediately (this also resets the year
+                // range via the VM's `themeId` didSet).
                 .onChange(of: viewModel.themeId) { _, _ in
                     viewModel.searchLegoSetWithTheme()
                 }
+                // "Year From" fires a fresh load on its own — the VM defaults the
+                // missing "To" side to the current year so results appear right away.
                 .onChange(of: viewModel.minYear) { _, _ in
                     guard viewModel.minYear != 0 || viewModel.maxYear != 0 else { return }
                     viewModel.searchLegoSetWithAThemeAndYear()
                 }
+                // "Year To" likewise fires independently; the VM defaults the
+                // missing "From" side to the earliest LEGO year.
                 .onChange(of: viewModel.maxYear) { _, _ in
                     guard viewModel.minYear != 0 || viewModel.maxYear != 0 else { return }
                     viewModel.searchLegoSetWithAThemeAndYear()
@@ -77,16 +83,17 @@ struct SetsScreen: View {
     
     private var themePicker: some View {
         HStack {
-            ThemePickerMenu(themeId: $viewModel.themeId, themeViewModel: themeViewModel)
+//            ThemePickerMenu(themeId: $viewModel.themeId, themeViewModel: themeViewModel)
+            ThemeButton(themeId: $viewModel.themeId, themeViewModel: themeViewModel)
             Spacer()
         }
     }
     
     private var minAndMaxYearPicker: some View {
         HStack {
-            Menu("year to") {
+            Menu("Year From") {
                 Picker("Minimum", selection: $viewModel.minYear) {
-                    ForEach(1999...2055, id: \.self) { year in
+                    ForEach(1999...2028, id: \.self) { year in
                         Text(year.formatted(.number.grouping(.never)))
                     }
                 }
@@ -106,9 +113,9 @@ struct SetsScreen: View {
             .zIndex(1000)
             Spacer()
             
-            Menu("year from") {
+            Menu("Year To") {
                 Picker("Maximum", selection: $viewModel.maxYear) {
-                    ForEach(1999...2055, id: \.self) { year in
+                    ForEach(1999...2028, id: \.self) { year in
                         Text(year.formatted(.number.grouping(.never)))
                     }
                 }
@@ -190,6 +197,19 @@ struct SetsScreen: View {
                 } else if let legoSet = viewModel.searchLegoSet, !legoSet.isEmpty {
                     ForEach(legoSet, id: \.setNumber) { set in
                         listSetItem(lego: set)
+                            // Infinite scroll: as each row appears, ask the VM
+                            // whether we're close enough to the bottom to fetch
+                            // the next page. New sets append seamlessly.
+                            .onAppear {
+                                viewModel.loadMoreSetsIfNeeded(currentItem: set)
+                            }
+                    }
+
+                    // Spinner pinned below the list while the next page loads.
+                    if viewModel.isLoadingMoreSets {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
                     }
                 } else {
                     VStack(spacing: 12) {
