@@ -10,6 +10,7 @@ import SwiftUI
 struct FeaturedSetCard: View {
     var setInfo: LegoSet.SetResults
     
+    @State var setSavedDataVM: SavedLegoSetsVM
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             // Image section (isolated + clipped so it can't visually overlap the text)
@@ -56,6 +57,8 @@ struct FeaturedSetCard: View {
                 .lineLimit(2)
                
             
+            // Metadata pills get their own row so they never get squeezed by
+            // the action button. Trailing spacer keeps them left-aligned.
             HStack(spacing: 8) {
                 if let year = setInfo.year {
                     pill(text: "\(year)", systemImage: "calendar")
@@ -63,9 +66,27 @@ struct FeaturedSetCard: View {
                 if let parts = setInfo.numberOfParts {
                     pill(text: "\(parts.formatted(.number)) parts", systemImage: "cube.box")
                 }
+
+                Spacer(minLength: 0)
             }
-            
-            Spacer(minLength: 0)
+
+            // Full-width save action on its own line for a clean, tappable target.
+            Button {
+                setSavedDataVM.savedLegoSetsResult(legoResult: setInfo)
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "plus.circle.fill")
+                    Text("Add to Collection")
+                }
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Color.red)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+                .background(Color.red.opacity(0.1))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+            .buttonStyle(.plain)
+            .padding(.top, 2)
         }
         .padding(12)
         .background(

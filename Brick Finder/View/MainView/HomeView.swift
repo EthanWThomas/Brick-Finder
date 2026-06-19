@@ -304,7 +304,7 @@ struct HomeView: View {
                 viewModel: setViewModel,
                 inventoryVM: inventoryViemModel)
         } label: {
-            FeaturedSetCard(setInfo: set)
+            FeaturedSetCard(setInfo: set, setSavedDataVM: setSavedDataVM)
         }
     }
 }

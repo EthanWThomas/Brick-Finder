@@ -357,43 +357,137 @@ class SetVM: ObservableObject {
         Calendar.current.component(.year, from: Date())
     }
 
-    private func fetchSets(searchTerm: String) async throws -> LegoSet {
-        // A year filter is active as soon as EITHER boundary is set — we no
-        // longer wait for both to be filled in.
+    // MARK: - Theme ID grouping
+
+    // Rebrickable splits some logical themes across multiple theme IDs. The
+    // sets endpoint only accepts ONE `theme_id` per request (no comma lists),
+    // so selecting the primary theme has to query each related ID and merge.
+    private static let ninjagoThemeId = "435"           // "Ninjago" (parent)
+    private static let ninjagoMovieThemeId = "616"      // "The LEGO Ninjago Movie"
+
+    /// Maps a selected theme ID → every theme ID that should be queried for it.
+    /// e.g. picking "Ninjago" also pulls in "The LEGO Ninjago Movie" sets.
+    private static let themeIdGroups: [String: [String]] = [
+        ninjagoThemeId: [ninjagoThemeId, ninjagoMovieThemeId]
+    ]
+
+    /// Returns the full list of theme IDs to query for a selected theme. Falls
+    /// back to just the selected ID when it isn't part of a group.
+    private static func themeIds(for selectedThemeId: String) -> [String] {
+        themeIdGroups[selectedThemeId] ?? [selectedThemeId]
+    }
+
+    /// Resolves the active year window, defaulting whichever side the user hasn't
+    /// picked. Returns nil when no year filter is active.
+    ///   • "Year From" only → [chosenYear ... chosenYear]  (just that one year)
+    ///   • "Year To" only   → [earliestLegoYear ... chosenMax]
+    private func resolvedYearBounds() -> (min: Int, max: Int)? {
         let hasYearFilter = minYear != 0 || maxYear != 0
+        guard hasYearFilter else { return nil }
 
-        if !themeId.isEmpty, hasYearFilter {
-            // Default whichever side the user hasn't picked yet so a one-sided
-            // selection still produces a valid range:
-            //   • "Year From" only  → [chosenYear ... chosenYear]  (just that one year)
-            //   • "Year To" only    → [earliestLegoYear ... chosenMax]
-            // Picking the second boundary later expands it into the full range.
-            let chosenMin = minYear != 0 ? minYear : Self.earliestLegoYear
-            // When only "Year From" is set, mirror it as the upper bound so the
-            // results are limited to that single year until a "Year To" is chosen.
-            let chosenMax = maxYear != 0
-                ? maxYear
-                : (minYear != 0 ? minYear : Self.currentYear)
+        let chosenMin = minYear != 0 ? minYear : Self.earliestLegoYear
+        // When only "Year From" is set, mirror it as the upper bound so results
+        // are limited to that single year until a "Year To" is chosen.
+        let chosenMax = maxYear != 0
+            ? maxYear
+            : (minYear != 0 ? minYear : Self.currentYear)
 
-            // Guard against an inverted range (e.g. From 2020, To 2010) so the
-            // API always receives lower ≤ upper and still returns results.
-            let lowerYear = min(chosenMin, chosenMax)
-            let upperYear = max(chosenMin, chosenMax)
+        // Guard against an inverted range (e.g. From 2020, To 2010) so the API
+        // always receives lower ≤ upper and still returns results.
+        return (min(chosenMin, chosenMax), max(chosenMin, chosenMax))
+    }
 
+    private func fetchSets(searchTerm: String) async throws -> LegoSet {
+        // No theme selected → plain (paginated) search across all sets.
+        guard !themeId.isEmpty else {
+            return try await apiManager.seacrhAllLegoSets(with: searchTerm)
+        }
+
+        let ids = Self.themeIds(for: themeId)
+
+        // Grouped theme (e.g. Ninjago + Ninjago Movie): fetch every page of each
+        // ID concurrently, then merge them into a single de-duplicated, sorted
+        // payload so no sets (like the 2017 movie sets) are missed.
+        if ids.count > 1 {
+            return try await fetchMergedThemeSets(themeIds: ids, searchTerm: searchTerm)
+        }
+
+        // Single theme → return the first page; infinite scroll loads the rest.
+        return try await fetchThemeSetsPage(themeId: themeId, searchTerm: searchTerm)
+    }
+
+    /// Fetches the first page of sets for a single theme ID, honoring the active
+    /// year window when present.
+    private func fetchThemeSetsPage(themeId: String, searchTerm: String) async throws -> LegoSet {
+        if let bounds = resolvedYearBounds() {
             return try await apiManager.searchLegoSetWithThemeAndYear(
                 searchTerm: searchTerm,
                 theme: themeId,
-                minYear: Double(lowerYear),
-                maxYear: Double(upperYear)
+                minYear: Double(bounds.min),
+                maxYear: Double(bounds.max)
             )
         }
-        if !themeId.isEmpty {
-            return try await apiManager.searchLegoSetWithTheme(
-                searchTerm: searchTerm,
-                theme: themeId
-            )
+        return try await apiManager.searchLegoSetWithTheme(
+            searchTerm: searchTerm,
+            theme: themeId
+        )
+    }
+
+    /// Walks every page for a single theme ID (following the `next` cursor) and
+    /// returns the complete set list for that theme.
+    private func fetchAllThemeSets(themeId: String, searchTerm: String) async throws -> [LegoSet.SetResults] {
+        var page = try await fetchThemeSetsPage(themeId: themeId, searchTerm: searchTerm)
+        var all = page.results
+
+        while let next = page.next {
+            try Task.checkCancellation()
+            page = try await apiManager.getSetsPage(urlString: next)
+            all.append(contentsOf: page.results)
         }
-        return try await apiManager.seacrhAllLegoSets(with: searchTerm)
+        return all
+    }
+
+    /// Fetches all sets for each theme ID concurrently and merges them into one
+    /// payload: de-duplicated by set number and sorted by set number. Pagination
+    /// is collapsed (`next == nil`) because everything is loaded up front.
+    private func fetchMergedThemeSets(themeIds ids: [String], searchTerm: String) async throws -> LegoSet {
+        var merged: [LegoSet.SetResults] = []
+
+        try await withThrowingTaskGroup(of: [LegoSet.SetResults].self) { group in
+            for id in ids {
+                group.addTask { [weak self] in
+                    guard let self else { return [] }
+                    return try await self.fetchAllThemeSets(themeId: id, searchTerm: searchTerm)
+                }
+            }
+            for try await partial in group {
+                merged.append(contentsOf: partial)
+            }
+        }
+
+        let cleaned = Self.dedupedAndSorted(merged)
+        return LegoSet(count: cleaned.count, next: nil, previous: nil, results: cleaned)
+    }
+
+    /// Removes duplicate sets (same set number) and sorts the result by set
+    /// number so the combined Ninjago + Movie list reads cleanly.
+    private static func dedupedAndSorted(_ sets: [LegoSet.SetResults]) -> [LegoSet.SetResults] {
+        var seen = Set<String>()
+        var unique: [LegoSet.SetResults] = []
+        unique.reserveCapacity(sets.count)
+
+        for set in sets {
+            // Keep sets without a number too, but never treat them as duplicates.
+            guard let number = set.setNumber else {
+                unique.append(set)
+                continue
+            }
+            if seen.insert(number).inserted {
+                unique.append(set)
+            }
+        }
+
+        return unique.sorted { ($0.setNumber ?? "") < ($1.setNumber ?? "") }
     }
     
     @MainActor

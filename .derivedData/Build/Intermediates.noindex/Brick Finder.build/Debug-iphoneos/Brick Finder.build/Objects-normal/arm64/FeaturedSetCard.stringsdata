@@ -1,5 +1,16 @@
 {
   "source": "/Users/ethanthomas/Documents/IOS/Brick Finder/Brick Finder/View/Componets/CardView/LegoSetCard/FeaturedSetCard.swift",
-  "tables": {},
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Add to Collection",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 79
+        }
+      }
+    ]
+  },
   "version": 1
 }

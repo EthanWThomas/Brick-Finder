@@ -6,7 +6,7 @@
 	<integer>12</integer>
 	<key>logs</key>
 	<dict>
-		<key>707590A8-988B-4D1F-930A-0D777E7F32F4</key>
+		<key>BDADCECA-0232-4C96-B0DA-39D75CCECE6E</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>707590A8-988B-4D1F-930A-0D777E7F32F4.xcactivitylog</string>
+			<string>BDADCECA-0232-4C96-B0DA-39D75CCECE6E.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -40,55 +40,13 @@
 			<key>signature</key>
 			<string>Building project Brick Finder with scheme Brick Finder</string>
 			<key>timeStartedRecording</key>
-			<real>803374554.44518697</real>
+			<real>803542056.99235904</real>
 			<key>timeStoppedRecording</key>
-			<real>803374562.13203895</real>
+			<real>803542072.75842905</real>
 			<key>title</key>
 			<string>Building project Brick Finder with scheme Brick Finder</string>
 			<key>uniqueIdentifier</key>
-			<string>707590A8-988B-4D1F-930A-0D777E7F32F4</string>
-		</dict>
-		<key>E92B5EC4-353C-4BD3-A63F-438B491B6C82</key>
-		<dict>
-			<key>className</key>
-			<string>IDECommandLineBuildLog</string>
-			<key>documentTypeString</key>
-			<string>&lt;nil&gt;</string>
-			<key>domainType</key>
-			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
-			<key>fileName</key>
-			<string>E92B5EC4-353C-4BD3-A63F-438B491B6C82.xcactivitylog</string>
-			<key>hasPrimaryLog</key>
-			<true/>
-			<key>primaryObservable</key>
-			<dict>
-				<key>highLevelStatus</key>
-				<string>S</string>
-				<key>totalNumberOfAnalyzerIssues</key>
-				<integer>0</integer>
-				<key>totalNumberOfErrors</key>
-				<integer>0</integer>
-				<key>totalNumberOfTestFailures</key>
-				<integer>0</integer>
-				<key>totalNumberOfWarnings</key>
-				<integer>0</integer>
-			</dict>
-			<key>schemeIdentifier-containerName</key>
-			<string>Brick Finder project</string>
-			<key>schemeIdentifier-schemeName</key>
-			<string>Brick Finder</string>
-			<key>schemeIdentifier-sharedScheme</key>
-			<integer>1</integer>
-			<key>signature</key>
-			<string>Building project Brick Finder with scheme Brick Finder</string>
-			<key>timeStartedRecording</key>
-			<real>803374193.21671104</real>
-			<key>timeStoppedRecording</key>
-			<real>803374209.146855</real>
-			<key>title</key>
-			<string>Building project Brick Finder with scheme Brick Finder</string>
-			<key>uniqueIdentifier</key>
-			<string>E92B5EC4-353C-4BD3-A63F-438B491B6C82</string>
+			<string>BDADCECA-0232-4C96-B0DA-39D75CCECE6E</string>
 		</dict>
 	</dict>
 </dict>

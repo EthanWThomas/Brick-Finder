@@ -23,7 +23,7 @@
         "key": "Year To",
         "location": {
           "startingColumn": 18,
-          "startingLine": 116
+          "startingLine": 119
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Maximum",
         "location": {
           "startingColumn": 24,
-          "startingLine": 117
+          "startingLine": 120
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Loading sets…",
         "location": {
           "startingColumn": 34,
-          "startingLine": 158
+          "startingLine": 164
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Couldn’t load sets",
         "location": {
           "startingColumn": 30,
-          "startingLine": 166
+          "startingLine": 172
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Search for a set",
         "location": {
           "startingColumn": 34,
-          "startingLine": 186
+          "startingLine": 192
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "Enter a set name or pick a theme to begin.",
         "location": {
           "startingColumn": 34,
-          "startingLine": 188
+          "startingLine": 194
         }
       },
       {
@@ -79,7 +79,7 @@
         "key": "Set not found.",
         "location": {
           "startingColumn": 30,
-          "startingLine": 219
+          "startingLine": 225
         }
       },
       {
@@ -87,7 +87,7 @@
         "key": "Try a different name, theme, or year range.",
         "location": {
           "startingColumn": 30,
-          "startingLine": 221
+          "startingLine": 227
         }
       }
     ]

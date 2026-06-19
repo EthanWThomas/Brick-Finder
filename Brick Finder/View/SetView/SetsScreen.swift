@@ -98,9 +98,12 @@ struct SetsScreen: View {
                     }
                 }
             }
+            // Size to the label so "Year From"/"Year To" is never truncated,
+            // then pin only the height for a consistent control size.
+            .fixedSize(horizontal: true, vertical: false)
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
-            .frame(width: 100, height: 40)
+            .frame(height: 40)
             .foregroundStyle(Color.black)
             .background(
                 RoundedRectangle(cornerRadius: 10)
@@ -120,9 +123,12 @@ struct SetsScreen: View {
                     }
                 }
             }
+            // Size to the label so "Year From"/"Year To" is never truncated,
+            // then pin only the height for a consistent control size.
+            .fixedSize(horizontal: true, vertical: false)
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
-            .frame(width: 100, height: 40)
+            .frame(height: 40)
             .foregroundStyle(Color.black)
             .background(
                 RoundedRectangle(cornerRadius: 10)
