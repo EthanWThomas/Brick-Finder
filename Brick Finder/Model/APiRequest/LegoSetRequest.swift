@@ -12,7 +12,9 @@ extension RebrickableApi {
     // MARK: Search for all lego sets
     func seacrhAllLegoSets(with searchTerm: String) async throws -> LegoSet {
         let encoded = SearchQueryNormalizer.urlQueryEncoded(searchTerm)
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?search=\(encoded)&key=\(RebrickableApi.apiKey)")
+        // `ordering=year` asks Rebrickable to return sets oldest-first; the param
+        // is carried through the `next` pagination URLs automatically.
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?search=\(encoded)&ordering=year&key=\(RebrickableApi.apiKey)")
         else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
@@ -31,7 +33,8 @@ extension RebrickableApi {
     // MARK: - Search all Lego sets with a theme
     func searchLegoSetWithTheme(searchTerm: String, theme: String) async throws -> LegoSet {
         let encoded = SearchQueryNormalizer.urlQueryEncoded(searchTerm)
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(theme)&search=\(encoded)&key=\(RebrickableApi.apiKey)")
+        // `ordering=year` returns the theme's sets oldest-first.
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(theme)&search=\(encoded)&ordering=year&key=\(RebrickableApi.apiKey)")
         else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)
@@ -59,7 +62,8 @@ extension RebrickableApi {
         // `min_year`/`max_year` expect integers.
         let minYearParam = Int(minYear)
         let maxYearParam = Int(maxYear)
-        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(theme)&min_year=\(minYearParam)&max_year=\(maxYearParam)&search=\(encoded)&key=\(RebrickableApi.apiKey)")
+        // `ordering=year` returns the matching sets oldest-first across the range.
+        guard let url = URL(string: "https://rebrickable.com/api/v3/lego/sets/?theme_id=\(theme)&min_year=\(minYearParam)&max_year=\(maxYearParam)&search=\(encoded)&ordering=year&key=\(RebrickableApi.apiKey)")
         else { throw RequestError.failedToCreateURL }
         
         var request = URLRequest(url: url)

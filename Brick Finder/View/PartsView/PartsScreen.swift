@@ -69,24 +69,21 @@ struct PartsScreen: View {
     private var partCard: some View {
         ScrollView {
             let trimmedSearch = viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-            let hasNoQuery = trimmedSearch.isEmpty && viewModel.partId.isEmpty
-            // Treat the cache as "has data" when we have any parts to show. We
-            // never want to replace a populated list with the error UI just
-            // because a stale/transient error is hanging around on the VM.
-            let hasCachedDefaults = !(viewModel.part?.isEmpty ?? true)
-            let hasCachedSearch = !(viewModel.searchLegoPart?.isEmpty ?? true)
-            let hasAnyData = hasCachedDefaults || hasCachedSearch
+            // "Search mode" = the user has narrowed the list with text or a
+            // category; otherwise we're browsing the default parts list.
+            let isSearchMode = !(trimmedSearch.isEmpty && viewModel.partId.isEmpty)
+            // Base every phase on the data that belongs to the CURRENT mode.
+            // (Keying off "any cached data" is what made the empty state flash
+            // while a fresh search loaded over previously cached default parts.)
+            let activeParts = isSearchMode ? viewModel.searchLegoPart : viewModel.part
+            let hasActiveParts = !(activeParts?.isEmpty ?? true)
 
-            // Only show the full-screen spinner when there's nothing cached
-            // to display. If we already have a populated grid (e.g. when
-            // returning from the part detail screen, or when filters refresh
-            // in the background), keep the LazyVGrid mounted so SwiftUI can
-            // preserve the ScrollView's offset across navigation.
-            if viewModel.isLoading && !hasAnyData {
+            // Phase 1 — actively fetching with nothing yet to show.
+            if viewModel.isLoading && !hasActiveParts {
                 ProgressView("Loading parts…")
                     .frame(maxWidth: .infinity)
                     .padding(.top, 40)
-            } else if let errorMessage = viewModel.errorMessage, !hasAnyData {
+            } else if let errorMessage = viewModel.errorMessage, !hasActiveParts {
                 VStack(spacing: 12) {
                     Image(systemName: "exclamationmark.triangle")
                         .font(.largeTitle)
@@ -101,28 +98,27 @@ struct PartsScreen: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.top, 40)
-            } else if hasNoQuery {
-                if let defaultParts = viewModel.part, !defaultParts.isEmpty {
-                    partsGrid(parts: defaultParts)
-                } else {
-                    VStack(spacing: 12) {
-                        Image(systemName: "text.magnifyingglass")
-                            .font(.largeTitle)
-                            .foregroundColor(.secondary)
-                        Text("Search for a part")
-                            .font(.headline)
-                        Text("Enter a part name or pick a category to begin.")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 40)
-                }
-            } else if let parts = viewModel.searchLegoPart, !parts.isEmpty {
+            } else if let parts = activeParts, !parts.isEmpty {
+                // Phase 2 — data exists (default browse list or search results).
                 partsGrid(parts: parts)
+            } else if !isSearchMode {
+                // Phase 3a — idle with no query yet: prompt the user to search.
+                VStack(spacing: 12) {
+                    Image(systemName: "text.magnifyingglass")
+                        .font(.largeTitle)
+                        .foregroundColor(.secondary)
+                    Text("Search for a part")
+                        .font(.headline)
+                    Text("Enter a part name or pick a category to begin.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.top, 40)
             } else {
+                // Phase 3b — search finished with genuinely no matches.
                 VStack(spacing: 12) {
                     Image(systemName: "questionmark.folder")
                         .font(.largeTitle)

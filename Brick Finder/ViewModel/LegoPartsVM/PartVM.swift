@@ -84,9 +84,17 @@ class PartVM: ObservableObject {
         let query = SearchQueryNormalizer.normalizedForAPI(searchText)
         let signature = "parts|\(query)|\(partId)"
 
-        searchCoordinator.run(signature: signature) { [weak self] in
+        let started = searchCoordinator.run(signature: signature) { [weak self] in
             guard let self else { return }
             await self.performFilteredPartSearch(query: query)
+        }
+
+        // Enter the loading state synchronously (before the async task hops to the
+        // main actor) so the UI never renders an empty "Part not found" frame in
+        // the gap between the filter change and the request starting.
+        if started {
+            isLoading = true
+            errorMessage = nil
         }
     }
 

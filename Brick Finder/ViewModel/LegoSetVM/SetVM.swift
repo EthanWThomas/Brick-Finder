@@ -228,9 +228,17 @@ class SetVM: ObservableObject {
         let query = SearchQueryNormalizer.normalizedForAPI(searchText)
         let signature = "sets|\(query)|\(themeId)|\(minYear)|\(maxYear)"
 
-        searchCoordinator.run(signature: signature) { [weak self] in
+        let started = searchCoordinator.run(signature: signature) { [weak self] in
             guard let self else { return }
             await self.performFilteredSetSearch(query: query)
+        }
+
+        // Enter the loading state synchronously (before the async task hops to the
+        // main actor) so the UI never renders an empty "Set not found" frame in
+        // the gap between the filter change and the request starting.
+        if started {
+            isLoading = true
+            errorMessage = nil
         }
     }
 
@@ -263,7 +271,8 @@ class SetVM: ObservableObject {
                 return
             }
             // First page replaces the list; capture the pagination cursor + total.
-            legoSetResults = response.results
+            // Sort chronologically so the list is year-ordered from the start.
+            legoSetResults = Self.sortedChronologically(response.results)
             nextSetsPageURL = response.next
             setsTotalCount = response.count ?? response.results.count
             isLoading = false
@@ -329,9 +338,12 @@ class SetVM: ObservableObject {
             do {
                 let page = try await self.apiManager.getSetsPage(urlString: nextURL)
                 await MainActor.run {
-                    // Seamlessly append; the LazyVStack keeps existing rows mounted
-                    // so the user's scroll position is preserved.
-                    self.legoSetResults.append(contentsOf: page.results)
+                    // Seamlessly append, then re-sort the ENTIRE collection so the
+                    // chronological order holds across every fetched page (not just
+                    // within each page). The LazyVStack keeps existing rows mounted.
+                    var combined = self.legoSetResults
+                    combined.append(contentsOf: page.results)
+                    self.legoSetResults = Self.sortedChronologically(combined)
                     self.nextSetsPageURL = page.next
                     if let count = page.count { self.setsTotalCount = count }
                     self.isLoadingMoreSets = false
@@ -469,8 +481,8 @@ class SetVM: ObservableObject {
         return LegoSet(count: cleaned.count, next: nil, previous: nil, results: cleaned)
     }
 
-    /// Removes duplicate sets (same set number) and sorts the result by set
-    /// number so the combined Ninjago + Movie list reads cleanly.
+    /// Removes duplicate sets (same set number), then orders them chronologically
+    /// so the combined Ninjago + Movie list reads cleanly.
     private static func dedupedAndSorted(_ sets: [LegoSet.SetResults]) -> [LegoSet.SetResults] {
         var seen = Set<String>()
         var unique: [LegoSet.SetResults] = []
@@ -487,7 +499,22 @@ class SetVM: ObservableObject {
             }
         }
 
-        return unique.sorted { ($0.setNumber ?? "") < ($1.setNumber ?? "") }
+        return sortedChronologically(unique)
+    }
+
+    /// Strict chronological ordering for the sets list: by `year` ascending, with
+    /// `setNumber` as a stable secondary key so every year's sets stay uniform
+    /// (e.g. all 2013 sets, then all 2014 sets, …). Sets missing a year sort last.
+    private static func sortedChronologically(_ sets: [LegoSet.SetResults]) -> [LegoSet.SetResults] {
+        sets.sorted { lhs, rhs in
+            let lhsYear = lhs.year ?? Int.max
+            let rhsYear = rhs.year ?? Int.max
+            if lhsYear != rhsYear {
+                return lhsYear < rhsYear
+            }
+            // Same year → keep a deterministic order by set number.
+            return (lhs.setNumber ?? "") < (rhs.setNumber ?? "")
+        }
     }
     
     @MainActor

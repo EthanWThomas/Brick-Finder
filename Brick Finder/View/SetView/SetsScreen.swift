@@ -143,28 +143,36 @@ struct SetsScreen: View {
         }
     }
     
-    private var listSetview: some View {
-        ScrollView {
-            LazyVStack(spacing: 16) {
-                let trimmedSearch = viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-                let hasNoQuery = trimmedSearch.isEmpty && viewModel.themeId.isEmpty
-                // Treat the cache as "has data" when we have any sets to show. We
-                // never want to replace a populated list with the error UI just
-                // because a stale/transient error is hanging around on the VM.
-                let hasCachedDefaults = !(viewModel.legoSet?.isEmpty ?? true)
-                let hasCachedSearch = !(viewModel.searchLegoSet?.isEmpty ?? true)
-                let hasAnyData = hasCachedDefaults || hasCachedSearch
+    // Stable id for the invisible row at the very top of the list. We scroll to
+    // it whenever the user picks a new theme so the list starts at the top
+    // instead of wherever the previous theme's list was scrolled to.
+    private static let topAnchorID = "setsListTop"
 
-                // Only show the full-screen spinner when there's nothing cached
-                // to display. If we already have a populated list (e.g. when
-                // returning from the detail screen, or when filters refresh in
-                // the background), keep the LazyVStack mounted so SwiftUI can
-                // preserve the ScrollView's offset across navigation.
-                if viewModel.isLoading && !hasAnyData {
+    private var listSetview: some View {
+        ScrollViewReader { proxy in
+            ScrollView {
+            LazyVStack(spacing: 16) {
+                // Invisible anchor pinned to the top of the list for `scrollTo`.
+                Color.clear
+                    .frame(height: 0)
+                    .id(Self.topAnchorID)
+
+                let trimmedSearch = viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+                // "Search mode" = the user has narrowed the list with text or a
+                // theme; otherwise we're browsing the default set list.
+                let isSearchMode = !(trimmedSearch.isEmpty && viewModel.themeId.isEmpty)
+                // Base every phase on the data that belongs to the CURRENT mode.
+                // (Keying off "any cached data" is what made the empty state flash
+                // while a fresh search loaded over previously cached default sets.)
+                let activeSets = isSearchMode ? viewModel.searchLegoSet : viewModel.legoSet
+                let hasActiveSets = !(activeSets?.isEmpty ?? true)
+
+                // Phase 1 — actively fetching with nothing yet to show.
+                if viewModel.isLoading && !hasActiveSets {
                     ProgressView("Loading sets…")
                         .frame(maxWidth: .infinity)
                         .padding(.top, 40)
-                } else if let errorMessage = viewModel.errorMessage, !hasAnyData {
+                } else if let errorMessage = viewModel.errorMessage, !hasActiveSets {
                     VStack(spacing: 12) {
                         Image(systemName: "exclamationmark.triangle")
                             .font(.largeTitle)
@@ -179,45 +187,43 @@ struct SetsScreen: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.top, 40)
-                } else if hasNoQuery {
-                    if let defaultSets = viewModel.legoSet, !defaultSets.isEmpty {
-                        ForEach(defaultSets, id: \.setNumber) { set in
-                            listSetItem(lego: set)
-                        }
-                    } else {
-                        VStack(spacing: 12) {
-                            Image(systemName: "text.magnifyingglass")
-                                .font(.largeTitle)
-                                .foregroundColor(.secondary)
-                            Text("Search for a set")
-                                .font(.headline)
-                            Text("Enter a set name or pick a theme to begin.")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.center)
-                                .padding(.horizontal)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.top, 40)
-                    }
-                } else if let legoSet = viewModel.searchLegoSet, !legoSet.isEmpty {
-                    ForEach(legoSet, id: \.setNumber) { set in
+                } else if let sets = activeSets, !sets.isEmpty {
+                    // Phase 2 — data exists (default browse list or search results).
+                    ForEach(sets, id: \.setNumber) { set in
                         listSetItem(lego: set)
-                            // Infinite scroll: as each row appears, ask the VM
-                            // whether we're close enough to the bottom to fetch
-                            // the next page. New sets append seamlessly.
+                            // Infinite scroll only applies to the paginated
+                            // search/filter list.
                             .onAppear {
-                                viewModel.loadMoreSetsIfNeeded(currentItem: set)
+                                if isSearchMode {
+                                    viewModel.loadMoreSetsIfNeeded(currentItem: set)
+                                }
                             }
                     }
 
                     // Spinner pinned below the list while the next page loads.
-                    if viewModel.isLoadingMoreSets {
+                    if isSearchMode && viewModel.isLoadingMoreSets {
                         ProgressView()
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
                     }
+                } else if !isSearchMode {
+                    // Phase 3a — idle with no query yet: prompt the user to search.
+                    VStack(spacing: 12) {
+                        Image(systemName: "text.magnifyingglass")
+                            .font(.largeTitle)
+                            .foregroundColor(.secondary)
+                        Text("Search for a set")
+                            .font(.headline)
+                        Text("Enter a set name or pick a theme to begin.")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
                 } else {
+                    // Phase 3b — search finished with genuinely no matches.
                     VStack(spacing: 12) {
                         Image(systemName: "questionmark.folder")
                             .font(.largeTitle)
@@ -248,6 +254,14 @@ struct SetsScreen: View {
             if viewModel.legoSet == nil {
                 viewModel.getLegoSet()
             }
+        }
+        // Picking a new theme starts a fresh search, so jump back to the top of
+        // the list rather than leaving the user scrolled down where they were.
+        .onChange(of: viewModel.themeId) { _, _ in
+            withAnimation(.easeInOut) {
+                proxy.scrollTo(Self.topAnchorID, anchor: .top)
+            }
+        }
         }
     }
     

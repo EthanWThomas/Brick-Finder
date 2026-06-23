@@ -75,20 +75,21 @@ struct MinifiguresScreen: View {
     private var miniFiguresGrid: some View {
         ScrollView {
             let trimmedSearch = minifiguresVM.seacrhText.trimmingCharacters(in: .whitespacesAndNewlines)
-            let hasNoQuery = trimmedSearch.isEmpty && minifiguresVM.themeId.isEmpty
-            // Treat the cache as "has data" when we have any minifigures to show.
-            // We never want to swap a populated grid out for the loading or error
-            // UI: doing so destroys the LazyVGrid and SwiftUI loses the scroll
-            // offset when the view re-appears after a back navigation.
-            let hasCachedDefaults = !(minifiguresVM.miniFigures?.isEmpty ?? true)
-            let hasCachedSearch = !(minifiguresVM.searchMinifigures?.isEmpty ?? true)
-            let hasAnyData = hasCachedDefaults || hasCachedSearch
+            // "Search mode" = the user has narrowed the list with text or a
+            // theme; otherwise we're browsing the default minifigure list.
+            let isSearchMode = !(trimmedSearch.isEmpty && minifiguresVM.themeId.isEmpty)
+            // Base every phase on the data that belongs to the CURRENT mode.
+            // (Keying off "any cached data" is what made the empty state flash
+            // while a fresh search loaded over previously cached default figs.)
+            let activeMinifigures = isSearchMode ? minifiguresVM.searchMinifigures : minifiguresVM.miniFigures
+            let hasActiveMinifigures = !(activeMinifigures?.isEmpty ?? true)
 
-            if minifiguresVM.isLoading && !hasAnyData {
+            // Phase 1 — actively fetching with nothing yet to show.
+            if minifiguresVM.isLoading && !hasActiveMinifigures {
                 ProgressView("Loading minifigures")
                     .frame(maxWidth: .infinity)
                     .padding(.top, 40)
-            } else if let errorMessage = minifiguresVM.errorMessage, !hasAnyData {
+            } else if let errorMessage = minifiguresVM.errorMessage, !hasActiveMinifigures {
                 VStack(spacing: 12) {
                     Image(systemName: "exclamationmark.triangle")
                         .font(.largeTitle)
@@ -103,28 +104,27 @@ struct MinifiguresScreen: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.top, 40)
-            } else if hasNoQuery {
-                if let defaultMinifigures = minifiguresVM.miniFigures, !defaultMinifigures.isEmpty {
-                    minifiguresGridContent(minifigures: defaultMinifigures)
-                } else {
-                    VStack(spacing: 12) {
-                        Image(systemName: "text.magnifyingglass")
-                            .font(.largeTitle)
-                            .foregroundColor(.secondary)
-                        Text("Search for a Minifigure")
-                            .font(.headline)
-                        Text("Enter a minifigure name or pick a theme to begin.")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 40)
-                }
-            } else if let minifigures = minifiguresVM.searchMinifigures, !minifigures.isEmpty {
+            } else if let minifigures = activeMinifigures, !minifigures.isEmpty {
+                // Phase 2 — data exists (default browse list or search results).
                 minifiguresGridContent(minifigures: minifigures)
+            } else if !isSearchMode {
+                // Phase 3a — idle with no query yet: prompt the user to search.
+                VStack(spacing: 12) {
+                    Image(systemName: "text.magnifyingglass")
+                        .font(.largeTitle)
+                        .foregroundColor(.secondary)
+                    Text("Search for a Minifigure")
+                        .font(.headline)
+                    Text("Enter a minifigure name or pick a theme to begin.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.top, 40)
             } else {
+                // Phase 3b — search finished with genuinely no matches.
                 VStack(spacing: 12) {
                     Image(systemName: "questionmark.folder")
                         .font(.largeTitle)

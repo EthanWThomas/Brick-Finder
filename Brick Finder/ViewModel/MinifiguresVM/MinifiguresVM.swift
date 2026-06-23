@@ -60,9 +60,17 @@ class MinifiguresVM: ObservableObject {
         let query = SearchQueryNormalizer.normalizedForAPI(seacrhText)
         let signature = "minifigs|\(query)|\(themeId)"
 
-        searchCoordinator.run(signature: signature) { [weak self] in
+        let started = searchCoordinator.run(signature: signature) { [weak self] in
             guard let self else { return }
             await self.performFilteredMinifigureSearch(query: query)
+        }
+
+        // Enter the loading state synchronously (before the async task hops to the
+        // main actor) so the UI never renders an empty "Minifigure not found"
+        // frame in the gap between the filter change and the request starting.
+        if started {
+            isLoading = true
+            errorMessage = nil
         }
     }
 
